@@ -1,0 +1,71 @@
+<section class="login">
+  <form class="login-wrapper" [formGroup]="loginForm">
+    <h1 class="title">
+      My Trello <mat-icon class="title-icon">favorite</mat-icon>
+    </h1>
+    <div class="wrapper-menu-button">
+      <mat-chip-list aria-label="Login selection">
+        <mat-chip
+          (click)="changeToLogin()"
+          [class.active]="signIn"
+          class="menu-button menu-button-in"
+          >Sign in</mat-chip
+        >
+        <mat-chip
+          (click)="changeToRegistration()"
+          [class.active]="signUp"
+          class="menu-button menu-button-up"
+          >Sign up</mat-chip
+        >
+      </mat-chip-list>
+    </div>
+    <h3 class="sub-title" *ngIf="signIn">Sign in</h3>
+    <h3 class="sub-title" *ngIf="signUp">Sign up</h3>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your email</mat-label>
+      <input
+        matInput
+        placeholder="pat@example.com"
+        formControlName="email"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="signUp">
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="max123" formControlName="username" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your password</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        [type]="hide ? 'password' : 'text'"
+      />
+      <button
+        matSuffix
+        mat-icon-button
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+        (click)="hide = !hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+    </mat-form-field>
+    <button
+      class="button-login"
+      mat-raised-button
+      *ngIf="signIn"
+      (click)="login()"
+    >
+      sign in
+    </button>
+    <button
+      class="button-login"
+      mat-raised-button
+      *ngIf="signUp"
+      (click)="registration()"
+    >
+      sign up
+    </button>
+  </form>
+</section>
