@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
   constructor(private auth: AngularFireAuth, private router: Router) {}
 
   canActivate(
-    route: ActivatedRouteSnapshot,
+    next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ):
     | Observable<boolean | UrlTree>
@@ -30,7 +30,7 @@ export class AuthGuard implements CanActivate {
       map((user) => !!user),
       tap((loggedIn) => {
         if (!loggedIn) {
-          this.router.navigate(['/auth/sign-in']);
+          this.router.navigate(['/auth/login']);
         }
       })
     );

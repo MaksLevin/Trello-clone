@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { IUser } from 'src/models/user';
-import { AuthService } from '../../services/auth/auth.service';
+import { IUser } from '@app/core/models/user';
+import { AuthService } from '@app/core/services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-
 export class LoginComponent {
   hide: boolean = true;
   signIn: boolean = true;
@@ -41,7 +40,7 @@ export class LoginComponent {
       username: this.loginForm.get('username')!.value,
       email: this.loginForm.get('email')!.value,
       profilePhoto: '',
-      createdOn: 0,
+      createdOn: new Date(),
     };
 
     this.auth.signUp(user, this.loginForm.get('password')!.value);
