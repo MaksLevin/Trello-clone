@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { BoardRoutingModule } from './board-routing.module';
 import { BoardComponent } from './board.component';
 
-NgModule({
+@NgModule({
   declarations: [BoardComponent],
   imports: [CommonModule, BoardRoutingModule],
-});
+})
 export class BoardModule {}

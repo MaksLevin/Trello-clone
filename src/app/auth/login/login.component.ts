@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { IUser } from '@app/core/models/user';
 import { AuthService } from '@app/core/services/auth.service';
@@ -26,7 +27,11 @@ export class LoginComponent {
     this.signIn = true;
   }
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       username: new FormControl(''),
       email: new FormControl(''),
@@ -34,7 +39,7 @@ export class LoginComponent {
     });
   }
 
-  registration(): void {
+  async registration(): Promise<void> {
     const user: IUser = {
       id: '',
       username: this.loginForm.get('username')!.value,
@@ -43,13 +48,15 @@ export class LoginComponent {
       createdOn: new Date(),
     };
 
-    this.auth.signUp(user, this.loginForm.get('password')!.value);
+    await this.auth.signUp(user, this.loginForm.get('password')!.value);
+    this.router.navigate(['/board']);
   }
 
-  login(): void {
-    this.auth.signIn(
+  async login(): Promise<void> {
+    await this.auth.signIn(
       this.loginForm.get('email')!.value,
       this.loginForm.get('password')!.value
     );
+    this.router.navigate(['/board']);
   }
 }
