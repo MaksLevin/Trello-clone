@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 
 import { IUser } from '@app/core/models/user';
+import { ErrorService } from './error.service'
 
 @Injectable({
   providedIn: 'root',
@@ -12,27 +13,36 @@ export class AuthService {
   constructor(
     private auth: AngularFireAuth,
     private db: AngularFirestore,
-    private router: Router
+    private router: Router,
+    private error: ErrorService
   ) {}
 
   async signIn(email: string, password: string): Promise<void> {
-    let result = await this.auth.signInWithEmailAndPassword(email, password);
-    this.router.navigate(['/board']);
+    try {
+      let result = await this.auth.signInWithEmailAndPassword(email, password);
+      this.router.navigate(['/board']);
+    } catch(err) {
+      this.error.showError(err)
+    }
   }
 
   async signUp(user: IUser, password: string): Promise<void> {
-    let userCredential = await this.auth.createUserWithEmailAndPassword(
-      user.email,
-      password
-    );
+    try {
+      let userCredential = await this.auth.createUserWithEmailAndPassword(
+        user.email,
+        password
+      );
 
-    user.createdOn = new Date();
-    if (userCredential.user?.uid) {
-      user.id = userCredential.user.uid;
+      user.createdOn = new Date();
+      if (userCredential.user?.uid) {
+        user.id = userCredential.user.uid;
+      }
+
+      await this.db.collection('users').doc(userCredential.user?.uid).set(user);
+      this.router.navigate(['/board']);
+    } catch(err) {
+      this.error.showError(err)
     }
-
-    await this.db.collection('users').doc(userCredential.user?.uid).set(user);
-    this.router.navigate(['/board']);
   }
 
   async signOut(): Promise<void> {

@@ -1,5 +1,5 @@
 <section class="login">
-  <form class="login-wrapper" [formGroup]="loginForm">
+  <div class="login-wrapper">
     <h1 class="title">
       My Trello <mat-icon class="title-icon">favorite</mat-icon>
     </h1>
@@ -19,53 +19,186 @@
         >
       </mat-chip-list>
     </div>
-    <h3 class="sub-title" *ngIf="signIn">Sign in</h3>
-    <h3 class="sub-title" *ngIf="signUp">Sign up</h3>
-    <mat-form-field appearance="fill">
-      <mat-label>Enter your email</mat-label>
-      <input
-        matInput
-        placeholder="pat@example.com"
-        formControlName="email"
-        required
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill" *ngIf="signUp">
-      <mat-label>Username</mat-label>
-      <input matInput placeholder="max123" formControlName="username" />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Enter your password</mat-label>
-      <input
-        matInput
-        formControlName="password"
-        [type]="hide ? 'password' : 'text'"
-      />
+    <form class="form-wrapper" [formGroup]="loginForm" *ngIf="signIn">
+      <h3 class="sub-title">Sign in</h3>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Enter your email</mat-label>
+        <input
+          matInput
+          formControlName="emailLogin"
+          placeholder="pat@example.com"
+          required
+        />
+        <mat-error
+          *ngIf="
+            loginForm.get('emailLogin')!.hasError('pattern') &&
+            !loginForm.get('emailLogin')!.hasError('required')
+          "
+        >
+          Please enter a valid email address.
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('emailLogin')!.hasError('required')">
+          Email is <strong>required</strong>.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input
+          matInput
+          formControlName="passwordLogin"
+          [type]="hide ? 'password' : 'text'"
+        />
+        <button
+          matSuffix
+          mat-icon-button
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+          (click)="hide = !hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-error
+          *ngIf="
+            loginForm.get('passwordLogin')!.hasError('pattern') &&
+            !loginForm.get('passwordLogin')!.hasError('required')
+          "
+        >
+          Your password must contain only numbers and letters.<br />
+          Your password must contain at least 1 digit and 1 capital letter and 1
+          common letter.
+        </mat-error>
+        <mat-error
+          *ngIf="loginForm.get('passwordLogin')?.hasError('minlength')"
+          class="form-error"
+        >
+          Minimum length is 5 characters.
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('passwordLogin')!.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
       <button
-        matSuffix
-        mat-icon-button
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide"
-        (click)="hide = !hide"
+        mat-raised-button
+        class="button-login"
+        [disabled]="!loginForm.valid"
+        (click)="login()"
       >
-        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        sign in
       </button>
-    </mat-form-field>
-    <button
-      class="button-login"
-      mat-raised-button
-      *ngIf="signIn"
-      (click)="login()"
-    >
-      sign in
-    </button>
-    <button
-      class="button-login"
-      mat-raised-button
-      *ngIf="signUp"
-      (click)="registration()"
-    >
-      sign up
-    </button>
-  </form>
+    </form>
+    <form class="form-wrapper" [formGroup]="registrationForm" *ngIf="signUp">
+      <h3 class="sub-title">Sign up</h3>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Enter your email</mat-label>
+        <input
+          matInput
+          formControlName="emailRegistration"
+          placeholder="pat@example.com"
+          required
+        />
+        <mat-error
+          *ngIf="
+            registrationForm.get('emailRegistration')?.hasError('pattern') &&
+            !registrationForm.get('emailRegistration')?.hasError('required')
+          "
+        >
+          Please enter a valid email address.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            registrationForm.get('emailRegistration')?.hasError('required')
+          "
+        >
+          Email is <strong>required</strong>.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Username</mat-label>
+        <input
+          matInput
+          formControlName="usernameRegistration"
+          placeholder="max123"
+        />
+        <mat-error
+          *ngIf="
+            registrationForm.get('usernameRegistration')?.hasError('pattern') &&
+            !registrationForm.get('usernameRegistration')?.hasError('required')
+          "
+        >
+          Your username must contain only numbers and letters.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            registrationForm.get('usernameRegistration')?.hasError('required')
+          "
+        >
+          Username is <strong>required</strong>.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            registrationForm.get('usernameRegistration')?.hasError('maxlength')
+          "
+        >
+          Maximum length is 12 characters.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            registrationForm.get('usernameRegistration')?.hasError('minlength')
+          "
+          class="form-error"
+        >
+          Minimum length is 5 characters.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input
+          matInput
+          formControlName="passwordRegistration"
+          [type]="hide ? 'password' : 'text'"
+        />
+        <button
+          matSuffix
+          mat-icon-button
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+          (click)="hide = !hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-error
+          *ngIf="
+            registrationForm.get('passwordRegistration')!.hasError('pattern') &&
+            !registrationForm.get('passwordRegistration')!.hasError('required')
+          "
+        >
+          Your password must contain only numbers and letters.<br />
+          Your password must contain at least 1 digit and 1 capital letter.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            registrationForm.get('passwordRegistration')?.hasError('minlength')
+          "
+          class="form-error"
+        >
+          Minimum length is 5 characters.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            registrationForm.get('passwordRegistration')!.hasError('required')
+          "
+        >
+          Password is <strong>required</strong>.
+        </mat-error>
+      </mat-form-field>
+      <button
+        mat-raised-button
+        class="button-login"
+        [disabled]="!registrationForm.valid"
+        (click)="registration()"
+      >
+        sign up
+      </button>
+    </form>
+  </div>
 </section>

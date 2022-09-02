@@ -21,6 +21,17 @@
   }
 }
 
+.form {
+  &-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-field {
+    margin-top: 13px;
+  }
+}
+
 .wrapper-menu-button {
   display: flex;
   justify-content: center;
@@ -67,4 +78,5 @@
   text-transform: uppercase;
   color: $basic-state-text;
   background-color: $primary;
+  margin-top: 15px;
 }
