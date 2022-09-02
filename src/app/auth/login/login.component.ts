@@ -78,15 +78,24 @@ export class LoginComponent {
       createdOn: new Date(),
     };
 
-    await this.auth.signUp(user, this.loginForm.get('password')!.value);
-    this.router.navigate(['/board']);
+    if (
+      (await this.auth.signUp(
+        user,
+        this.registrationForm.get('passwordRegistration')!.value
+      )) === true
+    ) {
+      this.router.navigate(['/board']);
+    }
   }
 
   async login(): Promise<void> {
-    await this.auth.signIn(
-      this.loginForm.get('email')!.value,
-      this.loginForm.get('password')!.value
-    );
-    this.router.navigate(['/board']);
+    if (
+      (await this.auth.signIn(
+        this.loginForm.get('emailLogin')!.value,
+        this.loginForm.get('passwordLogin')!.value
+      )) === true
+    ) {
+      this.router.navigate(['/board']);
+    }
   }
 }

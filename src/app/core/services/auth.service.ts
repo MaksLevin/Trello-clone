@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 import { IUser } from '@app/core/models/user';
-import { ErrorService } from './error.service'
+import { ErrorService } from './error.service';
 
 import { DatabaseService } from '@app/core/services/database.service';
 @Injectable({
@@ -15,17 +15,17 @@ export class AuthService {
     private error: ErrorService
   ) {}
 
-  async signIn(email: string, password: string): Promise<void> {
+  async signIn(email: string, password: string): Promise<boolean> {
     try {
-      let result = await this.auth.signInWithEmailAndPassword(email, password);
-
-    } catch(err) {
-      this.error.showError(err)
+      await this.auth.signInWithEmailAndPassword(email, password);
+      return true;
+    } catch (err) {
+      this.error.showError(err);
+      return false;
     }
-
   }
 
-  async signUp(user: IUser, password: string): Promise<void> {
+  async signUp(user: IUser, password: string): Promise<boolean> {
     try {
       let userCredential = await this.auth.createUserWithEmailAndPassword(
         user.email,
@@ -37,9 +37,11 @@ export class AuthService {
         user.id = userCredential.user.uid;
       }
 
-      await this.db.setCollection('users', userCredential.user!.uid, user)
-    } catch(err) {
-      this.error.showError(err)
+      await this.db.setCollection('users', userCredential.user!.uid, user);
+      return true;
+    } catch (err) {
+      this.error.showError(err);
+      return false;
     }
   }
 
