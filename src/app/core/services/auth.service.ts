@@ -1,29 +1,28 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Router } from '@angular/router';
 
 import { IUser } from '@app/core/models/user';
 import { ErrorService } from './error.service'
 
+import { DatabaseService } from '@app/core/services/database.service';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   constructor(
     private auth: AngularFireAuth,
-    private db: AngularFirestore,
-    private router: Router,
+    private db: DatabaseService,
     private error: ErrorService
   ) {}
 
   async signIn(email: string, password: string): Promise<void> {
     try {
       let result = await this.auth.signInWithEmailAndPassword(email, password);
-      this.router.navigate(['/board']);
+
     } catch(err) {
       this.error.showError(err)
     }
+
   }
 
   async signUp(user: IUser, password: string): Promise<void> {
@@ -38,15 +37,13 @@ export class AuthService {
         user.id = userCredential.user.uid;
       }
 
-      await this.db.collection('users').doc(userCredential.user?.uid).set(user);
-      this.router.navigate(['/board']);
+      await this.db.setCollection('users', userCredential.user!.uid, user)
     } catch(err) {
       this.error.showError(err)
     }
   }
 
   async signOut(): Promise<void> {
-    let result = await this.auth.signOut();
-    this.router.navigate(['/login']);
+    await this.auth.signOut();
   }
 }

@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { IUser } from '@app/core/models/user';
 import { AuthService } from '@app/core/services/auth.service';
@@ -32,7 +33,11 @@ export class LoginComponent {
     this.signIn = true;
   }
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       emailLogin: new FormControl('', [
         Validators.required,
@@ -64,7 +69,7 @@ export class LoginComponent {
     });
   }
 
-  registration(): void {
+  async registration(): Promise<void> {
     const user: IUser = {
       id: '',
       username: this.registrationForm.get('usernameRegistration')!.value,
@@ -73,16 +78,15 @@ export class LoginComponent {
       createdOn: new Date(),
     };
 
-    this.auth.signUp(
-      user,
-      this.registrationForm.get('passwordRegistration')!.value
-    );
+    await this.auth.signUp(user, this.loginForm.get('password')!.value);
+    this.router.navigate(['/board']);
   }
 
-  login(): void {
-    this.auth.signIn(
-      this.loginForm.get('emailLogin')!.value,
-      this.loginForm.get('passwordLogin')!.value
+  async login(): Promise<void> {
+    await this.auth.signIn(
+      this.loginForm.get('email')!.value,
+      this.loginForm.get('password')!.value
     );
+    this.router.navigate(['/board']);
   }
 }
