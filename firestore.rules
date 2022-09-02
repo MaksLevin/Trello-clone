@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /users/{userId} {
+
+      allow create, update, delete, read, list: if isLoggedIn();
+
+      match /board/{boardId} {
+
+        allow create, update, delete, read, list: if isLoggedIn();
+
+        match /list/{listId} {
+
+          allow create, update, delete, read, list: if isLoggedIn();
+
+          match /task/{taskId} {
+
+            allow create, update, delete, read, list: if isLoggedIn();
+          }
+        }
+      }
+    }
+
+    function isLoggedIn () {
+      return request.auth.uid != null;
+    }
+  }
+}

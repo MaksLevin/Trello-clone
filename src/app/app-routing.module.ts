@@ -1,10 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+import { AuthGuard } from '@app/core/guards';
+
+const routes: Routes = [
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  {
+    path: 'board',
+    loadChildren: () =>
+      import('./board/board.module').then((mod) => mod.BoardModule),
+      canActivate: [AuthGuard],
+  },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./auth/login/login.module').then((mod) => mod.LoginModule),
+  },
+  {
+    path: '404',
+    loadChildren: () =>
+      import('./not-found/not-found.module').then((mod) => mod.NotFoundModule),
+  },
+  { path: '**', redirectTo: '/404' },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
