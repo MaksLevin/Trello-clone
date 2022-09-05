@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { SharedModule } from '@app/shared/shared.module';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Errors } from './errors';
+
+import { Errors } from '@app/core/const/validation-errors';
 
 @Injectable({
   providedIn: 'root',

@@ -19,7 +19,7 @@
         >
       </mat-chip-list>
     </div>
-    <form class="form-wrapper" [formGroup]="loginForm" *ngIf="signIn">
+    <form *ngIf="signIn" class="form-wrapper" [formGroup]="loginForm">
       <h3 class="sub-title">Sign in</h3>
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Enter your email</mat-label>
@@ -27,19 +27,11 @@
           matInput
           formControlName="emailLogin"
           placeholder="pat@example.com"
-          required
         />
-        <mat-error
-          *ngIf="
-            loginForm.get('emailLogin')!.hasError('pattern') &&
-            !loginForm.get('emailLogin')!.hasError('required')
-          "
-        >
+        <mat-error *ngIf="loginEmailValid">
           Please enter a valid email address.
         </mat-error>
-        <mat-error *ngIf="loginForm.get('emailLogin')!.hasError('required')">
-          Email is <strong>required</strong>.
-        </mat-error>
+        <mat-error *ngIf="loginEmailReq"> Email is required. </mat-error>
       </mat-form-field>
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Enter your password</mat-label>
@@ -57,25 +49,14 @@
         >
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
-        <mat-error
-          *ngIf="
-            loginForm.get('passwordLogin')!.hasError('pattern') &&
-            !loginForm.get('passwordLogin')!.hasError('required')
-          "
-        >
-          Your password must contain only numbers and letters.<br />
-          Your password must contain at least 1 digit and 1 capital letter and 1
-          common letter.
+        <mat-error *ngIf="loginPasswordValid">
+          Your password must contain only numbers and letters.
+          <span class="error-nowrap">Your password must contain at least 1 digit and 1 capital letter and 1 common letter.</span>
         </mat-error>
-        <mat-error
-          *ngIf="loginForm.get('passwordLogin')?.hasError('minlength')"
-          class="form-error"
-        >
+        <mat-error *ngIf="loginPasswordMin" class="form-error">
           Minimum length is 5 characters.
         </mat-error>
-        <mat-error *ngIf="loginForm.get('passwordLogin')!.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
+        <mat-error *ngIf="loginPasswordReq"> Password is required. </mat-error>
       </mat-form-field>
       <button
         mat-raised-button
@@ -86,7 +67,7 @@
         sign in
       </button>
     </form>
-    <form class="form-wrapper" [formGroup]="registrationForm" *ngIf="signUp">
+    <form *ngIf="signUp" class="form-wrapper" [formGroup]="registrationForm">
       <h3 class="sub-title">Sign up</h3>
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Enter your email</mat-label>
@@ -94,23 +75,11 @@
           matInput
           formControlName="emailRegistration"
           placeholder="pat@example.com"
-          required
         />
-        <mat-error
-          *ngIf="
-            registrationForm.get('emailRegistration')?.hasError('pattern') &&
-            !registrationForm.get('emailRegistration')?.hasError('required')
-          "
-        >
+        <mat-error *ngIf="registrationEmailValid">
           Please enter a valid email address.
         </mat-error>
-        <mat-error
-          *ngIf="
-            registrationForm.get('emailRegistration')?.hasError('required')
-          "
-        >
-          Email is <strong>required</strong>.
-        </mat-error>
+        <mat-error *ngIf="registrationEmailReq"> Email is required. </mat-error>
       </mat-form-field>
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Username</mat-label>
@@ -119,34 +88,16 @@
           formControlName="usernameRegistration"
           placeholder="max123"
         />
-        <mat-error
-          *ngIf="
-            registrationForm.get('usernameRegistration')?.hasError('pattern') &&
-            !registrationForm.get('usernameRegistration')?.hasError('required')
-          "
-        >
+        <mat-error *ngIf="registrationUsernameValid">
           Your username must contain only numbers and letters.
         </mat-error>
-        <mat-error
-          *ngIf="
-            registrationForm.get('usernameRegistration')?.hasError('required')
-          "
-        >
-          Username is <strong>required</strong>.
+        <mat-error *ngIf="registrationUsernameReq">
+          Username is required.
         </mat-error>
-        <mat-error
-          *ngIf="
-            registrationForm.get('usernameRegistration')?.hasError('maxlength')
-          "
-        >
+        <mat-error *ngIf="registrationUsernameMax">
           Maximum length is 12 characters.
         </mat-error>
-        <mat-error
-          *ngIf="
-            registrationForm.get('usernameRegistration')?.hasError('minlength')
-          "
-          class="form-error"
-        >
+        <mat-error *ngIf="registrationUsernameMin" class="form-error">
           Minimum length is 5 characters.
         </mat-error>
       </mat-form-field>
@@ -166,29 +117,15 @@
         >
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
-        <mat-error
-          *ngIf="
-            registrationForm.get('passwordRegistration')!.hasError('pattern') &&
-            !registrationForm.get('passwordRegistration')!.hasError('required')
-          "
-        >
-          Your password must contain only numbers and letters.<br />
-          Your password must contain at least 1 digit and 1 capital letter.
+        <mat-error *ngIf="registrationPasswordValid">
+          Your password must contain only numbers and letters.
+          <span class="error-nowrap">Your password must contain at least 1 digit and 1 capital letter and 1 common letter.</span>
         </mat-error>
-        <mat-error
-          *ngIf="
-            registrationForm.get('passwordRegistration')?.hasError('minlength')
-          "
-          class="form-error"
-        >
+        <mat-error *ngIf="registrationPasswordMin" class="form-error">
           Minimum length is 5 characters.
         </mat-error>
-        <mat-error
-          *ngIf="
-            registrationForm.get('passwordRegistration')!.hasError('required')
-          "
-        >
-          Password is <strong>required</strong>.
+        <mat-error *ngIf="registrationPasswordReq">
+          Password is required.
         </mat-error>
       </mat-form-field>
       <button
