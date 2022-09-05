@@ -55,11 +55,10 @@
   }
 }
 
-.title {
-  @include fonts-style(36px, 600, 18px, 1px, $font-primary);
-
+.main-title {
   margin-bottom: 20px;
   text-align: center;
+  color: $font-primary;
 
   &-icon {
     color: $warn;
@@ -67,11 +66,10 @@
 }
 
 .sub-title {
-  @include fonts-style(24px, 600, 12px, 1px, $font-primary);
-
   margin-top: 20px;
   margin-bottom: 20px;
   text-align: center;
+  color: $font-primary;
 }
 
 .button-login {

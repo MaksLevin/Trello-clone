@@ -1,7 +1,7 @@
 <section class="login">
   <div class="login-wrapper">
-    <h1 class="title">
-      My Trello <mat-icon class="title-icon">favorite</mat-icon>
+    <h1 class="main-title mat-headline">
+      My Trello <mat-icon class="main-title-icon">favorite</mat-icon>
     </h1>
     <div class="wrapper-menu-button">
       <mat-chip-list aria-label="Login selection">
@@ -20,7 +20,7 @@
       </mat-chip-list>
     </div>
     <form class="form-wrapper" [formGroup]="loginForm" *ngIf="signIn">
-      <h3 class="sub-title">Sign in</h3>
+      <h3 class="sub-title mat-title">Sign in</h3>
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Enter your email</mat-label>
         <input
@@ -87,7 +87,7 @@
       </button>
     </form>
     <form class="form-wrapper" [formGroup]="registrationForm" *ngIf="signUp">
-      <h3 class="sub-title">Sign up</h3>
+      <h3 class="sub-title mat-title">Sign up</h3>
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Enter your email</mat-label>
         <input
