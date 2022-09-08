@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { IUser } from '@app/core/models/user';
@@ -22,13 +17,7 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private auth: AuthService,
-    private router: Router
-  ) {}
-
-  // getters/setters
+  constructor(private auth: AuthService, private router: Router) {}
 
   isValid(field: string): boolean {
     return (
@@ -49,10 +38,8 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get(field)?.hasError('maxlength');
   }
 
-  // public methods
-
   changeViewPassword(): void {
-    this.hide = !this.hide
+    this.hide = !this.hide;
   }
 
   changeToRegistration(): void {
@@ -74,8 +61,6 @@ export class LoginComponent implements OnInit {
     this.isLogin = true;
     this.loginForm.removeControl('username');
   }
-
-  // async methods
 
   async registration(): Promise<void> {
     const user: IUser = {
@@ -99,13 +84,9 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/board']);
   }
 
-  // lifecycle hooks
-
   ngOnInit(): void {
     this.initializeForm();
   }
-
-  // private methods
 
   private initializeForm(): void {
     this.loginForm = new FormGroup(
