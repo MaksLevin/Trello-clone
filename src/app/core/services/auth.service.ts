@@ -5,6 +5,7 @@ import { IUser } from '@app/core/models/user';
 import { ErrorService } from './error.service';
 
 import { DatabaseService } from '@app/core/services/database.service';
+import { Store } from '@ngrx/store';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,8 +13,11 @@ export class AuthService {
   constructor(
     private auth: AngularFireAuth,
     private db: DatabaseService,
-    private error: ErrorService
+    private error: ErrorService,
+    private store: Store
   ) {}
+
+
 
   async signIn(email: string, password: string): Promise<void> {
     try {
