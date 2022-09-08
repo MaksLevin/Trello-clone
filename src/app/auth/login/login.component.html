@@ -58,7 +58,7 @@
           mat-icon-button
           [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide"
-          (click)="hide = !hide"
+          (click)="changeViewPassword()"
         >
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>

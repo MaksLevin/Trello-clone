@@ -51,6 +51,10 @@ export class LoginComponent implements OnInit {
 
   // public methods
 
+  changeViewPassword(): void {
+    this.hide = !this.hide
+  }
+
   changeToRegistration(): void {
     this.isLogin = false;
     this.loginForm.addControl(
