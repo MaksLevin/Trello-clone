@@ -15,17 +15,15 @@ export class AuthService {
     private error: ErrorService
   ) {}
 
-  async signIn(email: string, password: string): Promise<boolean> {
+  async signIn(email: string, password: string): Promise<void> {
     try {
       await this.auth.signInWithEmailAndPassword(email, password);
-      return true;
     } catch (err) {
       this.error.showError(err);
-      return false;
     }
   }
 
-  async signUp(user: IUser, password: string): Promise<boolean> {
+  async signUp(user: IUser, password: string): Promise<void> {
     try {
       let userCredential = await this.auth.createUserWithEmailAndPassword(
         user.email,
@@ -38,10 +36,8 @@ export class AuthService {
       }
 
       await this.db.setCollection('users', userCredential.user!.uid, user);
-      return true;
     } catch (err) {
       this.error.showError(err);
-      return false;
     }
   }
 

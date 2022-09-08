@@ -72,9 +72,13 @@
   color: $font-primary;
 }
 
+.error-nowrap {
+  white-space: nowrap;
+}
+
 .button-login {
   text-transform: uppercase;
   color: $basic;
   background-color: $primary;
-  margin-top: 15px;
+  margin-top: 25px;
 }

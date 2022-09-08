@@ -6,46 +6,51 @@
     <div class="wrapper-menu-button">
       <mat-chip-list aria-label="Login selection">
         <mat-chip
-          (click)="changeToLogin()"
-          [class.active]="signIn"
           class="menu-button menu-button-in"
+          [class.active]="isLogin"
+          (click)="changeToLogin()"
           >Sign in</mat-chip
         >
         <mat-chip
-          (click)="changeToRegistration()"
-          [class.active]="signUp"
           class="menu-button menu-button-up"
+          [class.active]="!isLogin"
+          (click)="changeToRegistration()"
           >Sign up</mat-chip
         >
       </mat-chip-list>
     </div>
-    <form class="form-wrapper" [formGroup]="loginForm" *ngIf="signIn">
-      <h3 class="sub-title mat-title">Sign in</h3>
+    <form class="form-wrapper" [formGroup]="loginForm">
+      <h3 *ngIf="isLogin" class="sub-title">Sign in</h3>
+      <h3 *ngIf="!isLogin" class="sub-title">Sign up</h3>
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Enter your email</mat-label>
-        <input
-          matInput
-          formControlName="emailLogin"
-          placeholder="pat@example.com"
-          required
-        />
-        <mat-error
-          *ngIf="
-            loginForm.get('emailLogin')!.hasError('pattern') &&
-            !loginForm.get('emailLogin')!.hasError('required')
-          "
-        >
+        <input matInput formControlName="email" placeholder="pat@example.com" />
+        <mat-error *ngIf="isValid('email')">
           Please enter a valid email address.
         </mat-error>
-        <mat-error *ngIf="loginForm.get('emailLogin')!.hasError('required')">
-          Email is <strong>required</strong>.
+        <mat-error *ngIf="isRequired('email')"> Email is required. </mat-error>
+      </mat-form-field>
+      <mat-form-field *ngIf="!isLogin" class="form-field" appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" placeholder="max123" />
+        <mat-error *ngIf="isValid('username')">
+          Your username must contain only numbers and letters.
+        </mat-error>
+        <mat-error *ngIf="isRequired('username')">
+          Username is required.
+        </mat-error>
+        <mat-error *ngIf="isMaxLength('username')">
+          Maximum length is 12 characters.
+        </mat-error>
+        <mat-error *ngIf="isMinLength('username')" class="form-error">
+          Minimum length is 5 characters.
         </mat-error>
       </mat-form-field>
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Enter your password</mat-label>
         <input
           matInput
-          formControlName="passwordLogin"
+          formControlName="password"
           [type]="hide ? 'password' : 'text'"
         />
         <button
@@ -53,31 +58,26 @@
           mat-icon-button
           [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide"
-          (click)="hide = !hide"
+          (click)="changeViewPassword()"
         >
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
-        <mat-error
-          *ngIf="
-            loginForm.get('passwordLogin')!.hasError('pattern') &&
-            !loginForm.get('passwordLogin')!.hasError('required')
-          "
-        >
-          Your password must contain only numbers and letters.<br />
-          Your password must contain at least 1 digit and 1 capital letter and 1
-          common letter.
+        <mat-error *ngIf="isValid('password')">
+          Your password must contain only numbers and letters.
+          <span class="error-nowrap"
+            >Your password must contain at least 1 digit and 1 capital letter
+            and 1 common letter.</span
+          >
         </mat-error>
-        <mat-error
-          *ngIf="loginForm.get('passwordLogin')?.hasError('minlength')"
-          class="form-error"
-        >
+        <mat-error *ngIf="isMinLength('password')" class="form-error">
           Minimum length is 5 characters.
         </mat-error>
-        <mat-error *ngIf="loginForm.get('passwordLogin')!.hasError('required')">
-          Password is <strong>required</strong>
+        <mat-error *ngIf="isRequired('password')">
+          Password is required.
         </mat-error>
       </mat-form-field>
       <button
+        *ngIf="isLogin"
         mat-raised-button
         class="button-login"
         [disabled]="!loginForm.valid"
@@ -85,116 +85,11 @@
       >
         sign in
       </button>
-    </form>
-    <form class="form-wrapper" [formGroup]="registrationForm" *ngIf="signUp">
-      <h3 class="sub-title mat-title">Sign up</h3>
-      <mat-form-field class="form-field" appearance="fill">
-        <mat-label>Enter your email</mat-label>
-        <input
-          matInput
-          formControlName="emailRegistration"
-          placeholder="pat@example.com"
-          required
-        />
-        <mat-error
-          *ngIf="
-            registrationForm.get('emailRegistration')?.hasError('pattern') &&
-            !registrationForm.get('emailRegistration')?.hasError('required')
-          "
-        >
-          Please enter a valid email address.
-        </mat-error>
-        <mat-error
-          *ngIf="
-            registrationForm.get('emailRegistration')?.hasError('required')
-          "
-        >
-          Email is <strong>required</strong>.
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="form-field" appearance="fill">
-        <mat-label>Username</mat-label>
-        <input
-          matInput
-          formControlName="usernameRegistration"
-          placeholder="max123"
-        />
-        <mat-error
-          *ngIf="
-            registrationForm.get('usernameRegistration')?.hasError('pattern') &&
-            !registrationForm.get('usernameRegistration')?.hasError('required')
-          "
-        >
-          Your username must contain only numbers and letters.
-        </mat-error>
-        <mat-error
-          *ngIf="
-            registrationForm.get('usernameRegistration')?.hasError('required')
-          "
-        >
-          Username is <strong>required</strong>.
-        </mat-error>
-        <mat-error
-          *ngIf="
-            registrationForm.get('usernameRegistration')?.hasError('maxlength')
-          "
-        >
-          Maximum length is 12 characters.
-        </mat-error>
-        <mat-error
-          *ngIf="
-            registrationForm.get('usernameRegistration')?.hasError('minlength')
-          "
-          class="form-error"
-        >
-          Minimum length is 5 characters.
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="form-field" appearance="fill">
-        <mat-label>Enter your password</mat-label>
-        <input
-          matInput
-          formControlName="passwordRegistration"
-          [type]="hide ? 'password' : 'text'"
-        />
-        <button
-          matSuffix
-          mat-icon-button
-          [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide"
-          (click)="hide = !hide"
-        >
-          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
-        </button>
-        <mat-error
-          *ngIf="
-            registrationForm.get('passwordRegistration')!.hasError('pattern') &&
-            !registrationForm.get('passwordRegistration')!.hasError('required')
-          "
-        >
-          Your password must contain only numbers and letters.<br />
-          Your password must contain at least 1 digit and 1 capital letter.
-        </mat-error>
-        <mat-error
-          *ngIf="
-            registrationForm.get('passwordRegistration')?.hasError('minlength')
-          "
-          class="form-error"
-        >
-          Minimum length is 5 characters.
-        </mat-error>
-        <mat-error
-          *ngIf="
-            registrationForm.get('passwordRegistration')!.hasError('required')
-          "
-        >
-          Password is <strong>required</strong>.
-        </mat-error>
-      </mat-form-field>
       <button
+        *ngIf="!isLogin"
         mat-raised-button
         class="button-login"
-        [disabled]="!registrationForm.valid"
+        [disabled]="!loginForm.valid"
         (click)="registration()"
       >
         sign up

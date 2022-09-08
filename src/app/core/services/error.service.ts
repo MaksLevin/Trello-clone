@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { SharedModule } from '@app/shared/shared.module';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Errors } from './errors';
+
+import { Errors } from '@app/core/const/validation-errors';
 
 @Injectable({
   providedIn: 'root',
@@ -22,10 +22,7 @@ export class ErrorService {
       const err = Errors[index];
       this.openSnackBar(err.message, 'close');
     } else {
-      this.openSnackBar(
-        `Oops, something went wrong!<br>We couldn's complete your request at this time. Please try again later`,
-        'close'
-      );
+      this.openSnackBar(Errors[0].message, 'close');
     }
   }
 }
