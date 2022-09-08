@@ -55,21 +55,19 @@
   }
 }
 
-.main-title {
+.login-title {
   margin-bottom: 20px;
   text-align: center;
-  color: $font-primary;
 
   &-icon {
     color: $warn;
   }
 }
 
-.sub-title {
+.login-sub-title {
   margin-top: 20px;
   margin-bottom: 20px;
   text-align: center;
-  color: $font-primary;
 }
 
 .error-nowrap {
