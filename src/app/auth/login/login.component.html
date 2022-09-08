@@ -1,71 +1,99 @@
 <section class="login">
-  <form class="login-wrapper" [formGroup]="loginForm">
+  <div class="login-wrapper">
     <h1 class="title">
       My Trello <mat-icon class="title-icon">favorite</mat-icon>
     </h1>
     <div class="wrapper-menu-button">
       <mat-chip-list aria-label="Login selection">
         <mat-chip
-          (click)="changeToLogin()"
-          [class.active]="signIn"
           class="menu-button menu-button-in"
+          [class.active]="isLogin"
+          (click)="changeToLogin()"
           >Sign in</mat-chip
         >
         <mat-chip
-          (click)="changeToRegistration()"
-          [class.active]="signUp"
           class="menu-button menu-button-up"
+          [class.active]="!isLogin"
+          (click)="changeToRegistration()"
           >Sign up</mat-chip
         >
       </mat-chip-list>
     </div>
-    <h3 class="sub-title" *ngIf="signIn">Sign in</h3>
-    <h3 class="sub-title" *ngIf="signUp">Sign up</h3>
-    <mat-form-field appearance="fill">
-      <mat-label>Enter your email</mat-label>
-      <input
-        matInput
-        placeholder="pat@example.com"
-        formControlName="email"
-        required
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill" *ngIf="signUp">
-      <mat-label>Username</mat-label>
-      <input matInput placeholder="max123" formControlName="username" />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Enter your password</mat-label>
-      <input
-        matInput
-        formControlName="password"
-        [type]="hide ? 'password' : 'text'"
-      />
+    <form class="form-wrapper" [formGroup]="loginForm">
+      <h3 *ngIf="isLogin" class="sub-title">Sign in</h3>
+      <h3 *ngIf="!isLogin" class="sub-title">Sign up</h3>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Enter your email</mat-label>
+        <input matInput formControlName="email" placeholder="pat@example.com" />
+        <mat-error *ngIf="isValid('email')">
+          Please enter a valid email address.
+        </mat-error>
+        <mat-error *ngIf="isRequired('email')"> Email is required. </mat-error>
+      </mat-form-field>
+      <mat-form-field *ngIf="!isLogin" class="form-field" appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" placeholder="max123" />
+        <mat-error *ngIf="isValid('username')">
+          Your username must contain only numbers and letters.
+        </mat-error>
+        <mat-error *ngIf="isRequired('username')">
+          Username is required.
+        </mat-error>
+        <mat-error *ngIf="isMaxLength('username')">
+          Maximum length is 12 characters.
+        </mat-error>
+        <mat-error *ngIf="isMinLength('username')" class="form-error">
+          Minimum length is 5 characters.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          [type]="hide ? 'password' : 'text'"
+        />
+        <button
+          matSuffix
+          mat-icon-button
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+          (click)="changeViewPassword()"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-error *ngIf="isValid('password')">
+          Your password must contain only numbers and letters.
+          <span class="error-nowrap"
+            >Your password must contain at least 1 digit and 1 capital letter
+            and 1 common letter.</span
+          >
+        </mat-error>
+        <mat-error *ngIf="isMinLength('password')" class="form-error">
+          Minimum length is 5 characters.
+        </mat-error>
+        <mat-error *ngIf="isRequired('password')">
+          Password is required.
+        </mat-error>
+      </mat-form-field>
       <button
-        matSuffix
-        mat-icon-button
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide"
-        (click)="hide = !hide"
+        *ngIf="isLogin"
+        mat-raised-button
+        class="button-login"
+        [disabled]="!loginForm.valid"
+        (click)="login()"
       >
-        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        sign in
       </button>
-    </mat-form-field>
-    <button
-      class="button-login"
-      mat-raised-button
-      *ngIf="signIn"
-      (click)="login()"
-    >
-      sign in
-    </button>
-    <button
-      class="button-login"
-      mat-raised-button
-      *ngIf="signUp"
-      (click)="registration()"
-    >
-      sign up
-    </button>
-  </form>
+      <button
+        *ngIf="!isLogin"
+        mat-raised-button
+        class="button-login"
+        [disabled]="!loginForm.valid"
+        (click)="registration()"
+      >
+        sign up
+      </button>
+    </form>
+  </div>
 </section>

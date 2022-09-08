@@ -8,4 +8,5 @@ import { BoardComponent } from './board.component';
   declarations: [BoardComponent],
   imports: [CommonModule, BoardRoutingModule],
 })
+
 export class BoardModule {}

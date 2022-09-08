@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 import { IUser } from '@app/core/models/user';
+import { ErrorService } from './error.service';
+
 import { DatabaseService } from '@app/core/services/database.service';
 @Injectable({
   providedIn: 'root',
@@ -10,24 +12,33 @@ export class AuthService {
   constructor(
     private auth: AngularFireAuth,
     private db: DatabaseService,
+    private error: ErrorService
   ) {}
 
   async signIn(email: string, password: string): Promise<void> {
-    await this.auth.signInWithEmailAndPassword(email, password);
+    try {
+      await this.auth.signInWithEmailAndPassword(email, password);
+    } catch (err) {
+      this.error.showError(err);
+    }
   }
 
   async signUp(user: IUser, password: string): Promise<void> {
-    let userCredential = await this.auth.createUserWithEmailAndPassword(
-      user.email,
-      password
-    );
+    try {
+      let userCredential = await this.auth.createUserWithEmailAndPassword(
+        user.email,
+        password
+      );
 
-    user.createdOn = new Date();
-    if (userCredential.user?.uid) {
-      user.id = userCredential.user.uid;
+      user.createdOn = new Date();
+      if (userCredential.user?.uid) {
+        user.id = userCredential.user.uid;
+      }
+
+      await this.db.setCollection('users', userCredential.user!.uid, user);
+    } catch (err) {
+      this.error.showError(err);
     }
-
-    await this.db.setCollection('users',userCredential.user!.uid, user);
   }
 
   async signOut(): Promise<void> {

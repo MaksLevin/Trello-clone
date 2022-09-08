@@ -21,6 +21,17 @@
   }
 }
 
+.form {
+  &-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-field {
+    margin-top: 13px;
+  }
+}
+
 .wrapper-menu-button {
   display: flex;
   justify-content: center;
@@ -63,8 +74,13 @@
   text-align: center;
 }
 
+.error-nowrap {
+  white-space: nowrap;
+}
+
 .button-login {
   text-transform: uppercase;
   color: $basic;
   background-color: $primary;
+  margin-top: 25px;
 }
