@@ -1,0 +1,31 @@
+@use "@angular/material" as mat;
+
+$my-custom-typography: mat.define-typography-config(
+  $display-1: mat.define-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
+  $display-2: mat.define-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
+  $display-3: mat.define-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
+  $display-4: mat.define-typography-level(34px, 40px, 400),
+  $headline: mat.define-typography-level(36px, 18px, 600, $letter-spacing: 1px),
+  $title: mat.define-typography-level(24px, 12px, 600, $letter-spacing: 1px),
+  $subheading-1: mat.define-typography-level(20px, 10px, 500, $letter-spacing: 1px),
+  $subheading-2: mat.define-typography-level(18px, 9px, 400, $letter-spacing: 1px),
+  $body-1: mat.define-typography-level(14px, 7px, 400, $letter-spacing: 1px),
+  $body-2: mat.define-typography-level(14px, 7px, 700, $letter-spacing: 1px),
+  $caption: mat.define-typography-level(10px, 5px, 400, $letter-spacing: 1px),
+);
+
+@include mat.core($my-custom-typography);
+
+.mat-display-1,
+.mat-display-2,
+.mat-display-3,
+.mat-display-4,
+.mat-headline,
+.mat-title,
+.mat-subheading-1,
+.mat-subheading-2,
+.mat-body-1,
+.mat-body-2,
+.mat-caption {
+  color: $font-primary;
+}
