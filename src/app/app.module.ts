@@ -35,10 +35,7 @@ import { RouterSerializer } from '@app/store/routerSerializer';
       serializer: RouterSerializer,
     }),
     UserAuthStoreModule,
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   exports: [SharedModule],
   providers: [],
