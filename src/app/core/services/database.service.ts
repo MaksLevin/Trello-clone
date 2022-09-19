@@ -10,4 +10,8 @@ export class DatabaseService {
   setCollection(collect: string, path: string, setElement: object) {
     this.db.collection(collect).doc(path).set(setElement);
   }
+
+  getFromCollection(collect: string, getElementByUid: string) {
+    return this.db.doc(collect + getElementByUid).valueChanges();
+  }
 }

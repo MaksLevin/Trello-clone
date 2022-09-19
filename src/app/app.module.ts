@@ -5,13 +5,18 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { environment } from './../environments/environment';
 import { LoginModule } from './auth/login/login.module';
 import { SharedModule } from './shared/shared.module';
-
+import { UserAuthStoreModule } from './store/user-auth/user-auth-store.module';
+import { environment } from '../environments/environment';
+import { RouterSerializer } from '@app/store/routerSerializer';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -24,6 +29,13 @@ import { SharedModule } from './shared/shared.module';
     BrowserAnimationsModule,
     LoginModule,
     SharedModule,
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
+    StoreRouterConnectingModule.forRoot({
+      serializer: RouterSerializer,
+    }),
+    UserAuthStoreModule,
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   exports: [SharedModule],
   providers: [],
