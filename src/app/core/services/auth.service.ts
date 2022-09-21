@@ -21,18 +21,13 @@ export class AuthService {
   ) {}
 
   async addAuthUser(): Promise<void> {
-    if (firebase.auth().currentUser) {
-      const currentUserUid = firebase.auth().currentUser?.uid;
-      const userAuth = this.db.getFromCollection(
-        'users/',
-        currentUserUid as string
-      );
-      let userAuthData: IUser;
-
-      userAuthData = (await firstValueFrom(userAuth)) as IUser;
-
-      this.store.dispatch(authActions.getAuthUser(userAuthData));
-    }
+    const userAuth = this.db.getFromCollection(
+      'users/',
+      firebase.auth().currentUser?.uid as string
+    );
+    this.store.dispatch(
+      authActions.getAuthUser((await firstValueFrom(userAuth)) as IUser)
+    );
   }
 
   async removeUser(): Promise<void> {
