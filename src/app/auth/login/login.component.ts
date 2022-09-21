@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from '@app/core/const/user';
 
 import { IUser } from '@app/core/models/user';
 import { AuthService } from '@app/core/services/auth.service';
+import { imgUrl } from '@app/core/const/user';
 
 @Component({
   selector: 'app-login',
@@ -64,10 +64,15 @@ export class LoginComponent implements OnInit {
   }
 
   async registration(): Promise<void> {
-    User.username = this.loginForm.get('username')!.value;
-    User.email = this.loginForm.get('email')!.value;
+    const user: IUser = {
+      id: '',
+      username: this.loginForm.get('username')!.value,
+      email: this.loginForm.get('email')!.value,
+      profilePhoto: imgUrl,
+      createdOn: new Date(),
+    };
 
-    await this.auth.signUp(User, this.loginForm.get('password')!.value);
+    await this.auth.signUp(user, this.loginForm.get('password')!.value);
 
     this.router.navigate(['/dashboard']);
   }
