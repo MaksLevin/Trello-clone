@@ -67,13 +67,13 @@ export class LoginComponent implements OnInit {
       id: '',
       username: this.loginForm.get('username')!.value,
       email: this.loginForm.get('email')!.value,
-      profilePhoto: '',
+      profilePhoto: '../../assets/images/anonimus.png',
       createdOn: new Date(),
     };
 
     await this.auth.signUp(user, this.loginForm.get('password')!.value);
 
-    this.router.navigate(['/board']);
+    this.router.navigate(['/dashboard']);
   }
 
   async login(): Promise<void> {
@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
       this.loginForm.get('email')!.value,
       this.loginForm.get('password')!.value
     );
-    this.router.navigate(['/board']);
+    this.router.navigate(['/dashboard']);
   }
 
   ngOnInit(): void {

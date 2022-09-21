@@ -8,3 +8,7 @@ export const getAuthUser = createAction(
 );
 
 export const getAuthUserSuccess = createAction('[Get Auth User] success');
+
+export const removeAuthUser = createAction('[Remove Auth User] start');
+
+export const removeAuthUserSuccess = createAction('[Remove Auth User] success');

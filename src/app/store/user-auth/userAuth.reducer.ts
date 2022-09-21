@@ -1,9 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { IUserAuthState } from '@app/core/models/user-auth-state';
-import { getAuthUser } from '@app/store/user-auth/user-auth.action';
+import * as authAction from '@app/store/user-auth/user-auth.action';
 
-const initialState: IUserAuthState = {
+export const initialState: IUserAuthState = {
   user: {
     username: '',
     email: '',
@@ -17,10 +17,17 @@ export const USER_AUTH_FEATURE_NAME: string = 'user-auth';
 export const userAuthReducer = createReducer(
   initialState,
   on(
-    getAuthUser,
+    authAction.getAuthUser,
     (state, user): IUserAuthState => ({
       ...state,
       user,
     })
-  )
+  ),
+  on(
+    authAction.removeAuthUser,
+    (state): IUserAuthState => ({
+      ...state,
+    })
+  ),
+  on(authAction.removeAuthUserSuccess, (): IUserAuthState => initialState)
 );
