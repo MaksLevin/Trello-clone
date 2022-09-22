@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { IUser } from '@app/core/models/user';
 import { AuthService } from '@app/core/services/auth.service';
+import { imgUrl } from '@app/core/const/user';
 
 @Component({
   selector: 'app-login',
@@ -67,13 +68,13 @@ export class LoginComponent implements OnInit {
       id: '',
       username: this.loginForm.get('username')!.value,
       email: this.loginForm.get('email')!.value,
-      profilePhoto: '',
+      profilePhoto: imgUrl,
       createdOn: new Date(),
     };
 
     await this.auth.signUp(user, this.loginForm.get('password')!.value);
 
-    this.router.navigate(['/board']);
+    this.router.navigate(['/dashboard']);
   }
 
   async login(): Promise<void> {
@@ -81,7 +82,7 @@ export class LoginComponent implements OnInit {
       this.loginForm.get('email')!.value,
       this.loginForm.get('password')!.value
     );
-    this.router.navigate(['/board']);
+    this.router.navigate(['/dashboard']);
   }
 
   ngOnInit(): void {

@@ -17,6 +17,9 @@ import { SharedModule } from './shared/shared.module';
 import { UserAuthStoreModule } from './store/user-auth/user-auth-store.module';
 import { environment } from '../environments/environment';
 import { RouterSerializer } from '@app/store/routerSerializer';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { HeaderModule } from './header/header.module';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -27,8 +30,10 @@ import { RouterSerializer } from '@app/store/routerSerializer';
     AngularFirestoreModule,
     AngularFireStorageModule,
     BrowserAnimationsModule,
-    LoginModule,
     SharedModule,
+    LoginModule,
+    DashboardModule,
+    HeaderModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot({

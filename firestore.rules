@@ -4,7 +4,7 @@ service cloud.firestore {
 
     match /users/{userId} {
 
-      allow create, update, delete, read, list: if isLoggedIn();
+      allow create, update, delete, read, list;
 
       match /board/{boardId} {
 

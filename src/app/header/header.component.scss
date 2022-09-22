@@ -1,0 +1,37 @@
+@import "mixins";
+@import "variables";
+
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px 15px;
+  background-color: $primary;
+
+  &-title {
+    color: $basic;
+    margin-bottom: 0px;
+
+    &-icon {
+      color: $warn;
+    }
+  }
+}
+
+.user {
+  display: flex;
+  align-items: center;
+
+  &-image {
+    width: 45px;
+    border-radius: 50%;
+  }
+
+  &-name {
+    color: $basic;
+  }
+}
+
+.button-logout {
+  color: $primary;
+}

@@ -8,6 +8,7 @@ import { IUser } from '@app/core/models/user';
 import { ErrorService } from './error.service';
 import { DatabaseService } from '@app/core/services/database.service';
 import * as authActions from '@app/store/user-auth/user-auth.action';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -25,11 +26,13 @@ export class AuthService {
       'users/',
       currentUserUid as string
     );
-    let userAuthData: IUser;
-
-    userAuthData = (await firstValueFrom(userAuth)) as IUser;
+    let userAuthData: IUser = (await firstValueFrom(userAuth)) as IUser;
 
     this.store.dispatch(authActions.getAuthUser(userAuthData));
+  }
+
+  async removeUser(): Promise<void> {
+    this.store.dispatch(authActions.removeAuthUser());
   }
 
   async signIn(email: string, password: string): Promise<void> {
@@ -60,5 +63,6 @@ export class AuthService {
 
   async signOut(): Promise<void> {
     await this.auth.signOut();
+    this.removeUser();
   }
 }

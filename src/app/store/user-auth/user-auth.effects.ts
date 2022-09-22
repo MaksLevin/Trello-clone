@@ -19,5 +19,16 @@ export class UserAuthEffects {
     );
   });
 
+  logoutAuthUser$ = createEffect((): any => {
+    return this.actions$.pipe(
+      ofType(authActions.removeAuthUser),
+      exhaustMap(() =>
+        from(this.authService.removeUser()).pipe(
+          map(() => authActions.removeAuthUserSuccess())
+        )
+      )
+    );
+  });
+
   constructor(private actions$: Actions, private authService: AuthService) {}
 }
