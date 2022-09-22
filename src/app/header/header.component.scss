@@ -3,16 +3,10 @@
 
 .header {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px 15px 20px 15px;
   background-color: $primary;
-
-  &-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px 15px 20px 15px;
-    width: 60%;
-  }
 
   &-title {
     color: $basic;
