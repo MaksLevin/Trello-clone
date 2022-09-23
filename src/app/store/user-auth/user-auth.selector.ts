@@ -12,7 +12,7 @@ export const selectGetUserAuth = createSelector(
   (state) => state.user
 );
 
-export const selectGetUserAuthId = createSelector(
+export const selectGetUserAuthBoard = createSelector(
   selectGetUserAuth,
-  (user) => user && user.id
+  (user) => user && user.mainBoards?.boards
 );

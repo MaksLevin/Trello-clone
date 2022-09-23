@@ -1,3 +1,41 @@
 <app-header></app-header>
 
+<main class="main-dashboard">
+  <div cdkDropList class="main-dashboard-wrapper">
+    <div cdkDrag class="drag-wrapper">
+      <mat-card  *ngFor="let board of boards | async; let i = index" class="main-board">
+        <button mat-icon-button id="deleteButton" class="button-cancel">
+          <mat-icon>cancel</mat-icon>
+        </button>
+        <mat-card-title class="main-board-title">{{board.title}}</mat-card-title>
+        <mat-card-content class="main-board-content">
+          {{board.text}}
+        </mat-card-content>
+        <mat-card-actions class="main-board-actions">
+          <button mat-button>edit</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card [formGroup]="mainBoardsForm" class="main-board-form">
+        <mat-card-title>
+          <mat-form-field id="title">
+            <input matInput placeholder="title" formControlName="title"/>
+            <mat-error></mat-error>
+          </mat-form-field>
+        </mat-card-title>
+        <mat-card-content>
+          <mat-form-field id="subject">
+            <input matInput placeholder="description" formControlName="description"/>
+            <mat-error></mat-error>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions class="main-board-form-actions">
+          <button mat-button (click)=createNewBoard()>add</button>
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+  </div>
+</main>
+
 <router-outlet></router-outlet>
