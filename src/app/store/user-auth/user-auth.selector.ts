@@ -11,8 +11,3 @@ export const selectGetUserAuth = createSelector(
   selectGetFeature,
   (state) => state.user
 );
-
-export const selectGetUserAuthBoard = createSelector(
-  selectGetUserAuth,
-  (user) => user && user.mainBoards?.boards
-);

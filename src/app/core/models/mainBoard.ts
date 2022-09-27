@@ -1,12 +1,7 @@
-import { IModel } from "./model";
+import { IModel } from './model';
 
-export interface IMainBoard {
-  boards : [
-    {
-      id: string;
-      title: string;
-      description: string;
-      createdOn: Date;
-    }
-  ]
+export interface IMainBoard extends IModel {
+  userUid: string;
+  title: string;
+  description: string;
 }
