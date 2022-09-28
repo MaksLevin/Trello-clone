@@ -7,8 +7,12 @@ export const getAuthUser = createAction(
   props<IUser>()
 );
 
-export const getAuthUserSuccess = createAction('[Get Auth User] success');
+export const getAuthUserSuccess = createAction(
+  '[Get Auth User] success',
+  props<IUser>()
+);
 
 export const removeAuthUser = createAction('[Remove Auth User] start');
 
 export const removeAuthUserSuccess = createAction('[Remove Auth User] success');
+

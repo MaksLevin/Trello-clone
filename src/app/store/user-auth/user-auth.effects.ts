@@ -13,7 +13,7 @@ export class UserAuthEffects {
       ofType(authActions.getAuthUser),
       exhaustMap(() =>
         from(this.authService.addAuthUser()).pipe(
-          map(() => authActions.getAuthUserSuccess())
+          map((user) => authActions.getAuthUserSuccess(user))
         )
       )
     );

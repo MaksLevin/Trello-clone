@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Store } from '@ngrx/store';
 import firebase from 'firebase/compat/app';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 import { IUser } from '@app/core/models/user';
 import { ErrorService } from './error.service';
@@ -20,15 +20,13 @@ export class AuthService {
     private store: Store
   ) {}
 
-  async addAuthUser(): Promise<void> {
+  addAuthUser(): Observable<IUser> {
     const currentUserUid = firebase.auth().currentUser?.uid;
     const userAuth = this.db.getFromCollection(
       'users/',
       currentUserUid as string
-    );
-    let userAuthData: IUser = (await firstValueFrom(userAuth)) as IUser;
-
-    this.store.dispatch(authActions.getAuthUser(userAuthData));
+    )as Observable<IUser>;
+    return userAuth;
   }
 
   async removeUser(): Promise<void> {
