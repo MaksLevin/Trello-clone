@@ -24,11 +24,12 @@ import { environment } from '../environments/environment';
 import { RouterSerializer } from '@app/store/routerSerializer';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HeaderModule } from './header/header.module';
+import { IUserAuthState } from './core/models/user-auth-state';
 
 const appInitFactory = (
-  store: Store,
-  auth: AngularFireAuth
-): () => Observable<any> => {
+  auth: AngularFireAuth,
+  store: Store<IUserAuthState>,
+): (() => Observable<any>) => {
   return () => {
     return combineLatest([
       auth.user,
@@ -40,9 +41,9 @@ const appInitFactory = (
       ),
       tap(([user, dbUser]) => {
         if (user && Object.keys(dbUser || {}).length === 0) {
-          store.dispatch(authActions.getAuthUserSuccess(dbUser));
+          store.dispatch(authActions.getAuthUser({ firebaseUserId: user.uid }));
         }
-      })
+      }),
     );
   };
 };
@@ -70,7 +71,7 @@ const appInitFactory = (
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   exports: [SharedModule],
-  providers: [{provide: APP_INITIALIZER, useFactory: appInitFactory}],
+  providers: [{ provide: APP_INITIALIZER, useFactory: appInitFactory, deps: [AngularFireAuth, Store], multi: true }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
