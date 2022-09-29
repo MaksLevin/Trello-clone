@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +10,15 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'Trello-clone';
 
-  constructor() {}
+  constructor(private auth: AngularFireAuth) {}
 
+  async console(): Promise<void> {
+    console.log( await firstValueFrom(this.auth.user))
+  };
 
   ngOnInit(): void {
-
+    this.console()
   }
 }
+
+

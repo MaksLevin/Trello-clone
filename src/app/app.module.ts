@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -25,19 +25,28 @@ import { RouterSerializer } from '@app/store/routerSerializer';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HeaderModule } from './header/header.module';
 
-const APP_INITIALIZER = (store: Store, auth: AngularFireAuth): Observable<any>  => {
-  return combineLatest([
-    auth.user ,
-    store.pipe(select(authSelectors.selectGetUserAuth)),
-  ]).pipe(
-    takeWhile(([user, dbUser]) => !!user?.uid && Object.keys(dbUser || {}).length === 0),
-    tap(([user, dbUser]) => {
-      if (user && Object.keys(dbUser || {}).length === 0) {
-        store.dispatch(authActions.getAuthUserSuccess(dbUser));
-      }
-    })
-  );
-}
+const appInitFactory = (
+  store: Store,
+  auth: AngularFireAuth
+): () => Observable<any> => {
+  return () => {
+    return combineLatest([
+      auth.user,
+      store.pipe(select(authSelectors.selectGetUserAuth)),
+    ]).pipe(
+      takeWhile(
+        ([user, dbUser]) =>
+          !!user?.uid && Object.keys(dbUser || {}).length === 0
+      ),
+      tap(([user, dbUser]) => {
+        if (user && Object.keys(dbUser || {}).length === 0) {
+          store.dispatch(authActions.getAuthUserSuccess(dbUser));
+        }
+      })
+    );
+  };
+};
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -61,7 +70,7 @@ const APP_INITIALIZER = (store: Store, auth: AngularFireAuth): Observable<any>  
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   exports: [SharedModule],
-  providers: [{provide: APP_INITIALIZER, useFactory: APP_INITIALIZER}],
+  providers: [{provide: APP_INITIALIZER, useFactory: appInitFactory}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
