@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Store } from '@ngrx/store';
 import firebase from 'firebase/compat/app';
-import { firstValueFrom, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { IUser } from '@app/core/models/user';
 import { ErrorService } from './error.service';
@@ -25,7 +25,7 @@ export class AuthService {
     const userAuth = this.db.getFromCollection(
       'users/',
       currentUserUid as string
-    )as Observable<IUser>;
+    ) as Observable<IUser>;
     return userAuth;
   }
 

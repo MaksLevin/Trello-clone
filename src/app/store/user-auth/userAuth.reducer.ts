@@ -12,9 +12,7 @@ export const USER_AUTH_FEATURE_NAME: string = 'user-auth';
 
 export const userAuthReducer = createReducer(
   initialState,
-  on(
-    authAction.getAuthUser, () => initialState
-  ),
+  on(authAction.getAuthUser, (): IUserAuthState => initialState),
   on(
     authAction.getAuthUserSuccess,
     (state, { user }): IUserAuthState => ({

@@ -28,7 +28,7 @@ import { IUserAuthState } from './core/models/user-auth-state';
 
 const appInitFactory = (
   auth: AngularFireAuth,
-  store: Store<IUserAuthState>,
+  store: Store<IUserAuthState>
 ): (() => Observable<any>) => {
   return () => {
     return combineLatest([
@@ -41,9 +41,9 @@ const appInitFactory = (
       ),
       tap(([user, dbUser]) => {
         if (user && Object.keys(dbUser || {}).length === 0) {
-          store.dispatch(authActions.getAuthUser({ firebaseUserId: user.uid }));
+          store.dispatch(authActions.getAuthUser({ UserUid: user.uid }));
         }
-      }),
+      })
     );
   };
 };
@@ -71,7 +71,14 @@ const appInitFactory = (
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   exports: [SharedModule],
-  providers: [{ provide: APP_INITIALIZER, useFactory: appInitFactory, deps: [AngularFireAuth, Store], multi: true }],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitFactory,
+      deps: [AngularFireAuth, Store],
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

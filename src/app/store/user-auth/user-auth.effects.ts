@@ -12,15 +12,15 @@ export class UserAuthEffects {
   getAuthUser$ = createEffect((): any => {
     return this.actions$.pipe(
       ofType(authActions.getAuthUser),
-      map(action => ({ actionUser: action.user })),
+      map((action) => ({ actionUser: action.user })),
       switchMap(({ actionUser }) =>
         this.angularFireAuth.authState.pipe(
-          filter(firebaseUser => !!firebaseUser),
-          map(firebaseUser => ({ actionUser, firebaseUser })),
-          take(1),
-        ),
+          filter((firebaseUser) => !!firebaseUser),
+          map((firebaseUser) => ({ actionUser, firebaseUser })),
+          take(1)
+        )
       ),
-      switchMap(({ actionUser, firebaseUser }) => {
+      switchMap(() => {
         return this.authService.addAuthUser().pipe(
           take(1),
           map((user) => {
@@ -34,11 +34,12 @@ export class UserAuthEffects {
   logoutAuthUser$ = createEffect((): any => {
     return this.actions$.pipe(
       ofType(authActions.removeAuthUser),
-      exhaustMap(() =>
-        from(this.authService.removeUser()).pipe(
+      exhaustMap(() => {
+        return from(this.authService.removeUser()).pipe(
+          take(1),
           map(() => authActions.removeAuthUserSuccess())
-        )
-      )
+        );
+      })
     );
   });
 
@@ -46,5 +47,5 @@ export class UserAuthEffects {
     private actions$: Actions,
     private authService: AuthService,
     private angularFireAuth: AngularFireAuth
-  ) { }
+  ) {}
 }
