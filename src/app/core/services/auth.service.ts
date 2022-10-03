@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Store } from '@ngrx/store';
 import firebase from 'firebase/compat/app';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 import { IUser } from '@app/core/models/user';
 import { ErrorService } from './error.service';
@@ -20,12 +20,13 @@ export class AuthService {
     private store: Store
   ) {}
 
-  addAuthUser(): Observable<IUser> {
+  getAuthUser(): Observable<IUser> {
     const currentUserUid = firebase.auth().currentUser?.uid;
     const userAuth = this.db.getFromCollection(
       'users/',
       currentUserUid as string
     ) as Observable<IUser>;
+
     return userAuth;
   }
 
@@ -36,7 +37,12 @@ export class AuthService {
   async signIn(email: string, password: string): Promise<void> {
     try {
       await this.auth.signInWithEmailAndPassword(email, password);
-      this.addAuthUser();
+
+      this.store.dispatch(
+        authActions.getAuthUserSuccess({
+          user: await firstValueFrom(this.getAuthUser()),
+        })
+      );
     } catch (err) {
       this.error.showError(err);
     }
@@ -44,16 +50,20 @@ export class AuthService {
 
   async signUp(user: IUser, password: string): Promise<void> {
     try {
-      let userCredential = await this.auth.createUserWithEmailAndPassword(
-        user.email,
+      const userCredential = await this.auth.createUserWithEmailAndPassword(
+        user.email as string,
         password
       );
-      user.createdOn = new Date();
-      if (userCredential.user?.uid) {
-        user.id = userCredential.user.uid;
-      }
-      this.db.setCollection('users', userCredential.user!.uid, user);
-      this.addAuthUser();
+
+      const userUid = userCredential.user!.uid;
+
+      this.db.setCollection('users', userUid, { ...user, id: userUid });
+
+      this.store.dispatch(
+        authActions.getAuthUserSuccess({
+          user: await firstValueFrom(this.getAuthUser()),
+        })
+      );
     } catch (err) {
       this.error.showError(err);
     }

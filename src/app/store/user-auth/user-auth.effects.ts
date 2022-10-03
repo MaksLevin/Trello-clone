@@ -9,7 +9,7 @@ import { from } from 'rxjs';
 
 @Injectable()
 export class UserAuthEffects {
-  getAuthUser$ = createEffect((): any => {
+  getAuthUser$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(authActions.getAuthUser),
       map((action) => ({ actionUser: action.user })),
@@ -21,9 +21,14 @@ export class UserAuthEffects {
         )
       ),
       switchMap(() => {
-        return this.authService.addAuthUser().pipe(
+        return this.authService.getAuthUser().pipe(
           take(1),
           map((user) => {
+            if (!user) {
+              return authActions.getAuthUserError({
+                error: 'Failed to load user data',
+              });
+            }
             return authActions.getAuthUserSuccess({ user });
           })
         );
@@ -31,7 +36,7 @@ export class UserAuthEffects {
     );
   });
 
-  logoutAuthUser$ = createEffect((): any => {
+  logoutAuthUser$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(authActions.removeAuthUser),
       exhaustMap(() => {

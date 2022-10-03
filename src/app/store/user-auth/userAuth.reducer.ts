@@ -6,6 +6,7 @@ import { IUser } from '@src/app/core/models/user';
 
 export const initialState: IUserAuthState = {
   user: {} as IUser,
+  error: '',
 };
 
 export const USER_AUTH_FEATURE_NAME: string = 'user-auth';
@@ -18,6 +19,13 @@ export const userAuthReducer = createReducer(
     (state, { user }): IUserAuthState => ({
       ...state,
       user,
+    })
+  ),
+  on(
+    authAction.getAuthUserError,
+    (state, { error }): IUserAuthState => ({
+      ...state,
+      error,
     })
   ),
   on(

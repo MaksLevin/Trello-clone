@@ -24,11 +24,10 @@ import { environment } from '../environments/environment';
 import { RouterSerializer } from '@app/store/routerSerializer';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HeaderModule } from './header/header.module';
-import { IUserAuthState } from './core/models/user-auth-state';
 
 const appInitFactory = (
   auth: AngularFireAuth,
-  store: Store<IUserAuthState>
+  store: Store
 ): (() => Observable<any>) => {
   return () => {
     return combineLatest([
@@ -41,7 +40,7 @@ const appInitFactory = (
       ),
       tap(([user, dbUser]) => {
         if (user && Object.keys(dbUser || {}).length === 0) {
-          store.dispatch(authActions.getAuthUser({ UserUid: user.uid }));
+          store.dispatch(authActions.getAuthUser({ userUid: user.uid }));
         }
       })
     );
