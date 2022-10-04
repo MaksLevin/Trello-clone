@@ -55,7 +55,7 @@ export class AuthService {
         password
       );
 
-      const userUid = userCredential.user!.uid;
+      const userUid = (userCredential.user as firebase.User).uid;
 
       this.db.setCollection('users', userUid, { ...user, id: userUid });
 
