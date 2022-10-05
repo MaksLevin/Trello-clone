@@ -22,7 +22,7 @@ export class DatabaseService {
       .valueChanges() as Observable<T>;
   }
 
-  getMainBoardFromCollection(authUserUid: string): Observable<any> {
+  getMainBoardsFromCollection(authUserUid: string): Observable<any> {
     const collectionRef = this.db.collection<any>(`mainBoards`, (ref) => {
       let refBuilder;
       refBuilder = ref.where('userUid', '==', authUserUid);
@@ -30,6 +30,30 @@ export class DatabaseService {
     });
 
     return collectionRef.valueChanges({ idField: 'userUid' });
+  }
+
+  updateMainBoard(
+    collection: string,
+    idMainBoard: string,
+    field: string,
+    newData: string
+  ) {
+    if (field === 'title') {
+      this.db
+        .collection(collection)
+        .doc(idMainBoard)
+        .update({ title: newData });
+    }
+    if (field === 'description') {
+      this.db
+        .collection(collection)
+        .doc(idMainBoard)
+        .update({ description: newData });
+    }
+  }
+
+  deleteMainBoard(collection: string, idMainBoard: string) {
+    this.db.collection(collection).doc(idMainBoard).delete();
   }
 
   createId(): string {

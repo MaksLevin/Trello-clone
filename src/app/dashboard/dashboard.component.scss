@@ -19,21 +19,24 @@
   width: 200px;
   height: 300px;
   margin: 20px 15px;
+  color: $basic;
   background-color: $primary;
 
   &-title {
-    color: $basic;
     margin-top: 10px;
     margin-bottom: 20px;
   }
 
   &-content {
-    color: $basic;
   }
 
   &-actions {
-    color: $basic;
     align-self: flex-end;
+  }
+
+  &-edit {
+    background-color: $basic;
+    color: $primary;
   }
 }
 

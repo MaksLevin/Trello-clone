@@ -18,7 +18,15 @@ export class MainBoardsService {
   }
 
   getMainBoards(userAuthUid: string): Observable<any> {
-    return this.db.getMainBoardFromCollection(userAuthUid);
+    return this.db.getMainBoardsFromCollection(userAuthUid);
+  }
+
+  updateMainBoard(idBoard: string, field: string, newData: string) {
+    this.db.updateMainBoard('mainBoards', idBoard, field, newData);
+  }
+
+  deleteMainBoard(idBoard: string) {
+    this.db.deleteMainBoard('mainBoards', idBoard);
   }
 
   pushId(): string {

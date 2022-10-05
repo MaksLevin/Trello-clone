@@ -4,32 +4,66 @@
   <div cdkDropList class="main-dashboard-wrapper">
     <div cdkDrag class="drag-wrapper">
       <mat-card
+        [formGroup]="mainBoardsForm"
         *ngFor="let board of boards$ | async; let i = index"
         class="main-board"
       >
-        <button mat-icon-button id="deleteButton" class="button-cancel">
+        <button
+          mat-icon-button
+          id="deleteButton"
+          class="button-cancel"
+          (click)="deleteBoard(board.id)"
+        >
           <mat-icon>cancel</mat-icon>
         </button>
-        <mat-card-title class="main-board-title">
+        <mat-card-title
+          class="main-board-title"
+          *ngIf="fieldNameIndex !== 'title' + i; else elseBlock"
+        >
           {{ board.title }}
+          <button mat-icon-button>
+            <mat-icon (click)="editBoard('title', board.title, i)"
+              >edit</mat-icon
+            >
+          </button>
         </mat-card-title>
-        <mat-card-content class="main-board-content">
+
+        <mat-card-content
+          class="main-board-content"
+          *ngIf="fieldNameIndex !== 'description' + i; else elseBlock"
+        >
           {{ board.description }}
+          <button mat-icon-button>
+            <mat-icon (click)="editBoard('description', board.description, i)"
+              >edit</mat-icon
+            >
+          </button>
         </mat-card-content>
-        <mat-card-actions class="main-board-actions">
-          <button mat-button>edit</button>
-        </mat-card-actions>
+
+        <ng-template #elseBlock>
+          <mat-form-field id="editBoard">
+            <input
+              matInput
+              autocomplete="off"
+              placeholder=""
+              formControlName="onEdit"
+              (keyup.enter)="registerEdit(board.id)"
+              required
+            />
+            <mat-error></mat-error>
+          </mat-form-field>
+        </ng-template>
       </mat-card>
 
       <mat-card [formGroup]="mainBoardsForm" class="main-board-form">
         <mat-card-title>
-          <mat-form-field id="title">
+          <mat-form-field>
             <input matInput placeholder="title" formControlName="title" />
             <mat-error></mat-error>
           </mat-form-field>
         </mat-card-title>
         <mat-card-content>
-          <mat-form-field id="subject">
+          <mat-form-field>
             <input
               matInput
               placeholder="description"
