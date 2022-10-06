@@ -25,23 +25,21 @@ export class DashboardComponent implements OnInit {
     return this.editBoardId === boardId;
   }
 
-  editBoard(idBoard: string) {
+  editBoard(idBoard: string): void {
     this.editBoardId = idBoard;
   }
 
-  saveEditBoard(idBoard: string, title: string, description: string) {
+  saveEditBoard(idBoard: string, title: string, description: string): void {
     this.service.updateMainBoard(idBoard, title, description);
     this.editBoardId = undefined;
   }
 
-  deleteBoard(idBoard: string) {
+  deleteBoard(idBoard: string): void {
     this.service.deleteMainBoard(idBoard);
   }
 
   async createNewBoard(): Promise<void> {
-    const user: IUser = await firstValueFrom(
-      this.store.select(selectGetUserAuth)
-    );
+    const user: IUser = await firstValueFrom(this.store.select(selectGetUserAuth));
     const pushId = this.service.pushId();
 
     const mainBoard: IMainBoard = {
@@ -62,9 +60,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async getBoards(): Promise<void> {
-    const user: IUser = await firstValueFrom(
-      this.store.select(selectGetUserAuth)
-    );
+    const user: IUser = await firstValueFrom(this.store.select(selectGetUserAuth));
 
     this.boards$ = await this.service.getMainBoards(user.id);
   }

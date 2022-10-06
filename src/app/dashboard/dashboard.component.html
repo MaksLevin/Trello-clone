@@ -3,10 +3,7 @@
 <main class="main-dashboard">
   <div class="main-dashboard-wrapper">
     <div class="drag-wrapper">
-      <mat-card
-        *ngFor="let board of boards$ | async; let i = index"
-        class="main-board"
-      >
+      <mat-card *ngFor="let board of boards$ | async; let i = index" class="main-board">
         <button
           mat-icon-button
           id="deleteButton"
@@ -61,20 +58,12 @@
         </mat-card-title>
         <mat-card-content>
           <mat-form-field>
-            <input
-              matInput
-              formControlName="description"
-              placeholder="description"
-            />
+            <input matInput formControlName="description" placeholder="description" />
             <mat-error></mat-error>
           </mat-form-field>
         </mat-card-content>
         <mat-card-actions class="main-board-form-actions">
-          <button
-            mat-button
-            [disabled]="!mainBoardsForm.valid"
-            (click)="createNewBoard()"
-          >
+          <button mat-button [disabled]="!mainBoardsForm.valid" (click)="createNewBoard()">
             add
           </button>
         </mat-card-actions>
