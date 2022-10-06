@@ -35,20 +35,14 @@ export class DatabaseService {
   updateMainBoard(
     collection: string,
     idMainBoard: string,
-    field: string,
-    newData: string
+    title: string,
+    description: string
   ) {
-    if (field === 'title') {
+    {
       this.db
         .collection(collection)
         .doc(idMainBoard)
-        .update({ title: newData });
-    }
-    if (field === 'description') {
-      this.db
-        .collection(collection)
-        .doc(idMainBoard)
-        .update({ description: newData });
+        .update({ title: title, description: description });
     }
   }
 

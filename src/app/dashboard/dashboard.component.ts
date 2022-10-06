@@ -15,12 +15,28 @@ import { MainBoardsService } from '@app/core/services/main-boards.service';
 export class DashboardComponent implements OnInit {
   mainBoardsForm!: FormGroup;
   boardForm!: FormGroup;
-  boards$!: Observable<any>;
+  boards$!: Observable<IMainBoard[]>;
   authUser: Promise<IUser> = this.getAuthUser();
-  fieldName!: string | null;
-  fieldNameIndex!: string | null;
+  editBoardId!: string | undefined;
 
   constructor(private store: Store, private service: MainBoardsService) {}
+
+  isEdit(boardId: string): boolean {
+    return this.editBoardId === boardId;
+  }
+
+  editBoard(idBoard: string) {
+    this.editBoardId = idBoard;
+  }
+
+  saveEditBoard(idBoard: string, title: string, description: string) {
+    this.service.updateMainBoard(idBoard, title, description);
+    this.editBoardId = undefined;
+  }
+
+  deleteBoard(idBoard: string) {
+    this.service.deleteMainBoard(idBoard);
+  }
 
   async createNewBoard(): Promise<void> {
     const user: IUser = await firstValueFrom(
@@ -51,36 +67,6 @@ export class DashboardComponent implements OnInit {
     );
 
     this.boards$ = await this.service.getMainBoards(user.id);
-    console.log(await firstValueFrom(this.boards$));
-    console.log((await this.authUser).id);
-  }
-
-  editBoard(name: string, value: string, i: number) {
-    this.fieldName = name;
-    this.fieldNameIndex = name + i;
-    this.mainBoardsForm.get('onEdit')?.setValue(value);
-  }
-
-  registerEdit(idBoard: string) {
-    if (this.mainBoardsForm.get('onEdit')?.invalid) {
-      this.mainBoardsForm.get('onEdit')?.markAsTouched();
-      return;
-    }
-    console.log(this.fieldName);
-    console.log(this.fieldNameIndex);
-    this.service.updateMainBoard(
-      idBoard,
-      this.fieldName as string,
-      this.mainBoardsForm.get('onEdit')?.value
-    );
-    this.fieldName = null;
-    this.fieldNameIndex = null;
-    this.mainBoardsForm.get('onEdit')?.markAsUntouched();
-    console.log(this.mainBoardsForm.get('onEdit')?.value);
-  }
-
-  deleteBoard(idBoard: string) {
-    this.service.deleteMainBoard(idBoard);
   }
 
   ngOnInit(): void {
@@ -93,9 +79,8 @@ export class DashboardComponent implements OnInit {
       {
         title: new FormControl('', [Validators.required]),
         description: new FormControl('', [Validators.required]),
-        onEdit: new FormControl(undefined, [Validators.required]),
       },
-      { updateOn: 'change' }
+      { updateOn: 'blur' }
     );
   }
 }

@@ -10,22 +10,19 @@ import { IMainBoard } from '../models/mainBoard';
 export class MainBoardsService {
   constructor(private db: DatabaseService) {}
 
-  async createNewMainBoards(
-    mainBoard: IMainBoard,
-    pathId: string
-  ): Promise<void> {
+  createNewMainBoards(mainBoard: IMainBoard, pathId: string): void {
     this.db.setCollection('mainBoards', pathId, mainBoard);
   }
 
-  getMainBoards(userAuthUid: string): Observable<any> {
+  getMainBoards(userAuthUid: string): Observable<IMainBoard[]> {
     return this.db.getMainBoardsFromCollection(userAuthUid);
   }
 
-  updateMainBoard(idBoard: string, field: string, newData: string) {
-    this.db.updateMainBoard('mainBoards', idBoard, field, newData);
+  updateMainBoard(idBoard: string, title: string, description: string): void {
+    this.db.updateMainBoard('mainBoards', idBoard, title, description);
   }
 
-  deleteMainBoard(idBoard: string) {
+  deleteMainBoard(idBoard: string): void {
     this.db.deleteMainBoard('mainBoards', idBoard);
   }
 

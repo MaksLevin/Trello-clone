@@ -23,11 +23,8 @@
   background-color: $primary;
 
   &-title {
-    margin-top: 10px;
+    margin: 10px 0 20px 0;
     margin-bottom: 20px;
-  }
-
-  &-content {
   }
 
   &-actions {
@@ -38,6 +35,19 @@
     background-color: $basic;
     color: $primary;
   }
+
+  &-input {
+    color: $basic;
+    background-color: $primary;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid $basic;
+    margin: 5px 0 5px 0;
+  }
+}
+
+.edit-board {
+  display: none;
 }
 
 .main-board-form {
