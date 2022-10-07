@@ -3,9 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { firstValueFrom, Observable } from 'rxjs';
 
-import { IUser } from '@app/core/models/user';
 import { IMainBoard } from '@app/core/models/mainBoard';
-import { selectGetUserAuth } from '@app/store/user-auth/user-auth.selector';
+import { selectGetUserAuthId } from '@app/store/user-auth/user-auth.selector';
 import { MainBoardsService } from '@app/core/services/main-boards.service';
 @Component({
   selector: 'app-dashboard',
@@ -14,55 +13,53 @@ import { MainBoardsService } from '@app/core/services/main-boards.service';
 })
 export class DashboardComponent implements OnInit {
   mainBoardsForm!: FormGroup;
-  boardForm!: FormGroup;
   boards$!: Observable<IMainBoard[]>;
-  authUser: Promise<IUser> = this.getAuthUser();
+  isEdit!: {};
   editBoardId!: string | undefined;
 
-  constructor(private store: Store, private service: MainBoardsService) {}
+  constructor(private store: Store, private mainBoardsService: MainBoardsService) {}
 
-  isEdit(boardId: string): boolean {
-    return this.editBoardId === boardId;
+  editBoard(boardId: string): void {
+    this.isEdit = {
+      [boardId]: true,
+    };
+    console.log(this.isEdit);
   }
 
-  editBoard(idBoard: string): void {
-    this.editBoardId = idBoard;
-  }
-
-  saveEditBoard(idBoard: string, title: string, description: string): void {
-    this.service.updateMainBoard(idBoard, title, description);
+  saveEditBoard(boardId: string, title: string, description: string | undefined): Promise<void> {
     this.editBoardId = undefined;
+    this.isEdit = {
+      [boardId]: false,
+    };
+    console.log(this.isEdit);
+    return this.mainBoardsService.updateMainBoard(boardId, title, description);
   }
 
-  deleteBoard(idBoard: string): void {
-    this.service.deleteMainBoard(idBoard);
+  deleteBoard(idBoard: string): Promise<void> {
+    return this.mainBoardsService.deleteMainBoard(idBoard);
   }
 
   async createNewBoard(): Promise<void> {
-    const user: IUser = await firstValueFrom(this.store.select(selectGetUserAuth));
-    const pushId = this.service.pushId();
+    const userId$: string = await firstValueFrom(this.store.select(selectGetUserAuthId));
+    const pushId = this.mainBoardsService.pushId();
 
     const mainBoard: IMainBoard = {
       id: pushId,
-      userUid: user.id,
+      userUid: userId$,
       title: this.mainBoardsForm.get('title')!.value,
-      description: this.mainBoardsForm.get('description')!.value,
+      description: this.mainBoardsForm.get('description')?.value,
       createdOn: new Date(),
     };
 
-    await this.service.createNewMainBoards(mainBoard, pushId);
+    await this.mainBoardsService.createNewMainBoards(mainBoard, pushId);
 
     this.mainBoardsForm.reset();
   }
 
-  async getAuthUser(): Promise<IUser> {
-    return await firstValueFrom(this.store.select(selectGetUserAuth));
-  }
-
   async getBoards(): Promise<void> {
-    const user: IUser = await firstValueFrom(this.store.select(selectGetUserAuth));
+    const userId$: string = await firstValueFrom(this.store.select(selectGetUserAuthId));
 
-    this.boards$ = await this.service.getMainBoards(user.id);
+    this.boards$ = this.mainBoardsService.getMainBoards(userId$);
   }
 
   ngOnInit(): void {

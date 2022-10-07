@@ -8,25 +8,25 @@ import { IMainBoard } from '../models/mainBoard';
   providedIn: 'root',
 })
 export class MainBoardsService {
-  constructor(private db: DatabaseService) {}
+  constructor(private databaseService: DatabaseService) {}
 
-  createNewMainBoards(mainBoard: IMainBoard, pathId: string): void {
-    this.db.setCollection('mainBoards', pathId, mainBoard);
+  createNewMainBoards(mainBoard: IMainBoard, pathId: string): Promise<void> {
+    return this.databaseService.setCollection('mainBoards', pathId, mainBoard);
   }
 
   getMainBoards(userAuthUid: string): Observable<IMainBoard[]> {
-    return this.db.getMainBoardsFromCollection(userAuthUid);
+    return this.databaseService.getMainBoardsFromCollection(userAuthUid);
   }
 
-  updateMainBoard(idBoard: string, title: string, description: string): void {
-    this.db.updateMainBoard('mainBoards', idBoard, title, description);
+  updateMainBoard(idBoard: string, title: string, description: string | undefined): Promise<void> {
+    return this.databaseService.updateMainBoard('mainBoards', idBoard, title, description);
   }
 
-  deleteMainBoard(idBoard: string): void {
-    this.db.deleteMainBoard('mainBoards', idBoard);
+  deleteMainBoard(idBoard: string): Promise<void> {
+    return this.databaseService.deleteMainBoard('mainBoards', idBoard);
   }
 
   pushId(): string {
-    return this.db.createId();
+    return this.databaseService.createId();
   }
 }

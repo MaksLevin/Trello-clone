@@ -5,7 +5,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 20px 20px;
+  margin: 20px;
 }
 
 .drag-wrapper {
@@ -24,7 +24,6 @@
 
   &-title {
     margin: 10px 0 20px 0;
-    margin-bottom: 20px;
   }
 
   &-actions {
@@ -42,12 +41,8 @@
     outline: none;
     border: none;
     border-bottom: 1px solid $basic;
-    margin: 5px 0 5px 0;
+    margin: 5px 0;
   }
-}
-
-.edit-board {
-  display: none;
 }
 
 .main-board-form {

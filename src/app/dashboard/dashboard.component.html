@@ -3,7 +3,7 @@
 <main class="main-dashboard">
   <div class="main-dashboard-wrapper">
     <div class="drag-wrapper">
-      <mat-card *ngFor="let board of boards$ | async; let i = index" class="main-board">
+      <mat-card *ngFor="let board of boards$ | async" class="main-board">
         <button
           mat-icon-button
           id="deleteButton"
@@ -15,7 +15,7 @@
         <mat-card-title>
           <p class="main-board-title">{{ board.title }}</p>
           <input
-            *ngIf="isEdit(board.id)"
+            *ngIf="isEdit"
             class="main-board-input"
             placeholder="title"
             [(ngModel)]="board.title"
@@ -25,7 +25,7 @@
         <mat-card-content class="main-board-content">
           <p>{{ board.description }}</p>
           <input
-            *ngIf="isEdit(board.id)"
+            *ngIf="isEdit"
             class="main-board-input"
             placeholder="description"
             [(ngModel)]="board.description"
@@ -34,14 +34,14 @@
         <mat-card-actions class="main-board-actions">
           <button
             mat-button
-            [ngClass]="isEdit(board.id) ? 'edit-board' : ''"
+            [ngStyle]="{ display: isEdit ? 'none' : 'block' }"
             (click)="editBoard(board.id)"
           >
             edit
           </button>
           <button
             mat-button
-            [ngClass]="isEdit(board.id) ? '' : 'edit-board'"
+            [ngStyle]="{ display: isEdit ? 'block' : 'none' }"
             (click)="saveEditBoard(board.id, board.title, board.description)"
           >
             save
