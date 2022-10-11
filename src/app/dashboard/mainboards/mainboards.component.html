@@ -1,0 +1,37 @@
+<button mat-icon-button id="deleteButton" class="button-cancel" (click)="deleteBoardDumb(board.id)">
+  <mat-icon>cancel</mat-icon>
+</button>
+<mat-card-title>
+  <p class="main-board-title">{{ board.title }}</p>
+  <input
+    *ngIf="isEdit(board.id)"
+    class="main-board-input"
+    placeholder="title"
+    [(ngModel)]="board.title"
+    formControlName="{{ this.titleBoard }}"
+  />
+</mat-card-title>
+
+<mat-card-content class="main-board-content">
+  <p>{{ board.description }}</p>
+  <input
+    *ngIf="isEdit(board.id)"
+    class="main-board-input"
+    placeholder="description"
+    [(ngModel)]="board.description"
+    formControlName="{{ this.descriptionBoard }}"
+  />
+</mat-card-content>
+<mat-card-actions class="main-board-actions">
+  <button
+    mat-button
+    [ngStyle]="{ display: isEdit(board.id) ? 'none' : 'block' }"
+    (click)="editBoard(board.id)"
+  >
+    edit
+  </button>
+  <button type="submit" mat-button [ngStyle]="{ display: isEdit(board.id) ? 'block' : 'none' }">
+    save
+  </button>
+  <button mat-button [ngStyle]="{ display: isEdit(board.id) ? 'block' : 'none' }">cancel</button>
+</mat-card-actions>

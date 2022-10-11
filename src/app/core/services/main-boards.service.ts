@@ -26,7 +26,7 @@ export class MainBoardsService {
     return this.databaseService.deleteMainBoard('mainBoards', idBoard);
   }
 
-  pushId(): string {
+  getPushId(): string {
     return this.databaseService.createId();
   }
 }

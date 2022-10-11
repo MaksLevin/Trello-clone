@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { firstValueFrom, Observable } from 'rxjs';
@@ -12,27 +12,20 @@ import { MainBoardsService } from '@app/core/services/main-boards.service';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+  @Output() boards$!: Observable<IMainBoard[]>;
   mainBoardsForm!: FormGroup;
-  boards$!: Observable<IMainBoard[]>;
-  isEdit!: {};
-  editBoardId!: string | undefined;
+  mainBoard!: FormGroup;
+  @Input() titleBoard!: FormControl;
+  @Input() descriptionBoard!: FormControl;
 
   constructor(private store: Store, private mainBoardsService: MainBoardsService) {}
 
-  editBoard(boardId: string): void {
-    this.isEdit = {
-      [boardId]: true,
-    };
-    console.log(this.isEdit);
+  saveEditBoard(idBoard: string, title: string, description: string | undefined): Promise<void> {
+    return this.mainBoardsService.updateMainBoard(idBoard, title, description);
   }
 
-  saveEditBoard(boardId: string, title: string, description: string | undefined): Promise<void> {
-    this.editBoardId = undefined;
-    this.isEdit = {
-      [boardId]: false,
-    };
-    console.log(this.isEdit);
-    return this.mainBoardsService.updateMainBoard(boardId, title, description);
+  cancelEditBoard(idBoard: string, title: string, description: string | undefined): void {
+    console.log(idBoard, title, description);
   }
 
   deleteBoard(idBoard: string): Promise<void> {
@@ -40,12 +33,12 @@ export class DashboardComponent implements OnInit {
   }
 
   async createNewBoard(): Promise<void> {
-    const userId$: string = await firstValueFrom(this.store.select(selectGetUserAuthId));
-    const pushId = this.mainBoardsService.pushId();
+    const userId: string = await firstValueFrom(this.store.select(selectGetUserAuthId));
+    const pushId = this.mainBoardsService.getPushId();
 
     const mainBoard: IMainBoard = {
       id: pushId,
-      userUid: userId$,
+      userUid: userId,
       title: this.mainBoardsForm.get('title')!.value,
       description: this.mainBoardsForm.get('description')?.value,
       createdOn: new Date(),
@@ -65,6 +58,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getBoards();
     this.initMainBoardsForm();
+    this.titleBoard = new FormControl('');
+    this.descriptionBoard = new FormControl('');
   }
 
   private initMainBoardsForm(): void {
@@ -74,6 +69,13 @@ export class DashboardComponent implements OnInit {
         description: new FormControl('', [Validators.required]),
       },
       { updateOn: 'blur' }
+    );
+    this.mainBoard = new FormGroup(
+      {
+        titleBoard: this.titleBoard,
+        descriptionBoard: this.descriptionBoard,
+      },
+      { updateOn: 'submit' }
     );
   }
 }

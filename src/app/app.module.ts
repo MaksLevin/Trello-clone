@@ -25,19 +25,10 @@ import { RouterSerializer } from '@app/store/routerSerializer';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HeaderModule } from './header/header.module';
 
-const appInitFactory = (
-  auth: AngularFireAuth,
-  store: Store
-): (() => Observable<any>) => {
+const appInitFactory = (auth: AngularFireAuth, store: Store): (() => Observable<any>) => {
   return () => {
-    return combineLatest([
-      auth.user,
-      store.pipe(select(authSelectors.selectGetUserAuth)),
-    ]).pipe(
-      takeWhile(
-        ([user, dbUser]) =>
-          !!user?.uid && Object.keys(dbUser || {}).length === 0
-      ),
+    return combineLatest([auth.user, store.pipe(select(authSelectors.selectGetUserAuth))]).pipe(
+      takeWhile(([user, dbUser]) => !!user?.uid && Object.keys(dbUser || {}).length === 0),
       tap(([user, dbUser]) => {
         if (user && Object.keys(dbUser || {}).length === 0) {
           store.dispatch(authActions.getAuthUser({ userUid: user.uid }));

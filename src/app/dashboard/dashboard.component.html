@@ -3,50 +3,13 @@
 <main class="main-dashboard">
   <div class="main-dashboard-wrapper">
     <div class="drag-wrapper">
-      <mat-card *ngFor="let board of boards$ | async" class="main-board">
-        <button
-          mat-icon-button
-          id="deleteButton"
-          class="button-cancel"
-          (click)="deleteBoard(board.id)"
-        >
-          <mat-icon>cancel</mat-icon>
-        </button>
-        <mat-card-title>
-          <p class="main-board-title">{{ board.title }}</p>
-          <input
-            *ngIf="isEdit"
-            class="main-board-input"
-            placeholder="title"
-            [(ngModel)]="board.title"
-          />
-        </mat-card-title>
-
-        <mat-card-content class="main-board-content">
-          <p>{{ board.description }}</p>
-          <input
-            *ngIf="isEdit"
-            class="main-board-input"
-            placeholder="description"
-            [(ngModel)]="board.description"
-          />
-        </mat-card-content>
-        <mat-card-actions class="main-board-actions">
-          <button
-            mat-button
-            [ngStyle]="{ display: isEdit ? 'none' : 'block' }"
-            (click)="editBoard(board.id)"
-          >
-            edit
-          </button>
-          <button
-            mat-button
-            [ngStyle]="{ display: isEdit ? 'block' : 'none' }"
-            (click)="saveEditBoard(board.id, board.title, board.description)"
-          >
-            save
-          </button>
-        </mat-card-actions>
+      <mat-card *ngFor="let board of boards$ | async" class="main-board" [formGroup]="mainBoard">
+        <app-mainboards
+          [board]="board"
+          [titleBoard]="this.titleBoard"
+          [descriptionBoard]="this.descriptionBoard"
+          (deleteBoard)="deleteBoard($event)"
+        ></app-mainboards>
       </mat-card>
 
       <mat-card class="main-board-form" [formGroup]="mainBoardsForm">

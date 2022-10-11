@@ -6,8 +6,10 @@ import { DashboardComponent } from './dashboard.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { HeaderModule } from '@app/header/header.module';
 
+import { MainboardsComponent } from './mainboards/mainboards.component';
+
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, MainboardsComponent],
   imports: [CommonModule, DashboardRoutingModule, SharedModule, HeaderModule],
   exports: [DashboardComponent],
 })
