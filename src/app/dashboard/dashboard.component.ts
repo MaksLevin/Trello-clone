@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { firstValueFrom, Observable } from 'rxjs';
@@ -12,24 +12,27 @@ import { MainBoardsService } from '@app/core/services/main-boards.service';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  @Output() boards$!: Observable<IMainBoard[]>;
+  @Input() boards$!: Observable<IMainBoard[]>;
+
   mainBoardsForm!: FormGroup;
-  mainBoard!: FormGroup;
-  @Input() titleBoard!: FormControl;
-  @Input() descriptionBoard!: FormControl;
 
   constructor(private store: Store, private mainBoardsService: MainBoardsService) {}
 
-  saveEditBoard(idBoard: string, title: string, description: string | undefined): Promise<void> {
-    return this.mainBoardsService.updateMainBoard(idBoard, title, description);
+  saveEditBoard({
+    boardId,
+    element,
+    elementValue,
+  }: {
+    boardId: string;
+    element: string;
+    elementValue: string;
+  }): Promise<void> {
+    return this.mainBoardsService.updateMainBoard(boardId, element, elementValue);
   }
 
-  cancelEditBoard(idBoard: string, title: string, description: string | undefined): void {
-    console.log(idBoard, title, description);
-  }
-
-  deleteBoard(idBoard: string): Promise<void> {
-    return this.mainBoardsService.deleteMainBoard(idBoard);
+  deleteBoard(boardId: string): Promise<void> {
+    console.log(boardId);
+    return this.mainBoardsService.deleteMainBoard(boardId);
   }
 
   async createNewBoard(): Promise<void> {
@@ -58,24 +61,15 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getBoards();
     this.initMainBoardsForm();
-    this.titleBoard = new FormControl('');
-    this.descriptionBoard = new FormControl('');
   }
 
   private initMainBoardsForm(): void {
     this.mainBoardsForm = new FormGroup(
       {
         title: new FormControl('', [Validators.required]),
-        description: new FormControl('', [Validators.required]),
+        description: new FormControl(''),
       },
       { updateOn: 'blur' }
-    );
-    this.mainBoard = new FormGroup(
-      {
-        titleBoard: this.titleBoard,
-        descriptionBoard: this.descriptionBoard,
-      },
-      { updateOn: 'submit' }
     );
   }
 }

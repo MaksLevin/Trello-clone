@@ -21,29 +21,6 @@
   margin: 20px 15px;
   color: $basic;
   background-color: $primary;
-
-  &-title {
-    margin: 10px 0 20px 0;
-  }
-
-  &-actions {
-    display: flex;
-    align-self: flex-end;
-  }
-
-  &-edit {
-    background-color: $basic;
-    color: $primary;
-  }
-
-  &-input {
-    color: $basic;
-    background-color: $primary;
-    outline: none;
-    border: none;
-    border-bottom: 1px solid $basic;
-    margin: 5px 0;
-  }
 }
 
 .main-board-form {

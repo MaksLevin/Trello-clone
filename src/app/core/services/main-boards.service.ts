@@ -18,8 +18,12 @@ export class MainBoardsService {
     return this.databaseService.getMainBoardsFromCollection(userAuthUid);
   }
 
-  updateMainBoard(idBoard: string, title: string, description: string | undefined): Promise<void> {
-    return this.databaseService.updateMainBoard('mainBoards', idBoard, title, description);
+  updateMainBoard(
+    boardId: string,
+    element: string,
+    elementValue: string | undefined
+  ): Promise<void> {
+    return this.databaseService.updateMainBoard('mainBoards', boardId, element, elementValue);
   }
 
   deleteMainBoard(idBoard: string): Promise<void> {

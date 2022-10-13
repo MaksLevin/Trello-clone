@@ -30,15 +30,15 @@ export class DatabaseService {
 
   updateMainBoard(
     collection: string,
-    idMainBoard: string,
-    title: string,
-    description: string | undefined
+    mainBoardId: string,
+    element: string,
+    elementValue: string | undefined
   ): Promise<void> {
     {
       return this.angularFirestore
         .collection(collection)
-        .doc(idMainBoard)
-        .update({ title: title, description: description });
+        .doc(mainBoardId)
+        .update({ [element]: elementValue });
     }
   }
 

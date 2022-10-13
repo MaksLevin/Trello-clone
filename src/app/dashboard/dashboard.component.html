@@ -3,13 +3,14 @@
 <main class="main-dashboard">
   <div class="main-dashboard-wrapper">
     <div class="drag-wrapper">
-      <mat-card *ngFor="let board of boards$ | async" class="main-board" [formGroup]="mainBoard">
-        <app-mainboards
-          [board]="board"
-          [titleBoard]="this.titleBoard"
-          [descriptionBoard]="this.descriptionBoard"
+      <mat-card *ngFor="let board of boards$ | async" class="main-board">
+        <app-main-boards
+          [boardId]="board.id"
+          [boardTitle]="board.title"
+          [boardDescription]="board.description"
           (deleteBoard)="deleteBoard($event)"
-        ></app-mainboards>
+          (saveEditBoard)="saveEditBoard($event)"
+        ></app-main-boards>
       </mat-card>
 
       <mat-card class="main-board-form" [formGroup]="mainBoardsForm">
@@ -19,12 +20,14 @@
             <mat-error></mat-error>
           </mat-form-field>
         </mat-card-title>
+
         <mat-card-content>
           <mat-form-field>
             <input matInput formControlName="description" placeholder="description" />
             <mat-error></mat-error>
           </mat-form-field>
         </mat-card-content>
+
         <mat-card-actions class="main-board-form-actions">
           <button mat-button [disabled]="!mainBoardsForm.valid" (click)="createNewBoard()">
             add

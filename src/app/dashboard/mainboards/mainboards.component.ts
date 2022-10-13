@@ -1,42 +1,66 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 
 @Component({
-  selector: 'app-mainboards',
-  templateUrl: './mainboards.component.html',
-  styleUrls: ['./mainboards.component.scss'],
+  selector: 'app-main-boards',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './mainBoards.component.html',
+  styleUrls: ['./mainBoards.component.scss'],
 })
-export class MainboardsComponent {
-  editBoardId!: string | undefined;
+export class MainBoardsComponent {
+  @Input() boardId!: string;
+  @Input() boardTitle!: string;
+  @Input() boardDescription!: string | undefined;
 
-  @Input() board!: any;
-  @Input() titleBoard!: FormControl;
-  @Input() descriptionBoard!: FormControl;
-
-  @Output() deleteBoard = new EventEmitter<string>();
+  @Output() deleteBoard = new EventEmitter();
   @Output() saveEditBoard = new EventEmitter();
-  @Output() cancelEditBoard = new EventEmitter();
 
-  isEdit(boardId: string): boolean {
-    return this.editBoardId === boardId;
+  @ViewChild('inputTitle') inputTitle!: ElementRef<HTMLInputElement>;
+  @ViewChild('inputDescription') inputDescription!: ElementRef<HTMLInputElement>;
+
+  isTitleEditMode: boolean = false;
+  isDescriptionEditMode: boolean = false;
+
+  constructor() {}
+
+  toggleTitleEditMode(): void {
+    this.isTitleEditMode = true;
+    this.isDescriptionEditMode = false;
+
+    setTimeout(() => {
+      this.inputTitle.nativeElement.focus();
+    }, 0);
   }
 
-  editBoard(boardId: string): void {
-    this.editBoardId = boardId;
+  toggleDescriptionEditMode(): void {
+    this.isTitleEditMode = false;
+    this.isDescriptionEditMode = true;
+
+    setTimeout(() => {
+      this.inputDescription.nativeElement.focus();
+    }, 0);
   }
 
   deleteBoardDumb(boardId: string): void {
     this.deleteBoard.emit(boardId);
   }
 
-  saveEditBoardDumb(idBoard: string, title: string, description: string | undefined): void {
-    this.editBoardId = undefined;
-    this.saveEditBoard.emit({ idBoard, title, description });
+  saveEditBoardDumb(boardId: string, element: string, elementValue: string | undefined): void {
+    this.isTitleEditMode = false;
+    this.isDescriptionEditMode = false;
+
+    this.saveEditBoard.emit({ boardId, element, elementValue });
   }
 
-  cancelEditBoardDumb(idBoard: string, title: string, description: string | undefined): void {
-    this.editBoardId = undefined;
-    this.cancelEditBoard.emit({ idBoard, title, description });
+  cancelBoardEdit(): void {
+    this.isTitleEditMode = false;
+    this.isDescriptionEditMode = false;
   }
-  constructor() {}
 }
