@@ -1,45 +1,55 @@
 <section class="login">
   <div class="login-wrapper">
+    <!-- Title -->
     <h1 class="login-title mat-headline">
       My Trello <mat-icon class="login-title-icon">favorite</mat-icon>
     </h1>
+    <!-- /Title -->
 
+    <!--tab section  -->
     <div class="wrapper-menu-button">
       <mat-chip-list aria-label="Login selection">
-        <mat-chip
-          class="menu-button menu-button-in"
-          [class.active]="isLogin"
-          (click)="changeToLogin()"
+        <mat-chip class="menu-tab menu-tab-in" [class.active]="isLogin" (click)="changeToLogin()"
           >Sign in</mat-chip
         >
 
         <mat-chip
-          class="menu-button menu-button-up"
+          class="menu-tab menu-tab-up"
           [class.active]="!isLogin"
           (click)="changeToRegistration()"
           >Sign up</mat-chip
         >
       </mat-chip-list>
     </div>
+    <!--/tab section  -->
 
+    <!-- Form -->
     <form class="form-wrapper" [formGroup]="loginForm">
+      <!-- Subtitle -->
       <h3 *ngIf="isLogin" class="login-sub-title mat-subheading-1">Sign in</h3>
       <h3 *ngIf="!isLogin" class="login-sub-title mat-subheading-1">Sign up</h3>
+      <!-- /Subtitle -->
 
+      <!-- Email field-->
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Enter your email</mat-label>
 
         <input matInput formControlName="email" placeholder="pat@example.com" />
 
+        <!-- Email validation -->
         <mat-error *ngIf="isValid('email')"> {{ emailErrors.isValid }} </mat-error>
         <mat-error *ngIf="isRequired('email')"> {{ emailErrors.isRequired }} </mat-error>
+        <!-- /Email validation -->
       </mat-form-field>
+      <!-- /Email field-->
 
+      <!-- Username field -->
       <mat-form-field *ngIf="!isLogin" class="form-field" appearance="fill">
         <mat-label>Username</mat-label>
 
         <input matInput formControlName="username" placeholder="max123" />
 
+        <!-- Username validation -->
         <mat-error *ngIf="isValid('username')">
           {{ usernameErrors.isValid }}
         </mat-error>
@@ -48,8 +58,11 @@
         <mat-error *ngIf="isMinLength('username')" class="form-error">
           {{ usernameErrors.isMinLength }}
         </mat-error>
+        <!-- /Username validation -->
       </mat-form-field>
+      <!-- /Username field -->
 
+      <!-- Password field -->
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Enter your password</mat-label>
 
@@ -65,6 +78,7 @@
           <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
 
+        <!-- Password validation -->
         <mat-error *ngIf="isValid('password')">
           {{ passwordErrors.isValid }}
         </mat-error>
@@ -72,8 +86,11 @@
           {{ passwordErrors.isMinLength }}
         </mat-error>
         <mat-error *ngIf="isRequired('password')"> {{ passwordErrors.isRequired }}</mat-error>
+        <!-- /Password validation -->
       </mat-form-field>
+      <!-- /Password field -->
 
+      <!-- Form button -->
       <button
         *ngIf="isLogin"
         mat-raised-button
@@ -93,6 +110,8 @@
       >
         sign up
       </button>
+      <!-- /Form button -->
     </form>
+    <!-- /Form -->
   </div>
 </section>

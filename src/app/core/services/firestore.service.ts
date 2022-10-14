@@ -28,31 +28,17 @@ export class FirestoreService {
     return collectionRef.valueChanges({ idField: 'userUid' });
   }
 
-  updateMainBoardTitle(
+  updateDocumentField(
     collection: string,
     mainBoardId: string,
-    title: string,
-    titleValue: string | undefined
+    documentField: string,
+    documentFieldValue: string | undefined
   ): Promise<void> {
     {
       return this.angularFirestore
         .collection(collection)
         .doc(mainBoardId)
-        .update({ [title]: titleValue });
-    }
-  }
-
-  updateMainBoardDescription(
-    collection: string,
-    mainBoardId: string,
-    description: string,
-    descriptionValue: string | undefined
-  ): Promise<void> {
-    {
-      return this.angularFirestore
-        .collection(collection)
-        .doc(mainBoardId)
-        .update({ [description]: descriptionValue });
+        .update({ [documentField]: documentFieldValue });
     }
   }
 

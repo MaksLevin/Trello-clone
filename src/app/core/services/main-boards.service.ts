@@ -19,11 +19,11 @@ export class MainBoardsService {
   }
 
   updateMainBoardTitle(boardId: string, titleValue: string | undefined): Promise<void> {
-    return this.firestoreService.updateMainBoardTitle('mainBoards', boardId, 'title', titleValue);
+    return this.firestoreService.updateDocumentField('mainBoards', boardId, 'title', titleValue);
   }
 
   updateMainBoardDescription(boardId: string, descriptionValue: string | undefined): Promise<void> {
-    return this.firestoreService.updateMainBoardDescription(
+    return this.firestoreService.updateDocumentField(
       'mainBoards',
       boardId,
       'description',
