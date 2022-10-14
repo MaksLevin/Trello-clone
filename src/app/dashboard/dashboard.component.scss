@@ -19,8 +19,8 @@
   width: 200px;
   height: 300px;
   margin: 20px 15px;
-  color: $basic;
-  background-color: $primary;
+  color: $color-basic;
+  background-color: $color-primary;
 }
 
 .main-board-form {
@@ -29,15 +29,15 @@
   width: 200px;
   height: 300px;
   margin: 20px 15px;
-  background-color: $basic;
+  background-color: $color-basic;
 
   &-actions {
-    color: $primary;
+    color: $color-primary;
     align-self: flex-end;
   }
 }
 
 .button-cancel {
-  color: $basic;
+  color: $color-basic;
   align-self: flex-end;
 }

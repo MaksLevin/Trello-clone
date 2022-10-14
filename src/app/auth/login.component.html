@@ -3,6 +3,7 @@
     <h1 class="login-title mat-headline">
       My Trello <mat-icon class="login-title-icon">favorite</mat-icon>
     </h1>
+
     <div class="wrapper-menu-button">
       <mat-chip-list aria-label="Login selection">
         <mat-chip
@@ -11,6 +12,7 @@
           (click)="changeToLogin()"
           >Sign in</mat-chip
         >
+
         <mat-chip
           class="menu-button menu-button-up"
           [class.active]="!isLogin"
@@ -19,40 +21,40 @@
         >
       </mat-chip-list>
     </div>
+
     <form class="form-wrapper" [formGroup]="loginForm">
       <h3 *ngIf="isLogin" class="login-sub-title mat-subheading-1">Sign in</h3>
       <h3 *ngIf="!isLogin" class="login-sub-title mat-subheading-1">Sign up</h3>
+
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Enter your email</mat-label>
+
         <input matInput formControlName="email" placeholder="pat@example.com" />
-        <mat-error *ngIf="isValid('email')">
-          Please enter a valid email address.
-        </mat-error>
-        <mat-error *ngIf="isRequired('email')"> Email is required. </mat-error>
+
+        <mat-error *ngIf="isValid('email')"> {{ emailErrors.isValid }} </mat-error>
+        <mat-error *ngIf="isRequired('email')"> {{ emailErrors.isRequired }} </mat-error>
       </mat-form-field>
+
       <mat-form-field *ngIf="!isLogin" class="form-field" appearance="fill">
         <mat-label>Username</mat-label>
+
         <input matInput formControlName="username" placeholder="max123" />
+
         <mat-error *ngIf="isValid('username')">
-          Your username must contain only numbers and letters.
+          {{ usernameErrors.isValid }}
         </mat-error>
-        <mat-error *ngIf="isRequired('username')">
-          Username is required.
-        </mat-error>
-        <mat-error *ngIf="isMaxLength('username')">
-          Maximum length is 12 characters.
-        </mat-error>
+        <mat-error *ngIf="isRequired('username')"> {{ usernameErrors.isRequired }} </mat-error>
+        <mat-error *ngIf="isMaxLength('username')"> {{ usernameErrors.isMaxLength }} </mat-error>
         <mat-error *ngIf="isMinLength('username')" class="form-error">
-          Minimum length is 5 characters.
+          {{ usernameErrors.isMinLength }}
         </mat-error>
       </mat-form-field>
+
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Enter your password</mat-label>
-        <input
-          matInput
-          formControlName="password"
-          [type]="hide ? 'password' : 'text'"
-        />
+
+        <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" />
+
         <button
           matSuffix
           mat-icon-button
@@ -60,22 +62,18 @@
           [attr.aria-pressed]="hide"
           (click)="changeViewPassword()"
         >
-          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
+
         <mat-error *ngIf="isValid('password')">
-          Your password must contain only numbers and letters.
-          <span class="error-nowrap"
-            >Your password must contain at least 1 digit and 1 capital letter
-            and 1 common letter.</span
-          >
+          {{ passwordErrors.isValid }}
         </mat-error>
         <mat-error *ngIf="isMinLength('password')" class="form-error">
-          Minimum length is 5 characters.
+          {{ passwordErrors.isMinLength }}
         </mat-error>
-        <mat-error *ngIf="isRequired('password')">
-          Password is required.
-        </mat-error>
+        <mat-error *ngIf="isRequired('password')"> {{ passwordErrors.isRequired }}</mat-error>
       </mat-form-field>
+
       <button
         *ngIf="isLogin"
         mat-raised-button
@@ -85,6 +83,7 @@
       >
         sign in
       </button>
+
       <button
         *ngIf="!isLogin"
         mat-raised-button

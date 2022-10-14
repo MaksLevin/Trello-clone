@@ -6,14 +6,14 @@
   justify-content: space-around;
   align-items: center;
   padding: 20px 15px;
-  background-color: $primary;
+  background-color: $color-primary;
 
   &-title {
-    color: $basic;
+    color: $color-basic;
     margin-bottom: 0px;
 
     &-icon {
-      color: $warn;
+      color: $color-warn;
     }
   }
 }
@@ -28,10 +28,10 @@
   }
 
   &-name {
-    color: $basic;
+    color: $color-basic;
   }
 }
 
 .button-logout {
-  color: $primary;
+  color: $color-primary;
 }

@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { IUserAuthState } from '@app/core/models/user-auth-state';
+import { UserAuthState } from '@src/app/core/models/user-auth-state.model';
 import * as authAction from '@app/store/user-auth/user-auth.action';
-import { IUser } from '@src/app/core/models/user';
+import { User } from '@src/app/core/models/user.model';
 
-export const initialState: IUserAuthState = {
-  user: {} as IUser,
+export const initialState: UserAuthState = {
+  user: {} as User,
   error: '',
 };
 
@@ -13,26 +13,26 @@ export const USER_AUTH_FEATURE_NAME: string = 'user-auth';
 
 export const userAuthReducer = createReducer(
   initialState,
-  on(authAction.getAuthUser, (): IUserAuthState => initialState),
+  on(authAction.getAuthUser, (): UserAuthState => initialState),
   on(
     authAction.getAuthUserSuccess,
-    (state, { user }): IUserAuthState => ({
+    (state, { user }): UserAuthState => ({
       ...state,
       user,
     })
   ),
   on(
     authAction.getAuthUserError,
-    (state, { error }): IUserAuthState => ({
+    (state, { error }): UserAuthState => ({
       ...state,
       error,
     })
   ),
   on(
-    authAction.removeAuthUser,
-    (state): IUserAuthState => ({
+    authAction.logoutAuthUser,
+    (state): UserAuthState => ({
       ...state,
     })
   ),
-  on(authAction.removeAuthUserSuccess, (): IUserAuthState => initialState)
+  on(authAction.logoutAuthUserSuccess, (): UserAuthState => initialState)
 );

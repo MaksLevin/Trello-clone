@@ -2,9 +2,15 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { IUser } from '@app/core/models/user';
-import { AuthService } from '@app/core/services/auth.service';
-import { imgUrl } from '@app/core/const/user';
+import { User } from '@src/app/core/models/user.model';
+import { AuthService } from '@app/core/services';
+import {
+  imgUrl,
+  validationPatterns,
+  emailValidationErrors,
+  usernameValidationErrors,
+  passwordValidationErrors,
+} from '@src/app/core/constants';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +23,16 @@ export class LoginComponent implements OnInit {
   isLogin: boolean = true;
 
   loginForm!: FormGroup;
+
+  emailErrors: { isValid: string; isRequired: string } = emailValidationErrors;
+  usernameErrors: {
+    isValid: string;
+    isRequired: string;
+    isMaxLength: string;
+    isMinLength: string;
+  } = usernameValidationErrors;
+  passwordErrors: { isValid: string; isRequired: string; isMinLength: string } =
+    passwordValidationErrors;
 
   constructor(private auth: AuthService, private router: Router) {}
 
@@ -45,13 +61,17 @@ export class LoginComponent implements OnInit {
 
   changeToRegistration(): void {
     this.isLogin = false;
+
+    this.loginForm.get('email')?.setValue('');
+    this.loginForm.get('password')?.setValue('');
+
     this.loginForm.addControl(
       'username',
       new FormControl('', {
         validators: [
           Validators.maxLength(12),
           Validators.minLength(5),
-          Validators.pattern('^[a-z0-9_-]+$'),
+          Validators.pattern(validationPatterns.usernamePattern),
           Validators.required,
         ],
       })
@@ -60,11 +80,14 @@ export class LoginComponent implements OnInit {
 
   changeToLogin(): void {
     this.isLogin = true;
+
+    this.loginForm.get('email')?.setValue('');
+    this.loginForm.get('password')?.setValue('');
     this.loginForm.removeControl('username');
   }
 
   async registration(): Promise<void> {
-    const user: IUser = {
+    const user: User = {
       id: '',
       username: this.loginForm.get('username')?.value,
       email: this.loginForm.get('email')?.value,
@@ -90,19 +113,16 @@ export class LoginComponent implements OnInit {
   }
 
   private initializeForm(): void {
-    this.loginForm = new FormGroup(
-      {
-        email: new FormControl('', [
-          Validators.required,
-          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-        ]),
-        password: new FormControl('', [
-          Validators.minLength(5),
-          Validators.required,
-          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$'),
-        ]),
-      },
-      { updateOn: 'blur' }
-    );
+    this.loginForm = new FormGroup({
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern(validationPatterns.emailPattern),
+      ]),
+      password: new FormControl('', [
+        Validators.minLength(5),
+        Validators.required,
+        Validators.pattern(validationPatterns.passwordPattern),
+      ]),
+    });
   }
 }

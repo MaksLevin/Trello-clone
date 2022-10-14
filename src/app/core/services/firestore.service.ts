@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class DatabaseService {
+export class FirestoreService {
   constructor(private angularFirestore: AngularFirestore) {}
 
   setCollection(collection: string, path: string, setElement: object): Promise<void> {
@@ -28,17 +28,31 @@ export class DatabaseService {
     return collectionRef.valueChanges({ idField: 'userUid' });
   }
 
-  updateMainBoard(
+  updateMainBoardTitle(
     collection: string,
     mainBoardId: string,
-    element: string,
-    elementValue: string | undefined
+    title: string,
+    titleValue: string | undefined
   ): Promise<void> {
     {
       return this.angularFirestore
         .collection(collection)
         .doc(mainBoardId)
-        .update({ [element]: elementValue });
+        .update({ [title]: titleValue });
+    }
+  }
+
+  updateMainBoardDescription(
+    collection: string,
+    mainBoardId: string,
+    description: string,
+    descriptionValue: string | undefined
+  ): Promise<void> {
+    {
+      return this.angularFirestore
+        .collection(collection)
+        .doc(mainBoardId)
+        .update({ [description]: descriptionValue });
     }
   }
 

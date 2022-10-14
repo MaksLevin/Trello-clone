@@ -1,4 +1,4 @@
-export const Errors = [
+export const fireAuthErrors = [
   {
     title: 'Something went wrong',
     message:
@@ -7,8 +7,7 @@ export const Errors = [
   {
     code: 'auth/invalid-action-code',
     title: 'This action code is invalid',
-    message:
-      'Your authentication code is invalid. Please check your email and try again.',
+    message: 'Your authentication code is invalid. Please check your email and try again.',
   },
   {
     code: 'auth/user-not-found',
@@ -18,8 +17,7 @@ export const Errors = [
   {
     code: 'auth/wrong-password',
     title: 'Incorrect login credentials',
-    message:
-      'We could not log you in. Please check your email and password and try again.',
+    message: 'We could not log you in. Please check your email and password and try again.',
   },
   {
     code: 'auth/account-exists-with-different-credential',

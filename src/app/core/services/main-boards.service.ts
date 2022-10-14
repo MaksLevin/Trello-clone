@@ -1,36 +1,41 @@
 import { Injectable } from '@angular/core';
-import { DatabaseService } from '@app/core/services/database.service';
+import { FirestoreService } from '@app/core/services';
 import { Observable } from 'rxjs';
 
-import { IMainBoard } from '../models/mainBoard';
+import { MainBoard } from '../models/mainBoard.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MainBoardsService {
-  constructor(private databaseService: DatabaseService) {}
+  constructor(private firestoreService: FirestoreService) {}
 
-  createNewMainBoards(mainBoard: IMainBoard, pathId: string): Promise<void> {
-    return this.databaseService.setCollection('mainBoards', pathId, mainBoard);
+  createNewMainBoards(mainBoard: MainBoard, pathId: string): Promise<void> {
+    return this.firestoreService.setCollection('mainBoards', pathId, mainBoard);
   }
 
-  getMainBoards(userAuthUid: string): Observable<IMainBoard[]> {
-    return this.databaseService.getMainBoardsFromCollection(userAuthUid);
+  getMainBoards(userAuthUid: string): Observable<MainBoard[]> {
+    return this.firestoreService.getMainBoardsFromCollection(userAuthUid);
   }
 
-  updateMainBoard(
-    boardId: string,
-    element: string,
-    elementValue: string | undefined
-  ): Promise<void> {
-    return this.databaseService.updateMainBoard('mainBoards', boardId, element, elementValue);
+  updateMainBoardTitle(boardId: string, titleValue: string | undefined): Promise<void> {
+    return this.firestoreService.updateMainBoardTitle('mainBoards', boardId, 'title', titleValue);
+  }
+
+  updateMainBoardDescription(boardId: string, descriptionValue: string | undefined): Promise<void> {
+    return this.firestoreService.updateMainBoardDescription(
+      'mainBoards',
+      boardId,
+      'description',
+      descriptionValue
+    );
   }
 
   deleteMainBoard(idBoard: string): Promise<void> {
-    return this.databaseService.deleteMainBoard('mainBoards', idBoard);
+    return this.firestoreService.deleteMainBoard('mainBoards', idBoard);
   }
 
   getPushId(): string {
-    return this.databaseService.createId();
+    return this.firestoreService.createId();
   }
 }

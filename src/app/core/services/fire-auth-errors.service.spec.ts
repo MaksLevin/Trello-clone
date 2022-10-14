@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ErrorService } from './error.service';
+import { FireAuthErrorService } from './fire-auth-errors.service';
 
 describe('ErrorService', () => {
-  let service: ErrorService;
+  let service: FireAuthErrorService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ErrorService);
+    service = TestBed.inject(FireAuthErrorService);
   });
 
   it('should be created', () => {
