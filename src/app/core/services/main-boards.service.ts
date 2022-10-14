@@ -32,7 +32,7 @@ export class MainBoardsService {
   }
 
   deleteMainBoard(idBoard: string): Promise<void> {
-    return this.firestoreService.deleteMainBoard('mainBoards', idBoard);
+    return this.firestoreService.deleteDocument('mainBoards', idBoard);
   }
 
   getPushId(): string {

@@ -42,8 +42,8 @@ export class FirestoreService {
     }
   }
 
-  deleteMainBoard(collection: string, idMainBoard: string): Promise<void> {
-    return this.angularFirestore.collection(collection).doc(idMainBoard).delete();
+  deleteDocument(collection: string, documentId: string): Promise<void> {
+    return this.angularFirestore.collection(collection).doc(documentId).delete();
   }
 
   createId(): string {
