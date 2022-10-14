@@ -15,7 +15,7 @@ export class MainBoardsService {
   }
 
   getMainBoards(userAuthUid: string): Observable<MainBoard[]> {
-    return this.firestoreService.getMainBoardsFromCollection(userAuthUid);
+    return this.firestoreService.getFromCollectionByProperty('mainBoards', 'userUid', userAuthUid);
   }
 
   updateMainBoardTitle(boardId: string, titleValue: string | undefined): Promise<void> {

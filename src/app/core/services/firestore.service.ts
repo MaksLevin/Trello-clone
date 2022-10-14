@@ -18,14 +18,18 @@ export class FirestoreService {
       .valueChanges();
   }
 
-  getMainBoardsFromCollection<T>(authUserUid: string): Observable<T[]> {
-    const collectionRef = this.angularFirestore.collection<T>(`mainBoards`, (ref) => {
+  getFromCollectionByProperty<T>(
+    collection: string,
+    field: string,
+    value: string
+  ): Observable<T[]> {
+    const collectionRef = this.angularFirestore.collection<T>(collection, (ref) => {
       let refBuilder;
-      refBuilder = ref.where('userUid', '==', authUserUid);
+      refBuilder = ref.where(field, '==', value);
       return refBuilder;
     });
 
-    return collectionRef.valueChanges({ idField: 'userUid' });
+    return collectionRef.valueChanges({ idField: field });
   }
 
   updateDocumentField(
