@@ -20,7 +20,8 @@ export class MainBoardsComponent {
   @Input() boardDescription!: string | undefined;
 
   @Output() deleteBoard = new EventEmitter();
-  @Output() saveEditBoard = new EventEmitter();
+  @Output() saveEditableBoardTitle = new EventEmitter();
+  @Output() saveEditableBoardDescription = new EventEmitter();
 
   @ViewChild('inputTitle') inputTitle!: ElementRef<HTMLInputElement>;
   @ViewChild('inputDescription') inputDescription!: ElementRef<HTMLInputElement>;
@@ -32,7 +33,6 @@ export class MainBoardsComponent {
 
   toggleTitleEditMode(): void {
     this.isTitleEditMode = true;
-    this.isDescriptionEditMode = false;
 
     setTimeout(() => {
       this.inputTitle.nativeElement.focus();
@@ -40,7 +40,6 @@ export class MainBoardsComponent {
   }
 
   toggleDescriptionEditMode(): void {
-    this.isTitleEditMode = false;
     this.isDescriptionEditMode = true;
 
     setTimeout(() => {
@@ -52,11 +51,16 @@ export class MainBoardsComponent {
     this.deleteBoard.emit(boardId);
   }
 
-  saveEditBoardDumb(boardId: string, element: string, elementValue: string | undefined): void {
+  sendEditableBoardTitle(boardId: string, titleValue: string): void {
     this.isTitleEditMode = false;
+
+    this.saveEditableBoardTitle.emit({ boardId, titleValue });
+  }
+
+  sendEditableBoardDescription(boardId: string, descriptionValue: string | undefined): void {
     this.isDescriptionEditMode = false;
 
-    this.saveEditBoard.emit({ boardId, element, elementValue });
+    this.saveEditableBoardDescription.emit({ boardId, descriptionValue });
   }
 
   cancelBoardEdit(): void {

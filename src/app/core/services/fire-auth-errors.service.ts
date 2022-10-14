@@ -2,27 +2,26 @@ import { Injectable } from '@angular/core';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { Errors } from '@app/core/const/validation-errors';
+import { fireAuthErrors } from '@src/app/core/constants';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ErrorService {
+export class FireAuthErrorService {
   constructor(private _snackBar: MatSnackBar) {}
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
   }
 
-  showError(e: any): void {
-    console.log(e);
-    const index = Errors.findIndex((x) => x.code === e.code);
+  showFireAuthErrors(e: any): void {
+    const index = fireAuthErrors.findIndex((x) => x.code === e.code);
 
     if (index !== -1) {
-      const err = Errors[index];
+      const err = fireAuthErrors[index];
       this.openSnackBar(err.message, 'close');
     } else {
-      this.openSnackBar(Errors[0].message, 'close');
+      this.openSnackBar(fireAuthErrors[0].message, 'close');
     }
   }
 }

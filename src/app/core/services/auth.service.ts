@@ -4,9 +4,9 @@ import { Store } from '@ngrx/store';
 import firebase from 'firebase/compat/app';
 import { firstValueFrom, Observable } from 'rxjs';
 
-import { IUser } from '@app/core/models/user';
-import { ErrorService } from './error.service';
-import { DatabaseService } from '@app/core/services/database.service';
+import { User } from '@src/app/core/models/user.model';
+import { FireAuthErrorService } from '@app/core/services';
+import { FirestoreService } from '@app/core/services';
 import * as authActions from '@app/store/user-auth/user-auth.action';
 
 @Injectable({
@@ -15,23 +15,23 @@ import * as authActions from '@app/store/user-auth/user-auth.action';
 export class AuthService {
   constructor(
     private auth: AngularFireAuth,
-    private db: DatabaseService,
-    private error: ErrorService,
+    private firestoreService: FirestoreService,
+    private fireAuthErrorService: FireAuthErrorService,
     private store: Store
   ) {}
 
-  getAuthUser(): Observable<IUser> {
+  getAuthUser(): Observable<User> {
     const currentUserUid = firebase.auth().currentUser?.uid;
-    const userAuth = this.db.getFromCollection(
+    const userAuth = this.firestoreService.getFromCollection(
       'users/',
       currentUserUid as string
-    ) as Observable<IUser>;
+    ) as Observable<User>;
 
     return userAuth;
   }
 
-  async removeUser(): Promise<void> {
-    this.store.dispatch(authActions.removeAuthUser());
+  async logoutUser(): Promise<void> {
+    this.store.dispatch(authActions.logoutAuthUser());
   }
 
   async signIn(email: string, password: string): Promise<void> {
@@ -44,11 +44,11 @@ export class AuthService {
         })
       );
     } catch (err) {
-      this.error.showError(err);
+      this.fireAuthErrorService.showFireAuthErrors(err);
     }
   }
 
-  async signUp(user: IUser, password: string): Promise<void> {
+  async signUp(user: User, password: string): Promise<void> {
     try {
       const userCredential = await this.auth.createUserWithEmailAndPassword(
         user.email as string,
@@ -57,7 +57,7 @@ export class AuthService {
 
       const userUid = (userCredential.user as firebase.User).uid;
 
-      this.db.setCollection('users', userUid, { ...user, id: userUid });
+      this.firestoreService.setCollection('users', userUid, { ...user, id: userUid });
 
       this.store.dispatch(
         authActions.getAuthUserSuccess({
@@ -65,12 +65,12 @@ export class AuthService {
         })
       );
     } catch (err) {
-      this.error.showError(err);
+      this.fireAuthErrorService.showFireAuthErrors(err);
     }
   }
 
   async signOut(): Promise<void> {
     await this.auth.signOut();
-    this.removeUser();
+    this.logoutUser();
   }
 }

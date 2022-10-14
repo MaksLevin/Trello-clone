@@ -9,7 +9,8 @@
           [boardTitle]="board.title"
           [boardDescription]="board.description"
           (deleteBoard)="deleteBoard($event)"
-          (saveEditBoard)="saveEditBoard($event)"
+          (saveEditableBoardTitle)="saveEditableBoardTitle($event)"
+          (saveEditableBoardDescription)="saveEditableBoardDescription($event)"
         ></app-main-boards>
       </mat-card>
 

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class DatabaseService {
+export class FirestoreService {
   constructor(private angularFirestore: AngularFirestore) {}
 
   setCollection(collection: string, path: string, setElement: object): Promise<void> {
@@ -18,32 +18,36 @@ export class DatabaseService {
       .valueChanges();
   }
 
-  getMainBoardsFromCollection<T>(authUserUid: string): Observable<T[]> {
-    const collectionRef = this.angularFirestore.collection<T>(`mainBoards`, (ref) => {
+  getFromCollectionByProperty<T>(
+    collection: string,
+    field: string,
+    value: string
+  ): Observable<T[]> {
+    const collectionRef = this.angularFirestore.collection<T>(collection, (ref) => {
       let refBuilder;
-      refBuilder = ref.where('userUid', '==', authUserUid);
+      refBuilder = ref.where(field, '==', value);
       return refBuilder;
     });
 
-    return collectionRef.valueChanges({ idField: 'userUid' });
+    return collectionRef.valueChanges({ idField: field });
   }
 
-  updateMainBoard(
+  updateDocumentField(
     collection: string,
     mainBoardId: string,
-    element: string,
-    elementValue: string | undefined
+    documentField: string,
+    documentFieldValue: string | undefined
   ): Promise<void> {
     {
       return this.angularFirestore
         .collection(collection)
         .doc(mainBoardId)
-        .update({ [element]: elementValue });
+        .update({ [documentField]: documentFieldValue });
     }
   }
 
-  deleteMainBoard(collection: string, idMainBoard: string): Promise<void> {
-    return this.angularFirestore.collection(collection).doc(idMainBoard).delete();
+  deleteDocument(collection: string, documentId: string): Promise<void> {
+    return this.angularFirestore.collection(collection).doc(documentId).delete();
   }
 
   createId(): string {

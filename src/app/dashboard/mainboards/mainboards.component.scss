@@ -6,7 +6,7 @@
 }
 
 .button-cancel {
-  color: $basic;
+  color: $color-basic;
   align-self: flex-end;
 }
 
@@ -20,15 +20,15 @@
 }
 
 .main-board-edit {
-  background-color: $basic;
-  color: $primary;
+  background-color: $color-basic;
+  color: $color-primary;
 }
 
 .main-board-input {
-  color: $basic;
-  background-color: $primary;
+  color: $color-basic;
+  background-color: $color-primary;
   outline: none;
   border: none;
-  border-bottom: 1px solid $basic;
+  border-bottom: 1px solid $color-basic;
   margin: 5px 0;
 }
