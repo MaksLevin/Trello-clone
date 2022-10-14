@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { exhaustMap, filter, map, switchMap, take } from 'rxjs/operators';
+import { from } from 'rxjs';
 
 import * as authActions from './user-auth.action';
 import { AuthService } from '@app/core/services/auth.service';
-import { from } from 'rxjs';
 
 @Injectable()
 export class UserAuthEffects {

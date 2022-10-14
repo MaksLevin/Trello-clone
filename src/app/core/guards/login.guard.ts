@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class LoginGuard implements CanActivate {
   constructor(private auth: AngularFireAuth, private router: Router) {}
 
   canActivate(
@@ -23,10 +23,10 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.auth.user.pipe(
       take(1),
-      map((user) => !!user),
+      map((user) => !user),
       tap((loggedIn) => {
         if (!loggedIn) {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/dashboard']);
         }
       })
     );

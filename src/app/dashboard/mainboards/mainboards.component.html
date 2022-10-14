@@ -1,0 +1,41 @@
+<button mat-icon-button id="deleteButton" class="button-cancel" (click)="deleteBoardDumb(boardId)">
+  <mat-icon>delete_outline</mat-icon>
+</button>
+
+<mat-card-title *ngIf="!isTitleEditMode; else editTitle">
+  <h4 class="main-board-title" (click)="toggleTitleEditMode()">{{ boardTitle }}</h4>
+</mat-card-title>
+
+<ng-template #editTitle>
+  <input
+    #inputTitle
+    class="main-board-input"
+    placeholder="title"
+    [value]="boardTitle"
+    (keyup.enter)="saveEditBoardDumb(boardId, 'title', inputTitle.value)"
+  />
+</ng-template>
+
+<mat-card-content class="main-board-content" *ngIf="!isDescriptionEditMode; else editDescription">
+  <p (click)="toggleDescriptionEditMode()">{{ boardDescription }}</p>
+</mat-card-content>
+
+<ng-template #editDescription>
+  <input
+    #inputDescription
+    class="main-board-input"
+    placeholder="description"
+    [value]="boardDescription"
+    (keyup.enter)="saveEditBoardDumb(boardId, 'description', inputDescription.value)"
+  />
+</ng-template>
+
+<mat-card-actions class="main-board-actions">
+  <button
+    mat-button
+    [ngStyle]="{ display: isTitleEditMode || isDescriptionEditMode ? 'block' : 'none' }"
+    (click)="cancelBoardEdit()"
+  >
+    cancel
+  </button>
+</mat-card-actions>

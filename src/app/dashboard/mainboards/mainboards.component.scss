@@ -1,0 +1,34 @@
+@import "variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-cancel {
+  color: $basic;
+  align-self: flex-end;
+}
+
+.main-board-title {
+  margin: 10px 0 20px 0;
+}
+
+.main-board-actions {
+  display: flex;
+  align-self: flex-end;
+}
+
+.main-board-edit {
+  background-color: $basic;
+  color: $primary;
+}
+
+.main-board-input {
+  color: $basic;
+  background-color: $primary;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid $basic;
+  margin: 5px 0;
+}

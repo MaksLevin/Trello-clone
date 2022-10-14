@@ -3,27 +3,19 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     match /users/{userId} {
-
       allow create, update, delete, read, list;
-
-      match /board/{boardId} {
-
-        allow create, update, delete, read, list: if isLoggedIn();
-
-        match /list/{listId} {
-
-          allow create, update, delete, read, list: if isLoggedIn();
-
-          match /task/{taskId} {
-
-            allow create, update, delete, read, list: if isLoggedIn();
-          }
-        }
-      }
     }
 
-    function isLoggedIn () {
-      return request.auth.uid != null;
+    match /mainBoards/{boardId} {
+      allow create, update, delete, read, list;
+    }
+
+    match /list/{listId} {
+      allow create, update, delete, read, list;
+    }
+
+    match /task/{taskId} {
+      allow create, update, delete, read, list;
     }
   }
 }

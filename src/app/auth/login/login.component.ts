@@ -20,19 +20,19 @@ export class LoginComponent implements OnInit {
 
   constructor(private auth: AuthService, private router: Router) {}
 
-  isValid(field: string): boolean {
+  isValid(field: string): boolean | undefined {
     return (
-      this.loginForm.get(field)!.hasError('pattern') &&
-      !this.loginForm.get(field)!.hasError('required')
+      this.loginForm.get(field)?.hasError('pattern') &&
+      !this.loginForm.get(field)?.hasError('required')
     );
   }
 
-  isRequired(field: string): boolean {
-    return this.loginForm.get(field)!.hasError('required');
+  isRequired(field: string): boolean | undefined {
+    return this.loginForm.get(field)?.hasError('required');
   }
 
-  isMinLength(field: string): boolean {
-    return this.loginForm.get(field)!.hasError('minlength');
+  isMinLength(field: string): boolean | undefined {
+    return this.loginForm.get(field)?.hasError('minlength');
   }
 
   isMaxLength(field: string): boolean | undefined {
@@ -66,21 +66,21 @@ export class LoginComponent implements OnInit {
   async registration(): Promise<void> {
     const user: IUser = {
       id: '',
-      username: this.loginForm.get('username')!.value,
-      email: this.loginForm.get('email')!.value,
+      username: this.loginForm.get('username')?.value,
+      email: this.loginForm.get('email')?.value,
       profilePhoto: imgUrl,
       createdOn: new Date(),
     };
 
-    await this.auth.signUp(user, this.loginForm.get('password')!.value);
+    await this.auth.signUp(user, this.loginForm.get('password')?.value);
 
     this.router.navigate(['/dashboard']);
   }
 
   async login(): Promise<void> {
     await this.auth.signIn(
-      this.loginForm.get('email')!.value,
-      this.loginForm.get('password')!.value
+      this.loginForm.get('email')?.value,
+      this.loginForm.get('password')?.value
     );
     this.router.navigate(['/dashboard']);
   }

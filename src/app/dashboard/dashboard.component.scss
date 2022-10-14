@@ -1,0 +1,43 @@
+@import "mixins";
+@import "variables";
+
+.main-dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px;
+}
+
+.drag-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.main-board {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 300px;
+  margin: 20px 15px;
+  color: $basic;
+  background-color: $primary;
+}
+
+.main-board-form {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 300px;
+  margin: 20px 15px;
+  background-color: $basic;
+
+  &-actions {
+    color: $primary;
+    align-self: flex-end;
+  }
+}
+
+.button-cancel {
+  color: $basic;
+  align-self: flex-end;
+}
