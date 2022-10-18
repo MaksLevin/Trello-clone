@@ -10,7 +10,7 @@ service cloud.firestore {
       allow create, update, delete, read, list;
     }
 
-    match /list/{listId} {
+    match /lists/{listId} {
       allow create, update, delete, read, list;
     }
 

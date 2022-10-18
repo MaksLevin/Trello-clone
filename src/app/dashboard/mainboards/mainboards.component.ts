@@ -11,8 +11,8 @@ import {
 @Component({
   selector: 'app-main-boards',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './mainBoards.component.html',
-  styleUrls: ['./mainBoards.component.scss'],
+  templateUrl: './mainboards.component.html',
+  styleUrls: ['./mainboards.component.scss'],
 })
 export class MainBoardsComponent {
   @Input() boardId!: string;
@@ -20,6 +20,7 @@ export class MainBoardsComponent {
   @Input() boardDescription!: string | undefined;
 
   @Output() deleteBoard = new EventEmitter();
+  @Output() switchToBoard = new EventEmitter();
   @Output() saveEditableBoardTitle = new EventEmitter();
   @Output() saveEditableBoardDescription = new EventEmitter();
 
@@ -47,8 +48,12 @@ export class MainBoardsComponent {
     }, 0);
   }
 
-  deleteBoardDumb(boardId: string): void {
+  getDeletedBoardID(boardId: string): void {
     this.deleteBoard.emit(boardId);
+  }
+
+  getReferredBoardId(boardId: string): void {
+    this.switchToBoard.emit(boardId);
   }
 
   sendEditableBoardTitle(boardId: string, titleValue: string): void {

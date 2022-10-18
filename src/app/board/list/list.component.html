@@ -1,0 +1,32 @@
+<button mat-icon-button class="button-delete" (click)="deleteListDumb(listId)">
+  <mat-icon>delete_outline</mat-icon>
+</button>
+
+<mat-card-title *ngIf="!isTitleEditMode; else editTitle">
+  <h4 class="list-title" (click)="toggleTitleEditMode()">{{ listTitle }}</h4>
+</mat-card-title>
+
+<ng-template #editTitle>
+  <input
+    #inputTitle
+    class="list-input"
+    placeholder="title"
+    [value]="listTitle"
+    (keyup.enter)="sendEditableListTitle(listId, inputTitle.value)"
+  />
+</ng-template>
+
+<mat-card-content class="list-content">
+  <p></p>
+</mat-card-content>
+
+<mat-card-actions class="list-actions">
+  <button
+    class="button-cancel"
+    mat-button
+    [ngStyle]="{ display: isTitleEditMode ? 'block' : 'none' }"
+    (click)="cancelListEdit()"
+  >
+    cancel
+  </button>
+</mat-card-actions>

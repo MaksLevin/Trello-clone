@@ -3,16 +3,19 @@
 <main class="main-dashboard">
   <div class="main-dashboard-wrapper">
     <div class="drag-wrapper">
-      <mat-card *ngFor="let board of boards$ | async" class="main-board">
-        <app-main-boards
-          [boardId]="board.id"
-          [boardTitle]="board.title"
-          [boardDescription]="board.description"
-          (deleteBoard)="deleteBoard($event)"
-          (saveEditableBoardTitle)="saveEditableBoardTitle($event)"
-          (saveEditableBoardDescription)="saveEditableBoardDescription($event)"
-        ></app-main-boards>
-      </mat-card>
+      <ng-container *ngIf="boards$ | async as boards">
+        <mat-card *ngFor="let board of boards" class="main-board">
+          <app-main-boards
+            [boardId]="board.id"
+            [boardTitle]="board.title"
+            [boardDescription]="board.description"
+            (deleteBoard)="deleteBoard($event)"
+            (switchToBoard)="switchToBoard($event)"
+            (saveEditableBoardTitle)="saveEditableBoardTitle($event)"
+            (saveEditableBoardDescription)="saveEditableBoardDescription($event)"
+          ></app-main-boards>
+        </mat-card>
+      </ng-container>
 
       <mat-card class="main-board-form" [formGroup]="mainBoardsForm">
         <mat-card-title>

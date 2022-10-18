@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { firstValueFrom, Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
-import { MainBoard } from '@src/app/core/models/mainBoard.model';
+import { MainBoard } from '@app/core/models/mainBoard.model';
 import { selectGetUserAuthId } from '@app/store/user-auth/user-auth.selector';
 import { MainBoardsService } from '@app/core/services';
 @Component({
@@ -12,11 +13,15 @@ import { MainBoardsService } from '@app/core/services';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  @Input() boards$!: Observable<MainBoard[]>;
+  boards$!: Observable<MainBoard[]>;
 
   mainBoardsForm!: FormGroup;
 
-  constructor(private store: Store, private mainBoardsService: MainBoardsService) {}
+  constructor(
+    private store: Store,
+    private router: Router,
+    private mainBoardsService: MainBoardsService
+  ) {}
 
   saveEditableBoardTitle({
     boardId,
@@ -40,6 +45,10 @@ export class DashboardComponent implements OnInit {
 
   deleteBoard(boardId: string): Promise<void> {
     return this.mainBoardsService.deleteMainBoard(boardId);
+  }
+
+  switchToBoard(boardId: string): void {
+    this.router.navigate(['/board', boardId]);
   }
 
   async createNewBoard(): Promise<void> {

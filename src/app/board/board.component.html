@@ -1,1 +1,37 @@
-<p>board works!</p>
+<app-header></app-header>
+
+<section class="breadcrumbs">
+  <button mat-button class="breadcrumbs-button mat-subheading-2" (click)="switchToDashboard()">
+    Back to dashboard
+  </button>
+</section>
+
+<main class="board">
+  <div class="board-wrapper">
+    <div class="drag-wrapper">
+      <ng-container *ngIf="lists$ | async as lists">
+        <mat-card *ngFor="let list of lists" class="list">
+          <app-list
+            [listId]="list.id"
+            [listTitle]="list.title"
+            (deleteList)="deleteList($event)"
+            (saveEditableListTitle)="saveEditableListTitle($event)"
+          ></app-list>
+        </mat-card>
+      </ng-container>
+
+      <mat-card class="list-form" [formGroup]="listForm">
+        <mat-card-title>
+          <mat-form-field>
+            <input matInput formControlName="title" placeholder="title" />
+            <mat-error></mat-error>
+          </mat-form-field>
+        </mat-card-title>
+
+        <mat-card-actions class="list-form-actions">
+          <button mat-button [disabled]="!listForm.valid" (click)="createNewList()">add</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</main>
