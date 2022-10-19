@@ -4,7 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 
 import { BoardsService } from '@app/core/services';
-import { List } from '../core/models/listModel';
+import { EditableList, List } from '@app/core/models';
+import { listTitleValidationErrors } from '@app/core/constants';
 
 @Component({
   selector: 'app-board',
@@ -13,9 +14,13 @@ import { List } from '../core/models/listModel';
 })
 export class BoardComponent implements OnInit, OnDestroy {
   mainBoardId!: string;
+
   routeSubscription: Subscription;
-  listForm!: FormGroup;
+
   lists$!: Observable<List[]>;
+
+  listForm!: FormGroup;
+  titleError: { isRequired: string } = listTitleValidationErrors;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,6 +32,10 @@ export class BoardComponent implements OnInit, OnDestroy {
     );
   }
 
+  isRequired(field: string): boolean | undefined {
+    return this.listForm.get(field)?.hasError('required');
+  }
+
   switchToDashboard(): void {
     this.router.navigate(['/dashboard']);
   }
@@ -35,13 +44,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     return this.boardService.deleteList(listId);
   }
 
-  saveEditableListTitle({
-    listId,
-    titleValue,
-  }: {
-    listId: string;
-    titleValue: string;
-  }): Promise<void> {
+  saveEditableListTitle({ listId, titleValue }: EditableList): Promise<void> {
     return this.boardService.updateListTitle(listId, titleValue);
   }
 
@@ -60,7 +63,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.listForm.reset();
   }
 
-  async getLists(): Promise<void> {
+  getLists(): void {
     this.lists$ = this.boardService.getLists(this.mainBoardId);
   }
 
@@ -78,7 +81,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.routeSubscription.unsubscribe();
   }
 }

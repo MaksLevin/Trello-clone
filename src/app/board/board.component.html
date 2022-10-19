@@ -24,7 +24,7 @@
         <mat-card-title>
           <mat-form-field>
             <input matInput formControlName="title" placeholder="title" />
-            <mat-error></mat-error>
+            <mat-error *ngIf="isRequired('title')">{{ titleError.isRequired }}</mat-error>
           </mat-form-field>
         </mat-card-title>
 

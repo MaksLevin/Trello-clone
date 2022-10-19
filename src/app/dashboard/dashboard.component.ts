@@ -4,9 +4,10 @@ import { Store } from '@ngrx/store';
 import { firstValueFrom, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { MainBoard } from '@app/core/models/mainBoard.model';
+import { EditableBoard, MainBoard } from '@app/core/models';
 import { selectGetUserAuthId } from '@app/store/user-auth/user-auth.selector';
 import { MainBoardsService } from '@app/core/services';
+import { boardTitleValidationErrors } from '@app/core/constants';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -16,6 +17,7 @@ export class DashboardComponent implements OnInit {
   boards$!: Observable<MainBoard[]>;
 
   mainBoardsForm!: FormGroup;
+  titleError: { isRequired: string } = boardTitleValidationErrors;
 
   constructor(
     private store: Store,
@@ -23,23 +25,15 @@ export class DashboardComponent implements OnInit {
     private mainBoardsService: MainBoardsService
   ) {}
 
-  saveEditableBoardTitle({
-    boardId,
-    titleValue,
-  }: {
-    boardId: string;
-    titleValue: string;
-  }): Promise<void> {
+  isRequired(field: string): boolean | undefined {
+    return this.mainBoardsForm.get(field)?.hasError('required');
+  }
+
+  saveEditableBoardTitle({ boardId, titleValue }: EditableBoard): Promise<void> {
     return this.mainBoardsService.updateMainBoardTitle(boardId, titleValue);
   }
 
-  saveEditableBoardDescription({
-    boardId,
-    descriptionValue,
-  }: {
-    boardId: string;
-    descriptionValue: string;
-  }): Promise<void> {
+  saveEditableBoardDescription({ boardId, descriptionValue }: EditableBoard): Promise<void> {
     return this.mainBoardsService.updateMainBoardDescription(boardId, descriptionValue);
   }
 

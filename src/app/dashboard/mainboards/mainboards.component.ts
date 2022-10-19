@@ -7,6 +7,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { EditableBoard } from '@src/app/core/models';
 
 @Component({
   selector: 'app-main-boards',
@@ -19,10 +20,10 @@ export class MainBoardsComponent {
   @Input() boardTitle!: string;
   @Input() boardDescription!: string | undefined;
 
-  @Output() deleteBoard = new EventEmitter();
-  @Output() switchToBoard = new EventEmitter();
-  @Output() saveEditableBoardTitle = new EventEmitter();
-  @Output() saveEditableBoardDescription = new EventEmitter();
+  @Output() deleteBoard = new EventEmitter<string>();
+  @Output() switchToBoard = new EventEmitter<string>();
+  @Output() saveEditableBoardTitle = new EventEmitter<EditableBoard>();
+  @Output() saveEditableBoardDescription = new EventEmitter<EditableBoard>();
 
   @ViewChild('inputTitle') inputTitle!: ElementRef<HTMLInputElement>;
   @ViewChild('inputDescription') inputDescription!: ElementRef<HTMLInputElement>;

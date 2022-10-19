@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { fireAuthErrors } from '@src/app/core/constants';
+import { fireAuthErrors } from '@app/core/constants';
 
 @Injectable({
   providedIn: 'root',

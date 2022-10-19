@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FirestoreService } from '@app/core/services';
 import { Observable } from 'rxjs';
 
-import { MainBoard } from '../models/mainBoard.model';
+import { MainBoard } from '@app/core/models';
 
 @Injectable({
   providedIn: 'root',

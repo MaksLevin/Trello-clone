@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { EditableList } from '@src/app/core/models';
 
 @Component({
   selector: 'app-list',
@@ -9,8 +10,8 @@ export class ListComponent {
   @Input() listId!: string;
   @Input() listTitle!: string;
 
-  @Output() deleteList = new EventEmitter();
-  @Output() saveEditableListTitle = new EventEmitter();
+  @Output() deleteList = new EventEmitter<string>();
+  @Output() saveEditableListTitle = new EventEmitter<EditableList>();
 
   @ViewChild('inputTitle') inputTitle!: ElementRef<HTMLInputElement>;
 
