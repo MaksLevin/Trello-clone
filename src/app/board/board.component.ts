@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 
 import { BoardsService } from '@app/core/services';
-import { EditableList, List } from '@app/core/models';
+import { List } from '@app/core/models/';
 import { listTitleValidationErrors } from '@app/core/constants';
 
 @Component({
@@ -44,8 +44,11 @@ export class BoardComponent implements OnInit, OnDestroy {
     return this.boardService.deleteList(listId);
   }
 
-  saveEditableListTitle({ listId, titleValue }: EditableList): Promise<void> {
-    return this.boardService.updateListTitle(listId, titleValue);
+  saveEditableListTitle({ id, title }: Partial<List>): Promise<void> {
+    if (!id) {
+      return Promise.resolve();
+    }
+    return this.boardService.updateListTitle(id, title);
   }
 
   async createNewList(): Promise<void> {

@@ -2,7 +2,7 @@
   mat-icon-button
   id="deleteButton"
   class="button-delete"
-  (click)="getDeletedBoardID(boardId)"
+  (click)="getDeletedBoardId(boardId)"
 >
   <mat-icon>delete_outline</mat-icon>
 </button>
@@ -49,7 +49,7 @@
     mat-button
     class="main-board-link"
     [ngStyle]="{ display: isTitleEditMode || isDescriptionEditMode ? 'none' : 'block' }"
-    (click)="getReferredBoardId(boardId)"
+    (click)="openBoardId(boardId)"
   >
     To board
   </button>

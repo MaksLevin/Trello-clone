@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { EditableList } from '@src/app/core/models';
+import { List } from '@src/app/core/models';
 
 @Component({
   selector: 'app-list',
@@ -11,7 +11,7 @@ export class ListComponent {
   @Input() listTitle!: string;
 
   @Output() deleteList = new EventEmitter<string>();
-  @Output() saveEditableListTitle = new EventEmitter<EditableList>();
+  @Output() saveEditableListTitle = new EventEmitter<Partial<List>>();
 
   @ViewChild('inputTitle') inputTitle!: ElementRef<HTMLInputElement>;
 
@@ -27,10 +27,10 @@ export class ListComponent {
     }, 0);
   }
 
-  sendEditableListTitle(listId: string, titleValue: string): void {
+  sendEditableListTitle(id: string, title: string): void {
     this.isTitleEditMode = false;
 
-    this.saveEditableListTitle.emit({ listId, titleValue });
+    this.saveEditableListTitle.emit({ id, title });
   }
 
   deleteListDumb(listId: string): void {

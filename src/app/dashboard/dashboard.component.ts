@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { firstValueFrom, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { EditableBoard, MainBoard } from '@app/core/models';
+import { MainBoard } from '@app/core/models';
 import { selectGetUserAuthId } from '@app/store/user-auth/user-auth.selector';
 import { MainBoardsService } from '@app/core/services';
 import { boardTitleValidationErrors } from '@app/core/constants';
@@ -29,12 +29,18 @@ export class DashboardComponent implements OnInit {
     return this.mainBoardsForm.get(field)?.hasError('required');
   }
 
-  saveEditableBoardTitle({ boardId, titleValue }: EditableBoard): Promise<void> {
-    return this.mainBoardsService.updateMainBoardTitle(boardId, titleValue);
+  saveEditableBoardTitle({ id, title }: Partial<MainBoard>): Promise<void> {
+    if (!id) {
+      return Promise.resolve();
+    }
+    return this.mainBoardsService.updateMainBoardTitle(id, title);
   }
 
-  saveEditableBoardDescription({ boardId, descriptionValue }: EditableBoard): Promise<void> {
-    return this.mainBoardsService.updateMainBoardDescription(boardId, descriptionValue);
+  saveEditableBoardDescription({ id, description }: Partial<MainBoard>): Promise<void> {
+    if (!id) {
+      return Promise.resolve();
+    }
+    return this.mainBoardsService.updateMainBoardDescription(id, description);
   }
 
   deleteBoard(boardId: string): Promise<void> {
@@ -63,9 +69,9 @@ export class DashboardComponent implements OnInit {
   }
 
   async getBoards(): Promise<void> {
-    const userId$: string = await firstValueFrom(this.store.select(selectGetUserAuthId));
+    const userId: string = await firstValueFrom(this.store.select(selectGetUserAuthId));
 
-    this.boards$ = this.mainBoardsService.getMainBoards(userId$);
+    this.boards$ = this.mainBoardsService.getMainBoards(userId);
   }
 
   ngOnInit(): void {

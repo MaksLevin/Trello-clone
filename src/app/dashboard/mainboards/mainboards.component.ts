@@ -7,7 +7,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { EditableBoard } from '@src/app/core/models';
+import { MainBoard } from '@src/app/core/models';
 
 @Component({
   selector: 'app-main-boards',
@@ -22,8 +22,8 @@ export class MainBoardsComponent {
 
   @Output() deleteBoard = new EventEmitter<string>();
   @Output() switchToBoard = new EventEmitter<string>();
-  @Output() saveEditableBoardTitle = new EventEmitter<EditableBoard>();
-  @Output() saveEditableBoardDescription = new EventEmitter<EditableBoard>();
+  @Output() saveEditableBoardTitle = new EventEmitter<Partial<MainBoard>>();
+  @Output() saveEditableBoardDescription = new EventEmitter<Partial<MainBoard>>();
 
   @ViewChild('inputTitle') inputTitle!: ElementRef<HTMLInputElement>;
   @ViewChild('inputDescription') inputDescription!: ElementRef<HTMLInputElement>;
@@ -49,24 +49,24 @@ export class MainBoardsComponent {
     }, 0);
   }
 
-  getDeletedBoardID(boardId: string): void {
+  getDeletedBoardId(boardId: string): void {
     this.deleteBoard.emit(boardId);
   }
 
-  getReferredBoardId(boardId: string): void {
+  openBoardId(boardId: string): void {
     this.switchToBoard.emit(boardId);
   }
 
-  sendEditableBoardTitle(boardId: string, titleValue: string): void {
+  sendEditableBoardTitle(id: string, title: string): void {
     this.isTitleEditMode = false;
 
-    this.saveEditableBoardTitle.emit({ boardId, titleValue });
+    this.saveEditableBoardTitle.emit({ id, title });
   }
 
-  sendEditableBoardDescription(boardId: string, descriptionValue: string | undefined): void {
+  sendEditableBoardDescription(id: string, description: string | undefined): void {
     this.isDescriptionEditMode = false;
 
-    this.saveEditableBoardDescription.emit({ boardId, descriptionValue });
+    this.saveEditableBoardDescription.emit({ id, description });
   }
 
   cancelBoardEdit(): void {
