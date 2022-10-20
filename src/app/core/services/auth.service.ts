@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import firebase from 'firebase/compat/app';
 import { firstValueFrom, Observable } from 'rxjs';
 
-import { User } from '@src/app/core/models/user.model';
+import { User } from '@app/core/models';
 import { FireAuthErrorService } from '@app/core/services';
 import { FirestoreService } from '@app/core/services';
 import * as authActions from '@app/store/user-auth/user-auth.action';

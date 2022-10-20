@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { User } from '@src/app/core/models/user.model';
+import { User } from '@app/core/models';
 import { AuthService } from '@app/core/services';
 import {
   imgUrl,

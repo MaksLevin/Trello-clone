@@ -8,20 +8,23 @@ import {
   ViewChild,
 } from '@angular/core';
 
+import { MainBoard } from '@src/app/core/models';
+
 @Component({
   selector: 'app-main-boards',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './mainBoards.component.html',
-  styleUrls: ['./mainBoards.component.scss'],
+  templateUrl: './mainboards.component.html',
+  styleUrls: ['./mainboards.component.scss'],
 })
 export class MainBoardsComponent {
   @Input() boardId!: string;
   @Input() boardTitle!: string;
   @Input() boardDescription!: string | undefined;
 
-  @Output() deleteBoard = new EventEmitter();
-  @Output() saveEditableBoardTitle = new EventEmitter();
-  @Output() saveEditableBoardDescription = new EventEmitter();
+  @Output() deleteBoard = new EventEmitter<string>();
+  @Output() switchToBoard = new EventEmitter<string>();
+  @Output() saveEditableBoardTitle = new EventEmitter<Partial<MainBoard>>();
+  @Output() saveEditableBoardDescription = new EventEmitter<Partial<MainBoard>>();
 
   @ViewChild('inputTitle') inputTitle!: ElementRef<HTMLInputElement>;
   @ViewChild('inputDescription') inputDescription!: ElementRef<HTMLInputElement>;
@@ -47,20 +50,24 @@ export class MainBoardsComponent {
     }, 0);
   }
 
-  deleteBoardDumb(boardId: string): void {
+  getDeletedBoardId(boardId: string): void {
     this.deleteBoard.emit(boardId);
   }
 
-  sendEditableBoardTitle(boardId: string, titleValue: string): void {
-    this.isTitleEditMode = false;
-
-    this.saveEditableBoardTitle.emit({ boardId, titleValue });
+  openBoardId(boardId: string): void {
+    this.switchToBoard.emit(boardId);
   }
 
-  sendEditableBoardDescription(boardId: string, descriptionValue: string | undefined): void {
+  sendEditableBoardTitle(id: string, title: string): void {
+    this.isTitleEditMode = false;
+
+    this.saveEditableBoardTitle.emit({ id, title });
+  }
+
+  sendEditableBoardDescription(id: string, description: string | undefined): void {
     this.isDescriptionEditMode = false;
 
-    this.saveEditableBoardDescription.emit({ boardId, descriptionValue });
+    this.saveEditableBoardDescription.emit({ id, description });
   }
 
   cancelBoardEdit(): void {

@@ -1,0 +1,52 @@
+@import "mixins";
+@import "variables";
+
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px;
+}
+
+.drag-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.breadcrumbs {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+
+  &-button {
+    margin: 0;
+    padding: 15px;
+    text-decoration: none;
+    color: $color-basic;
+    background-color: $color-primary;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 300px;
+  margin: 20px 15px;
+  color: $color-basic;
+  background-color: $color-primary;
+}
+
+.list-form {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 300px;
+  margin: 20px 15px;
+  background-color: $color-basic;
+
+  &-actions {
+    color: $color-primary;
+    align-self: flex-end;
+  }
+}

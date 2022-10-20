@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 export class FirestoreService {
   constructor(private angularFirestore: AngularFirestore) {}
 
-  setCollection(collection: string, path: string, setElement: object): Promise<void> {
-    return this.angularFirestore.collection(collection).doc(path).set(setElement);
+  async setCollection(collection: string, path: string, setElement: object): Promise<void> {
+    return await this.angularFirestore.collection(collection).doc(path).set(setElement);
   }
 
   getFromCollection<T>(collection: string, getElementByUid: string): Observable<T | undefined> {
@@ -32,22 +32,22 @@ export class FirestoreService {
     return collectionRef.valueChanges({ idField: field });
   }
 
-  updateDocumentField(
+  async updateDocumentField(
     collection: string,
     mainBoardId: string,
     documentField: string,
     documentFieldValue: string | undefined
   ): Promise<void> {
     {
-      return this.angularFirestore
+      return await this.angularFirestore
         .collection(collection)
         .doc(mainBoardId)
         .update({ [documentField]: documentFieldValue });
     }
   }
 
-  deleteDocument(collection: string, documentId: string): Promise<void> {
-    return this.angularFirestore.collection(collection).doc(documentId).delete();
+  async deleteDocument(collection: string, documentId: string): Promise<void> {
+    return await this.angularFirestore.collection(collection).doc(documentId).delete();
   }
 
   createId(): string {

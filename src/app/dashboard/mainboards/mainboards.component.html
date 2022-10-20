@@ -1,4 +1,9 @@
-<button mat-icon-button id="deleteButton" class="button-cancel" (click)="deleteBoardDumb(boardId)">
+<button
+  mat-icon-button
+  id="deleteButton"
+  class="button-delete"
+  (click)="getDeletedBoardId(boardId)"
+>
   <mat-icon>delete_outline</mat-icon>
 </button>
 
@@ -32,10 +37,20 @@
 
 <mat-card-actions class="main-board-actions">
   <button
+    class="button-cancel"
     mat-button
     [ngStyle]="{ display: isTitleEditMode || isDescriptionEditMode ? 'block' : 'none' }"
     (click)="cancelBoardEdit()"
   >
     cancel
+  </button>
+
+  <button
+    mat-button
+    class="main-board-link"
+    [ngStyle]="{ display: isTitleEditMode || isDescriptionEditMode ? 'none' : 'block' }"
+    (click)="openBoardId(boardId)"
+  >
+    To board
   </button>
 </mat-card-actions>

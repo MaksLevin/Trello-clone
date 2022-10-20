@@ -3,29 +3,31 @@
 <main class="main-dashboard">
   <div class="main-dashboard-wrapper">
     <div class="drag-wrapper">
-      <mat-card *ngFor="let board of boards$ | async" class="main-board">
-        <app-main-boards
-          [boardId]="board.id"
-          [boardTitle]="board.title"
-          [boardDescription]="board.description"
-          (deleteBoard)="deleteBoard($event)"
-          (saveEditableBoardTitle)="saveEditableBoardTitle($event)"
-          (saveEditableBoardDescription)="saveEditableBoardDescription($event)"
-        ></app-main-boards>
-      </mat-card>
+      <ng-container *ngIf="boards$ | async as boards">
+        <mat-card *ngFor="let board of boards" class="main-board">
+          <app-main-boards
+            [boardId]="board.id"
+            [boardTitle]="board.title"
+            [boardDescription]="board.description"
+            (deleteBoard)="deleteBoard($event)"
+            (switchToBoard)="switchToBoard($event)"
+            (saveEditableBoardTitle)="saveEditableBoardTitle($event)"
+            (saveEditableBoardDescription)="saveEditableBoardDescription($event)"
+          ></app-main-boards>
+        </mat-card>
+      </ng-container>
 
       <mat-card class="main-board-form" [formGroup]="mainBoardsForm">
         <mat-card-title>
           <mat-form-field>
             <input matInput formControlName="title" placeholder="title" />
-            <mat-error></mat-error>
+            <mat-error *ngIf="isRequired('title')">{{ titleError.isRequired }}</mat-error>
           </mat-form-field>
         </mat-card-title>
 
         <mat-card-content>
           <mat-form-field>
             <input matInput formControlName="description" placeholder="description" />
-            <mat-error></mat-error>
           </mat-form-field>
         </mat-card-content>
 

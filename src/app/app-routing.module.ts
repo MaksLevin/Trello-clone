@@ -16,6 +16,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'board/:id',
+    loadChildren: () => import('./board/board.module').then((mod) => mod.BoardModule),
+    canActivate: [AuthGuard],
+  },
+  {
     path: '404',
     loadChildren: () => import('./not-found/not-found.module').then((mod) => mod.NotFoundModule),
   },

@@ -1,3 +1,4 @@
+@import "mixins";
 @import "variables";
 
 :host {
@@ -11,17 +12,17 @@
   color: $color-basic;
 }
 
-.main-board-title {
-  margin: 10px 0 20px 0;
+.list-title {
+  margin: 10px 20px 0;
 }
 
-.main-board-actions {
+.list-actions {
   display: flex;
   align-self: flex-end;
   margin-top: auto;
 }
 
-.main-board-input {
+.list-input {
   color: $color-basic;
   background-color: $color-primary;
   outline: none;
@@ -30,13 +31,7 @@
   margin: 5px 0;
 }
 
-.button-cancel {
-  text-transform: uppercase;
-}
-
-.main-board-link {
-  align-self: flex-end;
-  color: $color-basic;
-  text-decoration: none;
+.button-cancel,
+.button-add {
   text-transform: uppercase;
 }

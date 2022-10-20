@@ -1,45 +1,55 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { firstValueFrom, Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
-import { MainBoard } from '@src/app/core/models/mainBoard.model';
+import { MainBoard } from '@app/core/models';
 import { selectGetUserAuthId } from '@app/store/user-auth/user-auth.selector';
 import { MainBoardsService } from '@app/core/services';
+import { boardTitleValidationErrors } from '@app/core/constants';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  @Input() boards$!: Observable<MainBoard[]>;
+  boards$!: Observable<MainBoard[]>;
 
   mainBoardsForm!: FormGroup;
+  titleError: { isRequired: string } = boardTitleValidationErrors;
 
-  constructor(private store: Store, private mainBoardsService: MainBoardsService) {}
+  constructor(
+    private store: Store,
+    private router: Router,
+    private mainBoardsService: MainBoardsService
+  ) {}
 
-  saveEditableBoardTitle({
-    boardId,
-    titleValue,
-  }: {
-    boardId: string;
-    titleValue: string;
-  }): Promise<void> {
-    return this.mainBoardsService.updateMainBoardTitle(boardId, titleValue);
+  isRequired(field: string): boolean | undefined {
+    return this.mainBoardsForm.get(field)?.hasError('required');
   }
 
-  saveEditableBoardDescription({
-    boardId,
-    descriptionValue,
-  }: {
-    boardId: string;
-    descriptionValue: string;
-  }): Promise<void> {
-    return this.mainBoardsService.updateMainBoardDescription(boardId, descriptionValue);
+  saveEditableBoardTitle({ id, title }: Partial<MainBoard>): Promise<void> {
+    if (!id) {
+      return Promise.resolve();
+    }
+    return this.mainBoardsService.updateMainBoardTitle(id, title);
+  }
+
+  saveEditableBoardDescription({ id, description }: Partial<MainBoard>): Promise<void> {
+    if (!id) {
+      return Promise.resolve();
+    }
+    return this.mainBoardsService.updateMainBoardDescription(id, description);
   }
 
   deleteBoard(boardId: string): Promise<void> {
     return this.mainBoardsService.deleteMainBoard(boardId);
+  }
+
+  switchToBoard(boardId: string): void {
+    this.router.navigate(['/board', boardId]);
   }
 
   async createNewBoard(): Promise<void> {
@@ -60,9 +70,9 @@ export class DashboardComponent implements OnInit {
   }
 
   async getBoards(): Promise<void> {
-    const userId$: string = await firstValueFrom(this.store.select(selectGetUserAuthId));
+    const userId: string = await firstValueFrom(this.store.select(selectGetUserAuthId));
 
-    this.boards$ = this.mainBoardsService.getMainBoards(userId$);
+    this.boards$ = this.mainBoardsService.getMainBoards(userId);
   }
 
   ngOnInit(): void {

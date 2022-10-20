@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AuthService } from '@app/core/services';
-import { User } from '@src/app/core/models/user.model';
+import { User } from '@app/core/models';
 import { selectGetUserAuth } from '@app/store/user-auth/user-auth.selector';
 
 @Component({
