@@ -7,6 +7,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+
 import { MainBoard } from '@src/app/core/models';
 
 @Component({

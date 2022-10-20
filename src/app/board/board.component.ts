@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 
 import { BoardsService } from '@app/core/services';
-import { List } from '@app/core/models/';
+import { List } from '@app/core/models';
 import { listTitleValidationErrors } from '@app/core/constants';
 
 @Component({

@@ -8,6 +8,7 @@ import { MainBoard } from '@app/core/models';
 import { selectGetUserAuthId } from '@app/store/user-auth/user-auth.selector';
 import { MainBoardsService } from '@app/core/services';
 import { boardTitleValidationErrors } from '@app/core/constants';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
