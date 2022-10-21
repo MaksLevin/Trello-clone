@@ -1,4 +1,4 @@
-export interface baseModel {
+export interface BaseModel {
   id: string;
   createdOn: Date;
 }

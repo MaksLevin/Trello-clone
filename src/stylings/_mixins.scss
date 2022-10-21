@@ -6,6 +6,19 @@ $grid-breakpoints: (
   "xl": 1100px,
 );
 
+@mixin button($color: $color-basic, $bg-color: $color-primary) {
+  color: $color;
+  background-color: $bg-color;
+  text-transform: uppercase;
+}
+@mixin input($color: $color-basic, $bg-color: $color-primary) {
+  color: $color;
+  background-color: $bg-color;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid $color-basic;
+}
+
 @mixin media($minmax, $media) {
   @each $size, $resolution in $grid-breakpoints {
     @if $media == $size {

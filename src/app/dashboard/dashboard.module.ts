@@ -4,13 +4,12 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { SharedModule } from '@app/shared/shared.module';
-import { HeaderModule } from '@app/header/header.module';
 
-import { MainBoardsComponent } from './mainboards/mainboards.component';
+import { MainBoardsComponent } from './main-boards/main-boards.component';
 
 @NgModule({
   declarations: [DashboardComponent, MainBoardsComponent],
-  imports: [CommonModule, DashboardRoutingModule, SharedModule, HeaderModule],
+  imports: [CommonModule, DashboardRoutingModule, SharedModule],
   exports: [DashboardComponent],
 })
 export class DashboardModule {}

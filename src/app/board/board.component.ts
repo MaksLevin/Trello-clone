@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 
 import { BoardsService } from '@app/core/services';
@@ -22,11 +22,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   listForm!: FormGroup;
   titleError: { isRequired: string } = listTitleValidationErrors;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private boardService: BoardsService
-  ) {
+  constructor(private route: ActivatedRoute, private boardService: BoardsService) {
     this.routeSubscription = this.route.params.subscribe(
       (params) => (this.mainBoardId = params['id'])
     );
@@ -34,10 +30,6 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   isRequired(field: string): boolean | undefined {
     return this.listForm.get(field)?.hasError('required');
-  }
-
-  switchToDashboard(): void {
-    this.router.navigate(['/dashboard']);
   }
 
   deleteList(listId: string): Promise<void> {

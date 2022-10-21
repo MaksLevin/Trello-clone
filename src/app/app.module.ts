@@ -21,7 +21,7 @@ import { LoginModule } from './auth/login.module';
 import { SharedModule } from './shared/shared.module';
 import { UserAuthStoreModule } from './store/user-auth/user-auth-store.module';
 import { environment } from '../environments/environment';
-import { RouterSerializer } from '@app/store/routerSerializer';
+import { RouterSerializer } from '@src/app/store/router-serializer';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HeaderModule } from './header/header.module';
 

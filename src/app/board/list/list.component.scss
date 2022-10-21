@@ -8,8 +8,9 @@
 }
 
 .button-delete {
+  @include button($color-basic, $color-primary);
+
   align-self: flex-end;
-  color: $color-basic;
 }
 
 .list-title {
@@ -23,15 +24,12 @@
 }
 
 .list-input {
-  color: $color-basic;
-  background-color: $color-primary;
-  outline: none;
-  border: none;
-  border-bottom: 1px solid $color-basic;
+  @include input($color-basic, $color-primary);
+
   margin: 5px 0;
 }
 
 .button-cancel,
 .button-add {
-  text-transform: uppercase;
+  @include button($color-basic, $color-primary);
 }

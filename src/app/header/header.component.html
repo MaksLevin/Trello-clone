@@ -1,24 +1,17 @@
 <header class="header">
-  <h1 class="header-title mat-headline">
+  <h1 class="header-title mat-headline" (click)="switchToDashboard()">
     My Trello <mat-icon class="header-title-icon">favorite</mat-icon>
   </h1>
+
   <div class="user">
-    <img
-      class="user-image"
-      src="{{ (user | async)?.profilePhoto }}"
-      alt="user photo"
-    />
-    <button
-      mat-button
-      class="user-name mat-body-1"
-      [matMenuTriggerFor]="userMenu"
-    >
+    <img class="user-image" src="{{ (user | async)?.profilePhoto }}" alt="user photo" />
+
+    <button mat-button class="user-name mat-body-1" [matMenuTriggerFor]="userMenu">
       {{ (user | async)?.username }}
     </button>
+
     <mat-menu #userMenu="matMenu">
-      <button mat-menu-item class="button-logout mat-body-2" (click)="logout()">
-        Logout
-      </button>
+      <button mat-menu-item class="button-logout mat-body-2" (click)="logout()">Logout</button>
     </mat-menu>
   </div>
 </header>
