@@ -10,15 +10,15 @@ import {
   emailValidationErrors,
   usernameValidationErrors,
   passwordValidationErrors,
-} from '@src/app/core/constants';
+} from '@app/core/constants';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'app-auth',
+  templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnInit {
+export class AuthComponent implements OnInit {
   hide: boolean = true;
   isLogin: boolean = true;
 
@@ -70,7 +70,6 @@ export class LoginComponent implements OnInit {
       new FormControl('', {
         validators: [
           Validators.maxLength(12),
-          Validators.minLength(5),
           Validators.pattern(validationPatterns.usernamePattern),
           Validators.required,
         ],

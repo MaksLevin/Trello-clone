@@ -17,13 +17,13 @@ import * as authActions from '@app/store/user-auth/user-auth.action';
 import * as authSelectors from '@app/store/user-auth/user-auth.selector';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginModule } from './auth/login.module';
-import { SharedModule } from './shared/shared.module';
-import { UserAuthStoreModule } from './store/user-auth/user-auth-store.module';
+import { LoginModule } from '@app/auth/auth.module';
+import { SharedModule } from '@app/shared/shared.module';
+import { UserAuthStoreModule } from '@app/store/user-auth';
 import { environment } from '../environments/environment';
-import { RouterSerializer } from '@src/app/store/router-serializer';
-import { DashboardModule } from './dashboard/dashboard.module';
-import { HeaderModule } from './header/header.module';
+import { RouterSerializer } from '@app/store/router-serializer';
+import { DashboardModule } from '@app/dashboard/dashboard.module';
+import { HeaderModule } from '@app/header/header.module';
 
 const appInitFactory = (auth: AngularFireAuth, store: Store): (() => Observable<any>) => {
   return () => {

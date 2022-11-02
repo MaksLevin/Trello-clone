@@ -1,4 +1,5 @@
-@import "variables";
+@import "src/styles/mixins/mixins";
+@import "src/styles/variables";
 
 :host {
   display: flex;

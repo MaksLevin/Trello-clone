@@ -5,7 +5,7 @@ import { firstValueFrom, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { MainBoard } from '@app/core/models';
-import { selectGetUserAuthId } from '@app/store/user-auth/user-auth.selector';
+import { userAuthSelector } from '@app/store/user-auth';
 import { MainBoardsService } from '@app/core/services';
 import { boardTitleValidationErrors } from '@app/core/constants';
 
@@ -53,7 +53,9 @@ export class DashboardComponent implements OnInit {
   }
 
   async createNewBoard(): Promise<void> {
-    const userId: string = await firstValueFrom(this.store.select(selectGetUserAuthId));
+    const userId: string = await firstValueFrom(
+      this.store.select(userAuthSelector.selectGetUserAuthId)
+    );
     const pushId = this.mainBoardsService.getPushId();
 
     const mainBoard: MainBoard = {
@@ -70,7 +72,9 @@ export class DashboardComponent implements OnInit {
   }
 
   async getBoards(): Promise<void> {
-    const userId: string = await firstValueFrom(this.store.select(selectGetUserAuthId));
+    const userId: string = await firstValueFrom(
+      this.store.select(userAuthSelector.selectGetUserAuthId)
+    );
 
     this.boards$ = this.mainBoardsService.getMainBoards(userId);
   }

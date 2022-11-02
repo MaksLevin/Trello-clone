@@ -1,5 +1,5 @@
-@import "mixins";
-@import "variables";
+@import "src/styles/mixins/mixins";
+@import "src/styles/variables";
 
 :host {
   display: flex;
@@ -8,8 +8,6 @@
 }
 
 .button-delete {
-  @include button($color-basic, $color-primary);
-
   align-self: flex-end;
 }
 
@@ -24,12 +22,5 @@
 }
 
 .list-input {
-  @include input($color-basic, $color-primary);
-
   margin: 5px 0;
-}
-
-.button-cancel,
-.button-add {
-  @include button($color-basic, $color-primary);
 }

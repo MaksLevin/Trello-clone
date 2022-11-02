@@ -1,0 +1,7 @@
+@mixin input($color: $color-basic, $bg-color: $color-primary) {
+  color: $color;
+  background-color: $bg-color;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid $color-basic;
+}

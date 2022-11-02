@@ -1,0 +1,5 @@
+@mixin button($color: $color-basic, $bg-color: $color-primary) {
+  color: $color;
+  background-color: $bg-color;
+  text-transform: uppercase;
+}

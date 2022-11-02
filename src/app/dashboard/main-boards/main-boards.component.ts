@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { MainBoard } from '@src/app/core/models';
+import { MainBoard } from '@app/core/models';
 
 @Component({
   selector: 'app-main-boards',
