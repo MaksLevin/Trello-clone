@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import "styles/mixins/_mixins";
-@import "styles/_variables";
-@import "styles/_typography";
+@import "variables";
+@import "mixins";
+@import "components";
+@import "typography";
 
 html,
 body {

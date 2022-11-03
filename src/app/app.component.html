@@ -1,2 +1,2 @@
-<app-header *ngIf="isHeaderVisibility$"></app-header>
+<app-header *ngIf="isHeaderVisibility$ | async"></app-header>
 <router-outlet></router-outlet>

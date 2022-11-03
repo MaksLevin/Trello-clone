@@ -9,7 +9,7 @@
 <ng-template #editTitle>
   <input
     #inputTitle
-    class="list-input"
+    class="edit-input list-input"
     placeholder="title"
     [value]="listTitle"
     (keyup.enter)="sendEditableListTitle(listId, inputTitle.value)"
@@ -22,7 +22,7 @@
 
 <mat-card-actions class="list-actions">
   <button
-    class="button-cancel"
+    class="button-primary"
     mat-button
     [ngStyle]="{ display: isTitleEditMode ? 'block' : 'none' }"
     (click)="cancelListEdit()"

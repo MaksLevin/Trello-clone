@@ -14,7 +14,7 @@
 <ng-template #editTitle>
   <input
     #inputTitle
-    class="main-board-input"
+    class="edit-input main-board-input"
     placeholder="title"
     [value]="boardTitle"
     (keyup.enter)="sendEditableBoardTitle(boardId, inputTitle.value)"
@@ -28,7 +28,7 @@
 <ng-template #editDescription>
   <input
     #inputDescription
-    class="main-board-input"
+    class="edit-input main-board-input"
     placeholder="description"
     [value]="boardDescription"
     (keyup.enter)="sendEditableBoardDescription(boardId, inputDescription.value)"
@@ -37,7 +37,7 @@
 
 <mat-card-actions class="main-board-actions">
   <button
-    class="button-cancel"
+    class="button-primary"
     mat-button
     [ngStyle]="{ display: isTitleEditMode || isDescriptionEditMode ? 'block' : 'none' }"
     (click)="cancelBoardEdit()"
@@ -47,7 +47,7 @@
 
   <button
     mat-button
-    class="main-board-link"
+    class="button-primary main-board-link"
     [ngStyle]="{ display: isTitleEditMode || isDescriptionEditMode ? 'none' : 'block' }"
     (click)="openBoardId(boardId)"
   >

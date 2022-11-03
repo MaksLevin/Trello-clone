@@ -1,5 +1,5 @@
-@import "src/styles/mixins/mixins";
-@import "src/styles/variables";
+@import "_mixins";
+@import "_variables";
 
 .main-dashboard {
   display: flex;

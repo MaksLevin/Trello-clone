@@ -1,5 +1,5 @@
-@import "src/styles/mixins/mixins";
-@import "src/styles/variables";
+@import "_mixins";
+@import "_variables";
 
 .header {
   display: flex;
@@ -31,8 +31,4 @@
   &-name {
     color: $color-basic;
   }
-}
-
-.button-logout {
-  color: $color-primary;
 }

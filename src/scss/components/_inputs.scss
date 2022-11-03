@@ -1,0 +1,6 @@
+@import "mixins";
+@import "variables";
+
+.edit-input {
+  @include input($color-basic, $color-primary);
+}

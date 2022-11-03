@@ -1,5 +1,6 @@
-@import "src/styles/mixins/mixins";
-@import "src/styles/variables";
+@import "_mixins";
+@import "_variables";
+
 .board {
   display: flex;
   flex-wrap: wrap;

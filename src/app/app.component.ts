@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
+
 import { userAuthSelector } from './store/user-auth';
 
 @Component({
@@ -13,7 +14,5 @@ export class AppComponent {
 
   constructor(private store: Store) {}
 
-  isHeaderVisibility$ = this.store
-    .select(userAuthSelector.selectGetUserAuthId)
-    .pipe((id) => !!id as unknown as Observable<boolean>);
+  isHeaderVisibility$ = this.store.select(userAuthSelector.selectGetUserAuthId);
 }
