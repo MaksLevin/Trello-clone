@@ -10,4 +10,4 @@ import { SharedModule } from '@app/shared/shared.module';
   imports: [CommonModule, LoginRoutingModule, SharedModule],
   exports: [AuthComponent],
 })
-export class LoginModule {}
+export class AuthModule {}

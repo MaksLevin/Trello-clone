@@ -17,7 +17,7 @@ export class HeaderComponent {
 
   constructor(private auth: AuthService, private router: Router, private store: Store) {}
 
-  switchToDashboard() {
+  switchToDashboard(): void {
     this.router.navigate(['/dashboard']);
   }
 

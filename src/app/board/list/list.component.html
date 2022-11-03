@@ -9,7 +9,8 @@
 <ng-template #editTitle>
   <input
     #inputTitle
-    class="edit-input list-input"
+    matInput
+    class="list-input mt-5 mb-5"
     placeholder="title"
     [value]="listTitle"
     (keyup.enter)="sendEditableListTitle(listId, inputTitle.value)"

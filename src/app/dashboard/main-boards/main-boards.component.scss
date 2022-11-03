@@ -1,5 +1,5 @@
-@import "_mixins";
-@import "_variables";
+@import "mixins";
+@import "variables";
 
 :host {
   display: flex;
@@ -22,7 +22,7 @@
 }
 
 .main-board-input {
-  margin: 5px 0;
+  border-bottom: 1px solid $color-basic !important;
 }
 
 .main-board-link {

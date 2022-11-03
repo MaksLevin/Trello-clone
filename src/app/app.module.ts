@@ -17,7 +17,7 @@ import * as authActions from '@app/store/user-auth/user-auth.action';
 import * as authSelectors from '@app/store/user-auth/user-auth.selector';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginModule } from '@app/auth/auth.module';
+import { AuthModule } from '@app/auth/auth.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { UserAuthStoreModule } from '@app/store/user-auth';
 import { environment } from '../environments/environment';
@@ -49,7 +49,7 @@ const appInitFactory = (auth: AngularFireAuth, store: Store): (() => Observable<
     AngularFireStorageModule,
     BrowserAnimationsModule,
     SharedModule,
-    LoginModule,
+    AuthModule,
     DashboardModule,
     HeaderModule,
     StoreModule.forRoot({}, {}),

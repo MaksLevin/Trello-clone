@@ -32,8 +32,6 @@ export class MainBoardsComponent {
   isTitleEditMode: boolean = false;
   isDescriptionEditMode: boolean = false;
 
-  constructor() {}
-
   toggleTitleEditMode(): void {
     this.isTitleEditMode = true;
 

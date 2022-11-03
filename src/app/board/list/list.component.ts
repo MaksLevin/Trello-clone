@@ -18,8 +18,6 @@ export class ListComponent {
 
   isTitleEditMode: boolean = false;
 
-  constructor() {}
-
   toggleTitleEditMode(): void {
     this.isTitleEditMode = true;
 
