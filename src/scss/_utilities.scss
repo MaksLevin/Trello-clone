@@ -5,4 +5,18 @@
   .mb-#{$value} {
     margin-bottom: #{$value}px !important;
   }
+  .ml-#{$value} {
+    margin-left: #{$value}px;
+  }
+  .mr-#{$value} {
+    margin-right: #{$value}px;
+  }
+  .ml-mr-#{$value} {
+    margin-left: #{$value}px;
+    margin-right: #{$value}px;
+  }
+  .mt-mb-#{$value} {
+    margin-top: #{$value}px;
+    margin-bottom: #{$value}px;
+  }
 }

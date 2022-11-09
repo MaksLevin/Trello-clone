@@ -11,20 +11,42 @@
   align-self: flex-end;
 }
 
-.main-board-title {
-  margin: 10px 0 20px 0;
-}
-
 .main-board-actions {
   display: flex;
   align-self: flex-end;
   margin-top: auto;
 }
 
-.main-board-input {
-  border-bottom: 1px solid $color-basic !important;
+.main-board-field
+  .mat-form-field-wrapper
+  .mat-form-field-flex
+  .mat-form-field-infix
+  .mat-form-field-label-wrapper
+  .mat-form-field-label
+  .ng-tns-c96-3.ng-star-inserted {
+  color: $color-basic !important;
+  border-color: $color-basic !important;
 }
 
 .main-board-link {
   align-self: flex-end;
+}
+
+.main-board-field .main-board-field-title {
+  color: $color-basic;
+}
+
+:host::ng-deep {
+  .mat-form-field-appearance-legacy .mat-form-field-underline {
+    background-color: $color-basic !important;
+  }
+
+  .mat-form-field.mat-focused .mat-form-field-ripple {
+    height: 1px;
+    background-color: $color-basic;
+  }
+}
+
+.mat-input-element {
+  caret-color: $color-basic;
 }

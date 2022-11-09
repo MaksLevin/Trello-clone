@@ -21,15 +21,9 @@
   }
 }
 
-.form {
-  &-wrapper {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &-field {
-    margin-top: 13px;
-  }
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
 .wrapper-menu-button {
@@ -72,8 +66,4 @@
 
 .error-nowrap {
   white-space: nowrap;
-}
-
-.button-login {
-  margin-top: 25px;
 }

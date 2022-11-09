@@ -31,7 +31,7 @@
       <!-- /Subtitle -->
 
       <!-- Email field-->
-      <mat-form-field class="form-field" appearance="fill">
+      <mat-form-field class="mt-15" appearance="fill">
         <mat-label>Enter your email</mat-label>
 
         <input matInput formControlName="email" placeholder="pat@example.com" />
@@ -44,7 +44,7 @@
       <!-- /Email field-->
 
       <!-- Username field -->
-      <mat-form-field *ngIf="!isLogin" class="form-field" appearance="fill">
+      <mat-form-field *ngIf="!isLogin" class="mt-15" appearance="fill">
         <mat-label>Username</mat-label>
 
         <input matInput formControlName="username" placeholder="max123" />
@@ -63,7 +63,7 @@
       <!-- /Username field -->
 
       <!-- Password field -->
-      <mat-form-field class="form-field" appearance="fill">
+      <mat-form-field class="mt-15" appearance="fill">
         <mat-label>Enter your password</mat-label>
 
         <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" />
@@ -94,7 +94,7 @@
       <button
         *ngIf="isLogin"
         mat-raised-button
-        class="button-primary button-login"
+        class="button-primary mt-25"
         [disabled]="!loginForm.valid"
         (click)="login()"
       >
@@ -104,7 +104,7 @@
       <button
         *ngIf="!isLogin"
         mat-raised-button
-        class="button-primary button-login"
+        class="button-primary mt-25"
         [disabled]="!loginForm.valid"
         (click)="registration()"
       >
