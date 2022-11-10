@@ -11,11 +11,11 @@
   .mr-#{$value} {
     margin-right: #{$value}px;
   }
-  .ml-mr-#{$value} {
+  .mx-#{$value} {
     margin-left: #{$value}px;
     margin-right: #{$value}px;
   }
-  .mt-mb-#{$value} {
+  .my-#{$value} {
     margin-top: #{$value}px;
     margin-bottom: #{$value}px;
   }
