@@ -21,17 +21,6 @@
   color: $color-basic;
 }
 
-:host::ng-deep {
-  .mat-form-field-appearance-legacy .mat-form-field-underline {
-    background-color: $color-basic;
-  }
-
-  .mat-form-field.mat-focused .mat-form-field-ripple {
-    height: 1px;
-    background-color: $color-basic;
-  }
-}
-
 .mat-input-element {
   caret-color: $color-basic;
 }
