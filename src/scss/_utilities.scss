@@ -1,0 +1,22 @@
+@each $value in 5, 10, 15, 20, 25 {
+  .mt-#{$value} {
+    margin-top: #{$value}px !important;
+  }
+  .mb-#{$value} {
+    margin-bottom: #{$value}px !important;
+  }
+  .ml-#{$value} {
+    margin-left: #{$value}px;
+  }
+  .mr-#{$value} {
+    margin-right: #{$value}px;
+  }
+  .mx-#{$value} {
+    margin-left: #{$value}px;
+    margin-right: #{$value}px;
+  }
+  .my-#{$value} {
+    margin-top: #{$value}px;
+    margin-bottom: #{$value}px;
+  }
+}

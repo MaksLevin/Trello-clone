@@ -1,6 +1,6 @@
-import { baseModel } from './baseModel.model';
+import { BaseModel } from './base-model.model';
 
-export interface List extends baseModel {
+export interface List extends BaseModel {
   mainBoardId: string;
   title: string;
 }

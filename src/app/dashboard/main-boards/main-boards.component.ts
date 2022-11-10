@@ -8,13 +8,13 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { MainBoard } from '@src/app/core/models';
+import { MainBoard } from '@app/core/models';
 
 @Component({
   selector: 'app-main-boards',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './mainboards.component.html',
-  styleUrls: ['./mainboards.component.scss'],
+  templateUrl: './main-boards.component.html',
+  styleUrls: ['./main-boards.component.scss'],
 })
 export class MainBoardsComponent {
   @Input() boardId!: string;
@@ -31,8 +31,6 @@ export class MainBoardsComponent {
 
   isTitleEditMode: boolean = false;
   isDescriptionEditMode: boolean = false;
-
-  constructor() {}
 
   toggleTitleEditMode(): void {
     this.isTitleEditMode = true;

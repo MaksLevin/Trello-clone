@@ -1,6 +1,6 @@
-import { baseModel } from './baseModel.model';
+import { BaseModel } from './base-model.model';
 
-export interface User extends baseModel {
+export interface User extends BaseModel {
   username: string;
   email: string | null;
   profilePhoto?: string;

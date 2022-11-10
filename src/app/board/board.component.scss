@@ -13,20 +13,6 @@
   flex-wrap: wrap;
 }
 
-.breadcrumbs {
-  display: flex;
-  justify-content: center;
-  margin-top: 40px;
-
-  &-button {
-    margin: 0;
-    padding: 15px;
-    text-decoration: none;
-    color: $color-basic;
-    background-color: $color-primary;
-  }
-}
-
 .list {
   display: flex;
   flex-direction: column;

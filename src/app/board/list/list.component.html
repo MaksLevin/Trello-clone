@@ -3,17 +3,20 @@
 </button>
 
 <mat-card-title *ngIf="!isTitleEditMode; else editTitle">
-  <h4 class="list-title" (click)="toggleTitleEditMode()">{{ listTitle }}</h4>
+  <h4 class="mt-10 mb-20" (click)="toggleTitleEditMode()">{{ listTitle }}</h4>
 </mat-card-title>
 
 <ng-template #editTitle>
-  <input
-    #inputTitle
-    class="list-input"
-    placeholder="title"
-    [value]="listTitle"
-    (keyup.enter)="sendEditableListTitle(listId, inputTitle.value)"
-  />
+  <mat-form-field class="list-field">
+    <mat-label class="list-field-title">Title</mat-label>
+    <input
+      #inputTitle
+      matInput
+      placeholder="title"
+      [value]="listTitle"
+      (keyup.enter)="sendEditableListTitle(listId, inputTitle.value)"
+    />
+  </mat-form-field>
 </ng-template>
 
 <mat-card-content class="list-content">
@@ -22,7 +25,7 @@
 
 <mat-card-actions class="list-actions">
   <button
-    class="button-cancel"
+    class="button-primary"
     mat-button
     [ngStyle]="{ display: isTitleEditMode ? 'block' : 'none' }"
     (click)="cancelListEdit()"

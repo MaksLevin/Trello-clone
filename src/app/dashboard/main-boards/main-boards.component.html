@@ -8,17 +8,20 @@
 </button>
 
 <mat-card-title *ngIf="!isTitleEditMode; else editTitle">
-  <h4 class="main-board-title" (click)="toggleTitleEditMode()">{{ boardTitle }}</h4>
+  <h4 class="mt-10 mb-20" (click)="toggleTitleEditMode()">{{ boardTitle }}</h4>
 </mat-card-title>
 
 <ng-template #editTitle>
-  <input
-    #inputTitle
-    class="main-board-input"
-    placeholder="title"
-    [value]="boardTitle"
-    (keyup.enter)="sendEditableBoardTitle(boardId, inputTitle.value)"
-  />
+  <mat-form-field class="main-board-field">
+    <mat-label class="main-board-field-title">Title</mat-label>
+    <input
+      #inputTitle
+      matInput
+      placeholder="title"
+      [value]="boardTitle"
+      (keyup.enter)="sendEditableBoardTitle(boardId, inputTitle.value)"
+    />
+  </mat-form-field>
 </ng-template>
 
 <mat-card-content class="main-board-content" *ngIf="!isDescriptionEditMode; else editDescription">
@@ -26,18 +29,21 @@
 </mat-card-content>
 
 <ng-template #editDescription>
-  <input
-    #inputDescription
-    class="main-board-input"
-    placeholder="description"
-    [value]="boardDescription"
-    (keyup.enter)="sendEditableBoardDescription(boardId, inputDescription.value)"
-  />
+  <mat-form-field class="main-board-field">
+    <mat-label class="main-board-field-title">Description</mat-label>
+    <input
+      #inputDescription
+      matInput
+      placeholder="description"
+      [value]="boardDescription"
+      (keyup.enter)="sendEditableBoardDescription(boardId, inputDescription.value)"
+    />
+  </mat-form-field>
 </ng-template>
 
 <mat-card-actions class="main-board-actions">
   <button
-    class="button-cancel"
+    class="button-primary"
     mat-button
     [ngStyle]="{ display: isTitleEditMode || isDescriptionEditMode ? 'block' : 'none' }"
     (click)="cancelBoardEdit()"
@@ -47,7 +53,7 @@
 
   <button
     mat-button
-    class="main-board-link"
+    class="button-primary main-board-link"
     [ngStyle]="{ display: isTitleEditMode || isDescriptionEditMode ? 'none' : 'block' }"
     (click)="openBoardId(boardId)"
   >

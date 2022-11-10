@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { map, Observable } from 'rxjs';
+
+import { userAuthSelector } from './store/user-auth';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +12,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Trello-clone';
 
-  constructor() {}
+  constructor(private store: Store) {}
+
+  isHeaderVisibility$ = this.store.select(userAuthSelector.selectGetUserAuthId);
 }

@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
-import { List } from '@src/app/core/models';
+import { List } from '@app/core/models';
 
 @Component({
   selector: 'app-list',
@@ -17,8 +17,6 @@ export class ListComponent {
   @ViewChild('inputTitle') inputTitle!: ElementRef<HTMLInputElement>;
 
   isTitleEditMode: boolean = false;
-
-  constructor() {}
 
   toggleTitleEditMode(): void {
     this.isTitleEditMode = true;

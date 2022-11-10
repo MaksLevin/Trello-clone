@@ -1,0 +1,10 @@
+.mat-form-field.list-field.mat-form-field-appearance-legacy .mat-form-field-underline,
+.mat-form-field.main-board-field.mat-form-field-appearance-legacy .mat-form-field-underline {
+  background-color: $color-basic;
+}
+
+.mat-form-field.list-field.mat-focused .mat-form-field-ripple,
+.mat-form-field.main-board-field.mat-focused .mat-form-field-ripple {
+  height: 1px;
+  background-color: $color-basic;
+}

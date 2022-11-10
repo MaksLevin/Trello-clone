@@ -7,7 +7,7 @@ import { firstValueFrom, Observable } from 'rxjs';
 import { User } from '@app/core/models';
 import { FireAuthErrorService } from '@app/core/services';
 import { FirestoreService } from '@app/core/services';
-import * as authActions from '@app/store/user-auth/user-auth.action';
+import { userAuthAction } from '@app/store/user-auth';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +31,7 @@ export class AuthService {
   }
 
   async logoutUser(): Promise<void> {
-    this.store.dispatch(authActions.logoutAuthUser());
+    this.store.dispatch(userAuthAction.logoutAuthUser());
   }
 
   async signIn(email: string, password: string): Promise<void> {
@@ -39,7 +39,7 @@ export class AuthService {
       await this.auth.signInWithEmailAndPassword(email, password);
 
       this.store.dispatch(
-        authActions.getAuthUserSuccess({
+        userAuthAction.getAuthUserSuccess({
           user: await firstValueFrom(this.getAuthUser()),
         })
       );
@@ -60,7 +60,7 @@ export class AuthService {
       this.firestoreService.setCollection('users', userUid, { ...user, id: userUid });
 
       this.store.dispatch(
-        authActions.getAuthUserSuccess({
+        userAuthAction.getAuthUserSuccess({
           user: await firstValueFrom(this.getAuthUser()),
         })
       );

@@ -9,11 +9,6 @@
 
 .button-delete {
   align-self: flex-end;
-  color: $color-basic;
-}
-
-.list-title {
-  margin: 10px 20px 0;
 }
 
 .list-actions {
@@ -22,16 +17,10 @@
   margin-top: auto;
 }
 
-.list-input {
+.list-field .list-field-title {
   color: $color-basic;
-  background-color: $color-primary;
-  outline: none;
-  border: none;
-  border-bottom: 1px solid $color-basic;
-  margin: 5px 0;
 }
 
-.button-cancel,
-.button-add {
-  text-transform: uppercase;
+.mat-input-element {
+  caret-color: $color-basic;
 }
