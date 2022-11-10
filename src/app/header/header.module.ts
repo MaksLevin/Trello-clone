@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { HeaderComponent } from './header.component';
-import { MaterialModule } from '@app/shared/material.module';
+import { MaterialModule } from '@app/shared/material/material.module';
 
 @NgModule({
   declarations: [HeaderComponent],

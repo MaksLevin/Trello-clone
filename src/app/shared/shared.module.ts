@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MaterialModule } from './material.module';
+import { MaterialModule } from './material/material.module';
+import { DialogModalComponent } from './dialog-modal/dialog-modal.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    DialogModalComponent
+  ],
   imports: [CommonModule],
   exports: [MaterialModule],
 })

@@ -11,6 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [],
@@ -27,6 +28,7 @@ import { MatCardModule } from '@angular/material/card';
     MatChipsModule,
     MatSnackBarModule,
     MatCardModule,
+    MatDialogModule,
   ],
 })
 export class MaterialModule {}
