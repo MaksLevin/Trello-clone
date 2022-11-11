@@ -5,10 +5,8 @@ import { MaterialModule } from './material/material.module';
 import { DialogModalComponent } from './dialog-modal/dialog-modal.component';
 
 @NgModule({
-  declarations: [
-    DialogModalComponent
-  ],
-  imports: [CommonModule],
+  declarations: [DialogModalComponent],
+  imports: [CommonModule, MaterialModule],
   exports: [MaterialModule],
 })
 export class SharedModule {}

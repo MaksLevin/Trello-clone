@@ -6,6 +6,8 @@ import { Observable, Subscription } from 'rxjs';
 import { BoardsService } from '@app/core/services';
 import { List } from '@app/core/models';
 import { listTitleValidationErrors } from '@app/core/constants';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogModalComponent } from '@app/shared/dialog-modal/dialog-modal.component';
 
 @Component({
   selector: 'app-board',
@@ -22,7 +24,11 @@ export class BoardComponent implements OnInit, OnDestroy {
   listForm!: FormGroup;
   titleError: { isRequired: string } = listTitleValidationErrors;
 
-  constructor(private route: ActivatedRoute, private boardService: BoardsService) {
+  constructor(
+    private route: ActivatedRoute,
+    private boardService: BoardsService,
+    private dialog: MatDialog
+  ) {
     this.routeSubscription = this.route.params.subscribe(
       (params) => (this.mainBoardId = params['id'])
     );
@@ -32,8 +38,29 @@ export class BoardComponent implements OnInit, OnDestroy {
     return this.listForm.get(field)?.hasError('required');
   }
 
-  deleteList(listId: string): Promise<void> {
-    return this.boardService.deleteList(listId);
+  openConfirmationDialog(
+    listId: string,
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
+    const dialogRef = this.dialog.open(DialogModalComponent, {
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        message: 'Are you sure want to delete?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        return this.boardService.deleteList(listId);
+      }
+      return;
+    });
+  }
+
+  deleteList(listId: string): void {
+    return this.openConfirmationDialog(listId, '300ms', '150ms');
   }
 
   saveEditableListTitle({ id, title }: Partial<List>): Promise<void> {
