@@ -7,21 +7,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./dialog-modal.component.scss'],
 })
 export class DialogModalComponent {
-  name: string = 'board';
-  message: string = 'Are you sure want to delete?';
-
   constructor(
     public dialogRef: MatDialogRef<DialogModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    this.message = data.message;
-  }
-
-  onConfirmClick(): void {
-    this.dialogRef.close(true);
-  }
-
-  onCancelClick(): void {
-    this.dialogRef.close(false);
-  }
+  ) {}
 }

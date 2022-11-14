@@ -3,13 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { firstValueFrom, Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 
 import { MainBoard } from '@app/core/models';
 import { userAuthSelector } from '@app/store/user-auth';
-import { MainBoardsService } from '@app/core/services';
+import { DialogService, MainBoardsService } from '@app/core/services';
 import { boardTitleValidationErrors } from '@app/core/constants';
-import { DialogModalComponent } from '@app/shared/dialog-modal/dialog-modal.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,7 +24,7 @@ export class DashboardComponent implements OnInit {
     private store: Store,
     private router: Router,
     private mainBoardsService: MainBoardsService,
-    private dialog: MatDialog
+    private dialog: DialogService
   ) {}
 
   isRequired(field: string): boolean | undefined {
@@ -47,29 +45,8 @@ export class DashboardComponent implements OnInit {
     return this.mainBoardsService.updateMainBoardDescription(id, description);
   }
 
-  openConfirmationDialog(
-    boardId: string,
-    enterAnimationDuration: string,
-    exitAnimationDuration: string
-  ): void {
-    const dialogRef = this.dialog.open(DialogModalComponent, {
-      enterAnimationDuration,
-      exitAnimationDuration,
-      data: {
-        message: 'Are you sure want to delete?',
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        return this.mainBoardsService.deleteMainBoard(boardId);
-      }
-      return;
-    });
-  }
-
   deleteBoard(boardId: string): void {
-    return this.openConfirmationDialog(boardId, '300ms', '150ms');
+    return this.dialog.openConfirmationDialog('mainBoards', boardId, '300ms', '150ms');
   }
 
   switchToBoard(boardId: string): void {
