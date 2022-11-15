@@ -25,7 +25,7 @@ export class FirestoreService {
   ): Observable<T[]> {
     const collectionRef = this.angularFirestore.collection<T>(collection, (ref) => {
       let refBuilder;
-      refBuilder = ref.where(field, '==', value);
+      refBuilder = ref.where(field, '==', value).orderBy('createdOn', 'asc');
       return refBuilder;
     });
 
