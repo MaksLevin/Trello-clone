@@ -22,6 +22,10 @@ export class BoardsService {
     return this.firestoreService.updateDocumentField('lists', listId, 'title', titleValue);
   }
 
+  deleteList(listId: string): Promise<void> {
+    return this.firestoreService.deleteDocument('lists', listId);
+  }
+
   getPushId(): string {
     return this.firestoreService.createId();
   }
