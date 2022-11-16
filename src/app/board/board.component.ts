@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { firstValueFrom, Observable, Subscription } from 'rxjs';
 
-import { BoardsService } from '@app/core/services';
+import { BoardsService, DialogService } from '@app/core/services';
 import { List } from '@app/core/models';
-import { listTitleValidationErrors } from '@app/core/constants';
+import { deleteMessage, listTitleValidationErrors } from '@app/core/constants';
+import { DialogModalComponent } from '@app/shared';
 
 @Component({
   selector: 'app-board',
@@ -22,7 +23,11 @@ export class BoardComponent implements OnInit, OnDestroy {
   listForm!: FormGroup;
   titleError: { isRequired: string } = listTitleValidationErrors;
 
-  constructor(private route: ActivatedRoute, private boardService: BoardsService) {
+  constructor(
+    private route: ActivatedRoute,
+    private boardService: BoardsService,
+    private dialog: DialogService
+  ) {
     this.routeSubscription = this.route.params.subscribe(
       (params) => (this.mainBoardId = params['id'])
     );
@@ -32,8 +37,14 @@ export class BoardComponent implements OnInit, OnDestroy {
     return this.listForm.get(field)?.hasError('required');
   }
 
-  deleteList(listId: string): Promise<void> {
-    return this.boardService.deleteList(listId);
+  async deleteList(listId: string): Promise<void> {
+    const result = this.dialog.openConfirmationDialog({
+      typeDialog: DialogModalComponent,
+      message: deleteMessage,
+    });
+    if (await firstValueFrom(result)) {
+      this.boardService.deleteList(listId);
+    }
   }
 
   saveEditableListTitle({ id, title }: Partial<List>): Promise<void> {

@@ -6,8 +6,9 @@ import { Router } from '@angular/router';
 
 import { MainBoard } from '@app/core/models';
 import { userAuthSelector } from '@app/store/user-auth';
-import { MainBoardsService } from '@app/core/services';
-import { boardTitleValidationErrors } from '@app/core/constants';
+import { DialogService, MainBoardsService } from '@app/core/services';
+import { boardTitleValidationErrors, deleteMessage } from '@app/core/constants';
+import { DialogModalComponent } from '@app/shared';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +24,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private store: Store,
     private router: Router,
-    private mainBoardsService: MainBoardsService
+    private mainBoardsService: MainBoardsService,
+    private dialog: DialogService
   ) {}
 
   isRequired(field: string): boolean | undefined {
@@ -44,8 +46,14 @@ export class DashboardComponent implements OnInit {
     return this.mainBoardsService.updateMainBoardDescription(id, description);
   }
 
-  deleteBoard(boardId: string): Promise<void> {
-    return this.mainBoardsService.deleteMainBoard(boardId);
+  async deleteBoard(boardId: string): Promise<void> {
+    const result = this.dialog.openConfirmationDialog({
+      typeDialog: DialogModalComponent,
+      message: deleteMessage,
+    });
+    if (await firstValueFrom(result)) {
+      this.mainBoardsService.deleteMainBoard(boardId);
+    }
   }
 
   switchToBoard(boardId: string): void {
