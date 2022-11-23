@@ -8,7 +8,7 @@
 </button>
 
 <mat-card-title *ngIf="!isTitleEditMode; else editTitle">
-  <h4 class="mt-10 mb-20" (click)="toggleTitleEditMode()">{{ boardTitle }}</h4>
+  <h4 class="mt-10 mb-20" (click)="toggleTitleEditMode(boardId)">{{ boardTitle }}</h4>
 </mat-card-title>
 
 <ng-template #editTitle>
@@ -25,7 +25,7 @@
 </ng-template>
 
 <mat-card-content class="main-board-content" *ngIf="!isDescriptionEditMode; else editDescription">
-  <p (click)="toggleDescriptionEditMode()">{{ boardDescription }}</p>
+  <p (click)="toggleDescriptionEditMode(boardId)">{{ boardDescription }}</p>
 </mat-card-content>
 
 <ng-template #editDescription>

@@ -15,6 +15,7 @@ import { DialogModalComponent } from '@app/shared';
 })
 export class BoardComponent implements OnInit, OnDestroy {
   mainBoardId!: string;
+  currentTitleId!: string;
 
   routeSubscription: Subscription;
 
@@ -45,6 +46,10 @@ export class BoardComponent implements OnInit, OnDestroy {
     if (await firstValueFrom(result)) {
       this.boardService.deleteList(listId);
     }
+  }
+
+  setTitleEditMode(boardId: string): string {
+    return (this.currentTitleId = boardId);
   }
 
   saveEditableListTitle({ id, title }: Partial<List>): Promise<void> {

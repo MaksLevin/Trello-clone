@@ -3,7 +3,7 @@
 </button>
 
 <mat-card-title *ngIf="!isTitleEditMode; else editTitle">
-  <h4 class="mt-10 mb-20" (click)="toggleTitleEditMode()">{{ listTitle }}</h4>
+  <h4 class="mt-10 mb-20" (click)="toggleTitleEditMode(listId)">{{ listTitle }}</h4>
 </mat-card-title>
 
 <ng-template #editTitle>

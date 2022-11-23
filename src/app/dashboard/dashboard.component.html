@@ -7,10 +7,14 @@
             [boardId]="board.id"
             [boardTitle]="board.title"
             [boardDescription]="board.description"
+            [isTitleEditMode]="currentTitleId === board.id"
+            [isDescriptionEditMode]="currentDescriptionId === board.id"
             (deleteBoard)="deleteBoard($event)"
             (switchToBoard)="switchToBoard($event)"
             (saveEditableBoardTitle)="saveEditableBoardTitle($event)"
             (saveEditableBoardDescription)="saveEditableBoardDescription($event)"
+            (setTitleEditMode)="setTitleEditMode($event)"
+            (setDescriptionEditMode)="setDescriptionEditMode($event)"
           ></app-main-boards>
         </mat-card>
       </ng-container>

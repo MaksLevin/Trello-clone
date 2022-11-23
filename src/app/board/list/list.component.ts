@@ -10,16 +10,16 @@ import { List } from '@app/core/models';
 export class ListComponent {
   @Input() listId!: string;
   @Input() listTitle!: string;
+  @Input() isTitleEditMode!: boolean;
 
   @Output() deleteList = new EventEmitter<string>();
   @Output() saveEditableListTitle = new EventEmitter<Partial<List>>();
+  @Output() setTitleEditMode = new EventEmitter<string>();
 
   @ViewChild('inputTitle') inputTitle!: ElementRef<HTMLInputElement>;
 
-  isTitleEditMode: boolean = false;
-
-  toggleTitleEditMode(): void {
-    this.isTitleEditMode = true;
+  toggleTitleEditMode(listId: string): void {
+    this.setTitleEditMode.emit(listId);
 
     setTimeout(() => {
       this.inputTitle.nativeElement.focus();
@@ -27,7 +27,7 @@ export class ListComponent {
   }
 
   sendEditableListTitle(id: string, title: string): void {
-    this.isTitleEditMode = false;
+    this.setTitleEditMode.emit('');
 
     this.saveEditableListTitle.emit({ id, title });
   }
@@ -37,6 +37,6 @@ export class ListComponent {
   }
 
   cancelListEdit(): void {
-    this.isTitleEditMode = false;
+    this.setTitleEditMode.emit('');
   }
 }

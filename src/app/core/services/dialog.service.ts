@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { ComponentType } from '@angular/cdk/portal';
 import { DialogModel } from '../models';
 import { Observable, take } from 'rxjs';
 
