@@ -6,8 +6,10 @@
           <app-list
             [listId]="list.id"
             [listTitle]="list.title"
+            [isTitleEditMode]="currentTitleId === list.id"
             (deleteList)="deleteList($event)"
             (saveEditableListTitle)="saveEditableListTitle($event)"
+            (setTitleEditMode)="setTitleEditMode($event)"
           ></app-list>
         </mat-card>
       </ng-container>

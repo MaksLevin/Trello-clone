@@ -21,6 +21,9 @@ export class DashboardComponent implements OnInit {
   mainBoardsForm!: FormGroup;
   titleError: { isRequired: string } = boardTitleValidationErrors;
 
+  currentTitleId!: string;
+  currentDescriptionId!: string;
+
   constructor(
     private store: Store,
     private router: Router,
@@ -30,6 +33,14 @@ export class DashboardComponent implements OnInit {
 
   isRequired(field: string): boolean | undefined {
     return this.mainBoardsForm.get(field)?.hasError('required');
+  }
+
+  setTitleEditMode(boardId: string): string {
+    return (this.currentTitleId = boardId);
+  }
+
+  setDescriptionEditMode(boardId: string): string {
+    return (this.currentDescriptionId = boardId);
   }
 
   saveEditableBoardTitle({ id, title }: Partial<MainBoard>): Promise<void> {

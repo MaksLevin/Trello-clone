@@ -20,28 +20,29 @@ export class MainBoardsComponent {
   @Input() boardId!: string;
   @Input() boardTitle!: string;
   @Input() boardDescription!: string | undefined;
+  @Input() isTitleEditMode!: boolean;
+  @Input() isDescriptionEditMode!: boolean;
 
   @Output() deleteBoard = new EventEmitter<string>();
   @Output() switchToBoard = new EventEmitter<string>();
+  @Output() setTitleEditMode = new EventEmitter<string>();
+  @Output() setDescriptionEditMode = new EventEmitter<string>();
   @Output() saveEditableBoardTitle = new EventEmitter<Partial<MainBoard>>();
   @Output() saveEditableBoardDescription = new EventEmitter<Partial<MainBoard>>();
 
   @ViewChild('inputTitle') inputTitle!: ElementRef<HTMLInputElement>;
   @ViewChild('inputDescription') inputDescription!: ElementRef<HTMLInputElement>;
 
-  isTitleEditMode: boolean = false;
-  isDescriptionEditMode: boolean = false;
-
-  toggleTitleEditMode(): void {
-    this.isTitleEditMode = true;
+  toggleTitleEditMode(boardId: string): void {
+    this.setTitleEditMode.emit(boardId);
 
     setTimeout(() => {
       this.inputTitle.nativeElement.focus();
     }, 0);
   }
 
-  toggleDescriptionEditMode(): void {
-    this.isDescriptionEditMode = true;
+  toggleDescriptionEditMode(boardId: string): void {
+    this.setDescriptionEditMode.emit(boardId);
 
     setTimeout(() => {
       this.inputDescription.nativeElement.focus();
@@ -57,19 +58,18 @@ export class MainBoardsComponent {
   }
 
   sendEditableBoardTitle(id: string, title: string): void {
-    this.isTitleEditMode = false;
+    this.setTitleEditMode.emit('');
 
     this.saveEditableBoardTitle.emit({ id, title });
   }
 
   sendEditableBoardDescription(id: string, description: string | undefined): void {
-    this.isDescriptionEditMode = false;
+    this.setDescriptionEditMode.emit('');
 
     this.saveEditableBoardDescription.emit({ id, description });
   }
 
   cancelBoardEdit(): void {
-    this.isTitleEditMode = false;
-    this.isDescriptionEditMode = false;
+    this.isTitleEditMode ? this.setTitleEditMode.emit('') : this.setDescriptionEditMode.emit('');
   }
 }
