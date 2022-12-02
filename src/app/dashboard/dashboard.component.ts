@@ -9,6 +9,7 @@ import { userAuthSelector } from '@app/store/user-auth';
 import { DialogService, MainBoardsService } from '@app/core/services';
 import { boardTitleValidationErrors, deleteMessage } from '@app/core/constants';
 import { DialogModalComponent } from '@app/shared';
+import { trackById } from '@app/core/utils';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,8 @@ import { DialogModalComponent } from '@app/shared';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+  trackById = trackById;
+
   boards$!: Observable<MainBoard[]>;
 
   mainBoardsForm!: FormGroup;
@@ -43,14 +46,17 @@ export class DashboardComponent implements OnInit {
     return (this.currentDescriptionId = boardId);
   }
 
-  saveEditableBoardTitle({ id, title }: Partial<MainBoard>): Promise<void> {
+  saveEditableBoardTitle({ id, title }: Partial<MainBoard>): Promise<void> | Promise<Object> {
     if (!id) {
       return Promise.resolve();
     }
     return this.mainBoardsService.updateMainBoardTitle(id, title);
   }
 
-  saveEditableBoardDescription({ id, description }: Partial<MainBoard>): Promise<void> {
+  saveEditableBoardDescription({
+    id,
+    description,
+  }: Partial<MainBoard>): Promise<void> | Promise<Object> {
     if (!id) {
       return Promise.resolve();
     }
@@ -85,7 +91,7 @@ export class DashboardComponent implements OnInit {
       createdOn: new Date(),
     };
 
-    await this.mainBoardsService.createNewMainBoards(mainBoard, pushId);
+    await this.mainBoardsService.createNewMainBoards(mainBoard);
 
     this.mainBoardsForm.reset();
   }
@@ -95,7 +101,9 @@ export class DashboardComponent implements OnInit {
       this.store.select(userAuthSelector.selectGetUserAuthId)
     );
 
-    this.boards$ = this.mainBoardsService.getMainBoards(userId);
+    this.mainBoardsService.getMainBoards(userId);
+
+    this.boards$ = this.mainBoardsService.mainBoards;
   }
 
   ngOnInit(): void {

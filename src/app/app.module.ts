@@ -12,6 +12,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { select, Store } from '@ngrx/store';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { combineLatest, Observable, takeWhile, tap } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
 
 import * as authActions from '@app/store/user-auth/user-auth.action';
 import * as authSelectors from '@app/store/user-auth/user-auth.selector';
@@ -47,6 +48,7 @@ const appInitFactory = (auth: AngularFireAuth, store: Store): (() => Observable<
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     SharedModule,
     AuthModule,

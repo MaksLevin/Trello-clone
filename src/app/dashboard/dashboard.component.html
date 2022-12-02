@@ -2,7 +2,10 @@
   <div class="main-dashboard-wrapper">
     <div class="drag-wrapper">
       <ng-container *ngIf="boards$ | async as boards">
-        <mat-card *ngFor="let board of boards" class="main-board">
+        <mat-card
+          *ngFor="let board of boards; trackBy: trackById; let index = index"
+          class="main-board"
+        >
           <app-main-boards
             [boardId]="board.id"
             [boardTitle]="board.title"
