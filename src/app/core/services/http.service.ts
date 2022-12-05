@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, firstValueFrom } from 'rxjs';
 
-import { databasePath } from '../constants';
+import { databasePath } from '@app/core/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +23,7 @@ export class HttpService {
       .get<T[]>(`${databasePath}${collection}`)
       .pipe(
         map((dataArray) =>
-          dataArray.filter((dataObject: any) => dataObject[field as any] === value)
+          dataArray.filter((dataObject: any) => dataObject[field as string] === value)
         )
       );
   }
@@ -33,23 +33,19 @@ export class HttpService {
     documentId: string,
     documentField: string,
     documentFieldValue: string | undefined
-  ): Promise<Object> {
-    return await firstValueFrom(
+  ): Promise<void> {
+    await firstValueFrom(
       this.http.patch(`${databasePath}${collection}/${documentId}`, {
         [documentField]: documentFieldValue,
       })
     );
   }
 
-  async deleteDocument(collection: string, documentId: string): Promise<Object> {
-    return await firstValueFrom(this.http.delete(`${databasePath}${collection}/` + documentId));
+  async deleteDocument(collection: string, documentId: string): Promise<void> {
+    await firstValueFrom(this.http.delete(`${databasePath}${collection}/` + documentId));
   }
 
   createId(): string {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = (Math.random() * 16) | 0,
-        v = c == 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
   }
 }

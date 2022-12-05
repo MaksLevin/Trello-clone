@@ -28,10 +28,10 @@ export class MainBoardsService {
       'userUid',
       userAuthUid
     );
-    this.sourceMainBoards.next(await firstValueFrom(result as unknown as Observable<MainBoard[]>));
+    this.sourceMainBoards.next(await firstValueFrom(result as Observable<MainBoard[]>));
   }
 
-  async updateMainBoardTitle(boardId: string, titleValue: string | undefined): Promise<Object> {
+  async updateMainBoardTitle(boardId: string, titleValue: string | undefined): Promise<void> {
     const result = this.mainBoards.pipe(
       map((array) =>
         array.map(function (element) {
@@ -51,7 +51,7 @@ export class MainBoardsService {
   async updateMainBoardDescription(
     boardId: string,
     descriptionValue: string | undefined
-  ): Promise<Object> {
+  ): Promise<void> {
     const result = this.mainBoards.pipe(
       map((array) =>
         array.map(function (element) {
@@ -73,7 +73,7 @@ export class MainBoardsService {
     );
   }
 
-  async deleteMainBoard(idBoard: string): Promise<Object> {
+  async deleteMainBoard(idBoard: string): Promise<void> {
     const result = this.mainBoards.pipe(
       map((array) => array.filter((element) => element.id !== idBoard))
     );

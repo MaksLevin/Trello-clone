@@ -29,10 +29,10 @@ export class BoardsService {
       mainBoardId
     );
 
-    this.sourceLists.next(await firstValueFrom(result as unknown as Observable<List[]>));
+    this.sourceLists.next(await firstValueFrom(result as Observable<List[]>));
   }
 
-  async updateListTitle(listId: string, titleValue: string | undefined): Promise<object> {
+  async updateListTitle(listId: string, titleValue: string | undefined): Promise<void> {
     const result = this.lists.pipe(
       map((array) =>
         array.map(function (element) {
@@ -46,17 +46,17 @@ export class BoardsService {
 
     this.sourceLists.next(await firstValueFrom(result));
 
-    return this.httpService.updateDocumentField('lists', listId, 'title', titleValue);
+    this.httpService.updateDocumentField('lists', listId, 'title', titleValue);
   }
 
-  async deleteList(listId: string): Promise<object> {
+  async deleteList(listId: string): Promise<void> {
     const result = this.lists.pipe(
       map((array) => array.filter((element) => element.id !== listId))
     );
 
     this.sourceLists.next(await firstValueFrom(result));
 
-    return this.httpService.deleteDocument('lists', listId);
+    this.httpService.deleteDocument('lists', listId);
   }
 
   getPushId(): string {

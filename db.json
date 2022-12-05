@@ -1,4 +1,26 @@
 {
-  "mainBoards": [],
+  "mainBoards": [
+    {
+      "id": "lbaq8u7dkj4wimylkw",
+      "userUid": "RUkO3g84hkMUeI3tgwIdqbsKenb2",
+      "title": "1",
+      "description": "",
+      "createdOn": "2022-12-05T11:46:35.881Z"
+    },
+    {
+      "id": "lbaq8vm8spzhkhu3wz",
+      "userUid": "RUkO3g84hkMUeI3tgwIdqbsKenb2",
+      "title": "2",
+      "description": null,
+      "createdOn": "2022-12-05T11:46:37.712Z"
+    },
+    {
+      "id": "lbaq8wn4pnwrvyqbac",
+      "userUid": "RUkO3g84hkMUeI3tgwIdqbsKenb2",
+      "title": "3",
+      "description": null,
+      "createdOn": "2022-12-05T11:46:39.040Z"
+    }
+  ],
   "lists": []
 }
