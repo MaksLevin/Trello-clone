@@ -8,7 +8,7 @@ import { List } from '@app/core/models';
   providedIn: 'root',
 })
 export class BoardsService {
-  private sourceLists = new BehaviorSubject<List[]>([] as unknown as List[]);
+  private sourceLists = new BehaviorSubject<List[]>([]);
 
   lists = this.sourceLists.asObservable();
 

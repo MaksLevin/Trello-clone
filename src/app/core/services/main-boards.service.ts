@@ -8,7 +8,7 @@ import { MainBoard } from '@app/core/models';
   providedIn: 'root',
 })
 export class MainBoardsService {
-  private sourceMainBoards = new BehaviorSubject<MainBoard[]>([] as unknown as MainBoard[]);
+  private sourceMainBoards = new BehaviorSubject<MainBoard[]>([]);
 
   mainBoards = this.sourceMainBoards.asObservable();
 
