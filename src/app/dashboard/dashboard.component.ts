@@ -53,10 +53,7 @@ export class DashboardComponent implements OnInit {
     return this.mainBoardsService.updateMainBoardTitle(id, title);
   }
 
-  saveEditableBoardDescription({
-    id,
-    description,
-  }: Partial<MainBoard>): Promise<void> | Promise<Object> {
+  saveEditableBoardDescription({ id, description }: Partial<MainBoard>): Promise<void> {
     if (!id) {
       return Promise.resolve();
     }

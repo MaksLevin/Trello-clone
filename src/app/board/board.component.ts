@@ -55,7 +55,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     return (this.currentTitleId = boardId);
   }
 
-  saveEditableListTitle({ id, title }: Partial<List>): Promise<void | object> {
+  saveEditableListTitle({ id, title }: Partial<List>): Promise<void> {
     if (!id) {
       return Promise.resolve();
     }
