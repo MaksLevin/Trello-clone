@@ -1,13 +1,26 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { firstValueFrom, Observable } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
 
-import { List } from '@app/core/models';
+import { List, Task } from '@app/core/models';
+import { DialogService, ListService } from '@app/core/services';
+import { deleteMessage } from '@app/core/constants';
+import { DialogModalComponent } from '@app/shared';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent {
+export class ListComponent implements OnInit {
   @Input() listId!: string;
   @Input() listTitle!: string;
   @Input() isTitleEditMode!: boolean;
@@ -17,6 +30,13 @@ export class ListComponent {
   @Output() setTitleEditMode = new EventEmitter<string>();
 
   @ViewChild('inputTitle') inputTitle!: ElementRef<HTMLInputElement>;
+  @ViewChild('inputTaskTitle') inputTaskTitle!: ElementRef<HTMLInputElement>;
+
+  taskForm!: FormGroup;
+
+  tasks$!: Observable<Task[]>;
+
+  constructor(private listService: ListService, private dialog: DialogService) {}
 
   toggleTitleEditMode(listId: string): void {
     this.setTitleEditMode.emit(listId);
@@ -38,5 +58,53 @@ export class ListComponent {
 
   cancelListEdit(): void {
     this.setTitleEditMode.emit('');
+  }
+
+  async createNewTask(listId: string, title: string): Promise<void> {
+    const pushId = this.listService.getPushId();
+
+    if (!listId || !title) {
+      return Promise.resolve();
+    }
+    const task: Task = {
+      id: pushId,
+      listId: listId,
+      title: title,
+      createdOn: new Date(),
+    };
+
+    await this.listService.createNewTask(listId, task);
+
+    this.taskForm.reset();
+  }
+
+  async getTasks(listId: string): Promise<void> {
+    await this.listService.fetchTasks();
+
+    this.tasks$ = await this.listService.getTasks(listId);
+  }
+
+  async deleteTask({ listId, id }: Partial<Task>): Promise<void> {
+    const result = this.dialog.openConfirmationDialog({
+      typeDialog: DialogModalComponent,
+      message: deleteMessage,
+    });
+    if (await firstValueFrom(result)) {
+      this.listService.deleteList(listId as string, id as string);
+    }
+  }
+
+  ngOnInit(): void {
+    this.getTasks(this.listId);
+    this.initTaskForm();
+  }
+
+  private initTaskForm(): void {
+    this.taskForm = new FormGroup(
+      {
+        taskTitle: new FormControl(''),
+      },
+      { updateOn: 'blur' }
+    );
   }
 }

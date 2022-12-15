@@ -1,4 +1,51 @@
 {
-  "mainBoards": [],
-  "lists": []
+  "mainBoards": [
+    {
+      "id": "lbc0ewzq4orni333xr3",
+      "userUid": "RUkO3g84hkMUeI3tgwIdqbsKenb2",
+      "title": "max1",
+      "description": "",
+      "createdOn": "2022-12-06T09:19:01.766Z"
+    }
+  ],
+  "lists": [
+    {
+      "id": "lbc0f18ez2tiaggzei",
+      "mainBoardId": "lbc0ewzq4orni333xr3",
+      "title": "to do",
+      "createdOn": "2022-12-06T09:19:07.262Z"
+    },
+    {
+      "id": "lbma1a669eg8kzmurvq",
+      "mainBoardId": "lbc0ewzq4orni333xr3",
+      "title": "done",
+      "createdOn": "2022-12-13T13:46:03.582Z"
+    },
+    {
+      "id": "lbmb518i6cpn5r08hlr",
+      "mainBoardId": "lbc0ewzq4orni333xr3",
+      "title": "in progress",
+      "createdOn": "2022-12-13T14:16:58.242Z"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "lbp43m7m70bpogibvt3",
+      "listId": "lbc0f18ez2tiaggzei",
+      "title": "1111",
+      "createdOn": "2022-12-15T13:23:13.330Z"
+    },
+    {
+      "id": "lbp43ounvjawvm4h6m",
+      "listId": "lbma1a669eg8kzmurvq",
+      "title": "1111",
+      "createdOn": "2022-12-15T13:23:16.751Z"
+    },
+    {
+      "id": "lbp43sejqvd5b7qynfp",
+      "listId": "lbmb518i6cpn5r08hlr",
+      "title": "1111",
+      "createdOn": "2022-12-15T13:23:21.355Z"
+    }
+  ]
 }

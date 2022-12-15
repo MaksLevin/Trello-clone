@@ -19,4 +19,10 @@
     margin-top: #{$value}px;
     margin-bottom: #{$value}px;
   }
+  .pr-#{$value} {
+    padding-right: #{$value}px;
+  }
+  .pl-#{$value} {
+    padding-left: #{$value}px;
+  }
 }
