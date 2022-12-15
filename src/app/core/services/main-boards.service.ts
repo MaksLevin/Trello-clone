@@ -19,7 +19,7 @@ export class MainBoardsService {
 
     this.sourceMainBoards.next(await firstValueFrom(result));
 
-    return await this.httpService.setCollection('mainBoards', mainBoard);
+    await this.httpService.setCollection('mainBoards', mainBoard);
   }
 
   async getMainBoards(userAuthUid: string): Promise<void> {
@@ -45,7 +45,7 @@ export class MainBoardsService {
 
     this.sourceMainBoards.next(await firstValueFrom(result));
 
-    return this.httpService.updateDocumentField('mainBoards', boardId, 'title', titleValue);
+    this.httpService.updateDocumentField('mainBoards', boardId, 'title', titleValue);
   }
 
   async updateMainBoardDescription(
@@ -65,12 +65,7 @@ export class MainBoardsService {
 
     this.sourceMainBoards.next(await firstValueFrom(result));
 
-    return this.httpService.updateDocumentField(
-      'mainBoards',
-      boardId,
-      'description',
-      descriptionValue
-    );
+    this.httpService.updateDocumentField('mainBoards', boardId, 'description', descriptionValue);
   }
 
   async deleteMainBoard(idBoard: string): Promise<void> {
@@ -80,7 +75,7 @@ export class MainBoardsService {
 
     this.sourceMainBoards.next(await firstValueFrom(result));
 
-    return this.httpService.deleteDocument('mainBoards', idBoard);
+    this.httpService.deleteDocument('mainBoards', idBoard);
   }
 
   getPushId(): string {

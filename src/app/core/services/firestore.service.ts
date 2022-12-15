@@ -39,7 +39,7 @@ export class FirestoreService {
     documentFieldValue: string | undefined
   ): Promise<void> {
     {
-      return await this.angularFirestore
+      await this.angularFirestore
         .collection(collection)
         .doc(mainBoardId)
         .update({ [documentField]: documentFieldValue });
@@ -47,7 +47,7 @@ export class FirestoreService {
   }
 
   async deleteDocument(collection: string, documentId: string): Promise<void> {
-    return await this.angularFirestore.collection(collection).doc(documentId).delete();
+    await this.angularFirestore.collection(collection).doc(documentId).delete();
   }
 
   createId(): string {

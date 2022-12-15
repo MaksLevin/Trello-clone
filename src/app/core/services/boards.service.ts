@@ -19,7 +19,7 @@ export class BoardsService {
 
     this.sourceLists.next(await firstValueFrom(result));
 
-    return this.httpService.setCollection('lists', list);
+    this.httpService.setCollection('lists', list);
   }
 
   async getLists(mainBoardId: string): Promise<void> {
