@@ -18,13 +18,13 @@ export class ListService {
 
   async createNewTask(listId: string, task: Task): Promise<void> {
     const tasks = await firstValueFrom(this.tasks$);
-    const newTasks = tasks[listId].concat(task);
+    const newTasks = [...(tasks[listId] ?? []), task];
 
     tasks[listId] = newTasks;
 
-    await this.sourceTasks.next(tasks);
+    this.sourceTasks.next(tasks);
 
-    return this.httpService.setCollection('tasks', task);
+    this.httpService.setCollection('tasks', task);
   }
 
   async fetchTasks(): Promise<void> {
@@ -46,7 +46,7 @@ export class ListService {
 
     tasks[listId] = newTasks;
 
-    await this.sourceTasks.next(tasks);
+    this.sourceTasks.next(tasks);
 
     this.httpService.deleteDocument('tasks', taskId);
   }
