@@ -1,32 +1,65 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, map, Observable } from 'rxjs';
 
-import { FirestoreService } from '@app/core/services';
+import { HttpService } from '@app/core/services';
 import { List } from '@app/core/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BoardsService {
-  constructor(private firestoreService: FirestoreService) {}
+  private sourceLists = new BehaviorSubject<List[]>([]);
 
-  createNewList(list: List, pathId: string): Promise<void> {
-    return this.firestoreService.setCollection('lists', pathId, list);
+  lists = this.sourceLists.asObservable();
+
+  constructor(private httpService: HttpService) {}
+
+  async createNewList(list: List): Promise<void> {
+    const result = this.lists.pipe(map((array) => array.concat(list)));
+
+    this.sourceLists.next(await firstValueFrom(result));
+
+    this.httpService.setCollection('lists', list);
   }
 
-  getLists(mainBoardId: string): Observable<List[]> {
-    return this.firestoreService.getFromCollectionByProperty('lists', 'mainBoardId', mainBoardId);
+  async getLists(mainBoardId: string): Promise<void> {
+    const result = this.httpService.getFromCollectionByProperty(
+      'lists',
+      'mainBoardId',
+      mainBoardId
+    );
+
+    this.sourceLists.next(await firstValueFrom(result as Observable<List[]>));
   }
 
-  updateListTitle(listId: string, titleValue: string | undefined): Promise<void> {
-    return this.firestoreService.updateDocumentField('lists', listId, 'title', titleValue);
+  async updateListTitle(listId: string, titleValue: string | undefined): Promise<void> {
+    const result = this.lists.pipe(
+      map((array) =>
+        array.map(function (element) {
+          if (element.id === listId) {
+            element.title = titleValue as string;
+          }
+          return element;
+        })
+      )
+    );
+
+    this.sourceLists.next(await firstValueFrom(result));
+
+    this.httpService.updateDocumentField('lists', listId, 'title', titleValue);
   }
 
-  deleteList(listId: string): Promise<void> {
-    return this.firestoreService.deleteDocument('lists', listId);
+  async deleteList(listId: string): Promise<void> {
+    const result = this.lists.pipe(
+      map((array) => array.filter((element) => element.id !== listId))
+    );
+
+    this.sourceLists.next(await firstValueFrom(result));
+
+    this.httpService.deleteDocument('lists', listId);
   }
 
   getPushId(): string {
-    return this.firestoreService.createId();
+    return this.httpService.createId();
   }
 }

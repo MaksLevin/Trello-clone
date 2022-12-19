@@ -2,7 +2,7 @@
   <div class="board-wrapper">
     <div class="drag-wrapper">
       <ng-container *ngIf="lists$ | async as lists">
-        <mat-card *ngFor="let list of lists" class="list">
+        <mat-card *ngFor="let list of lists; trackBy: trackById; let index = index" class="list">
           <app-list
             [listId]="list.id"
             [listTitle]="list.title"

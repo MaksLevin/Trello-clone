@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FirestoreService } from '@app/core/services';
-import { Observable } from 'rxjs';
+import { HttpService } from '@app/core/services';
+import { BehaviorSubject, firstValueFrom, map, Observable } from 'rxjs';
 
 import { MainBoard } from '@app/core/models';
 
@@ -8,34 +8,77 @@ import { MainBoard } from '@app/core/models';
   providedIn: 'root',
 })
 export class MainBoardsService {
-  constructor(private firestoreService: FirestoreService) {}
+  private sourceMainBoards = new BehaviorSubject<MainBoard[]>([]);
 
-  createNewMainBoards(mainBoard: MainBoard, pathId: string): Promise<void> {
-    return this.firestoreService.setCollection('mainBoards', pathId, mainBoard);
+  mainBoards = this.sourceMainBoards.asObservable();
+
+  constructor(private httpService: HttpService) {}
+
+  async createNewMainBoards(mainBoard: MainBoard): Promise<void> {
+    const result = this.mainBoards.pipe(map((array) => array.concat(mainBoard)));
+
+    this.sourceMainBoards.next(await firstValueFrom(result));
+
+    await this.httpService.setCollection('mainBoards', mainBoard);
   }
 
-  getMainBoards(userAuthUid: string): Observable<MainBoard[]> {
-    return this.firestoreService.getFromCollectionByProperty('mainBoards', 'userUid', userAuthUid);
-  }
-
-  updateMainBoardTitle(boardId: string, titleValue: string | undefined): Promise<void> {
-    return this.firestoreService.updateDocumentField('mainBoards', boardId, 'title', titleValue);
-  }
-
-  updateMainBoardDescription(boardId: string, descriptionValue: string | undefined): Promise<void> {
-    return this.firestoreService.updateDocumentField(
+  async getMainBoards(userAuthUid: string): Promise<void> {
+    const result = this.httpService.getFromCollectionByProperty(
       'mainBoards',
-      boardId,
-      'description',
-      descriptionValue
+      'userUid',
+      userAuthUid
     );
+    this.sourceMainBoards.next(await firstValueFrom(result as Observable<MainBoard[]>));
   }
 
-  deleteMainBoard(idBoard: string): Promise<void> {
-    return this.firestoreService.deleteDocument('mainBoards', idBoard);
+  async updateMainBoardTitle(boardId: string, titleValue: string | undefined): Promise<void> {
+    const result = this.mainBoards.pipe(
+      map((array) =>
+        array.map(function (element) {
+          if (element.id === boardId) {
+            element.title = titleValue as string;
+          }
+          return element;
+        })
+      )
+    );
+
+    this.sourceMainBoards.next(await firstValueFrom(result));
+
+    this.httpService.updateDocumentField('mainBoards', boardId, 'title', titleValue);
+  }
+
+  async updateMainBoardDescription(
+    boardId: string,
+    descriptionValue: string | undefined
+  ): Promise<void> {
+    const result = this.mainBoards.pipe(
+      map((array) =>
+        array.map(function (element) {
+          if (element.id === boardId) {
+            element.description = descriptionValue as string;
+          }
+          return element;
+        })
+      )
+    );
+
+    this.sourceMainBoards.next(await firstValueFrom(result));
+
+    this.httpService.updateDocumentField('mainBoards', boardId, 'description', descriptionValue);
+  }
+
+  async deleteMainBoard(idBoard: string): Promise<void> {
+    const result = this.mainBoards.pipe(
+      map((array) => array.filter((element) => element.id !== idBoard))
+    );
+
+    this.sourceMainBoards.next(await firstValueFrom(result));
+
+    this.httpService.deleteDocument('mainBoards', idBoard);
   }
 
   getPushId(): string {
-    return this.firestoreService.createId();
+    return this.httpService.createId();
   }
 }
