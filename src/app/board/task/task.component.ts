@@ -14,8 +14,6 @@ export class TaskComponent {
 
   @Output() deleteTask = new EventEmitter<Partial<Task>>();
 
-  constructor() {}
-
   deleteTaskDumb(listId: string, id: string): void {
     this.deleteTask.emit({ listId, id });
   }

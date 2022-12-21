@@ -43,11 +43,13 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   async deleteList(listId: string): Promise<void> {
-    const result = this.dialog.openConfirmationDialog({
+    const resultDialog = this.dialog.openConfirmationDialog({
       typeDialog: DialogModalComponent,
       message: deleteMessage,
     });
-    if (await firstValueFrom(result)) {
+    const result = await firstValueFrom(resultDialog);
+
+    if (result) {
       this.boardService.deleteList(listId);
     }
   }
@@ -60,6 +62,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     if (!id) {
       return Promise.resolve();
     }
+
     return this.boardService.updateListTitle(id, title);
   }
 

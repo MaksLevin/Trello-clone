@@ -37,7 +37,7 @@ export class MainBoardsService {
   async updateMainBoardTitle(boardId: string, titleValue: string | undefined): Promise<void> {
     const updatedMainBoards = this.mainBoards.pipe(
       map((array) =>
-        array.map(function (element) {
+        array.map((element) => {
           if (element.id === boardId) {
             element.title = titleValue as string;
           }
@@ -58,7 +58,7 @@ export class MainBoardsService {
   ): Promise<void> {
     const updatedMainBoards = this.mainBoards.pipe(
       map((array) =>
-        array.map(function (element) {
+        array.map((element) => {
           if (element.id === boardId) {
             element.description = descriptionValue as string;
           }

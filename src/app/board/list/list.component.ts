@@ -85,11 +85,13 @@ export class ListComponent implements OnInit {
   }
 
   async deleteTask({ listId, id }: Partial<Task>): Promise<void> {
-    const result = this.dialog.openConfirmationDialog({
+    const resultDialog = this.dialog.openConfirmationDialog({
       typeDialog: DialogModalComponent,
       message: deleteMessage,
     });
-    if (await firstValueFrom(result)) {
+    const result = await firstValueFrom(resultDialog);
+
+    if (result) {
       this.listService.deleteList(listId as string, id as string);
     }
   }

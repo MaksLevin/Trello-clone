@@ -61,11 +61,13 @@ export class DashboardComponent implements OnInit {
   }
 
   async deleteBoard(boardId: string): Promise<void> {
-    const result = this.dialog.openConfirmationDialog({
+    const resultDialog = this.dialog.openConfirmationDialog({
       typeDialog: DialogModalComponent,
       message: deleteMessage,
     });
-    if (await firstValueFrom(result)) {
+    const result = await firstValueFrom(resultDialog);
+
+    if (result) {
       this.mainBoardsService.deleteMainBoard(boardId);
     }
   }

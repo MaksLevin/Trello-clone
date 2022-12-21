@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, firstValueFrom, map, Observable } from 'rxjs';
+import { groupBy } from 'lodash';
 
 import { HttpService } from '@app/core/services';
 import { Task } from '@app/core/models';
-
-import { groupBy } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
