@@ -8,6 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { List, Task } from '@app/core/models';
@@ -35,6 +36,8 @@ export class ListComponent implements OnInit {
   taskForm!: FormGroup;
 
   tasks$!: Observable<Task[]>;
+
+  LIST_IDS!: string[];
 
   constructor(private listService: ListService, private dialog: DialogService) {}
 
@@ -91,6 +94,20 @@ export class ListComponent implements OnInit {
     });
     if (await firstValueFrom(result)) {
       this.listService.deleteList(listId as string, id as string);
+    }
+  }
+
+  drop(event: CdkDragDrop<Task[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      console.log(event.container.id);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     }
   }
 
