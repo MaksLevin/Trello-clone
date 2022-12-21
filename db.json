@@ -1,27 +1,5 @@
 {
-  "mainBoards": [
-    {
-      "id": "lbxjatnc6t5zj0v0o2k",
-      "userUid": "RUkO3g84hkMUeI3tgwIdqbsKenb2",
-      "title": "max1",
-      "description": "",
-      "createdOn": "2022-12-21T10:50:53.208Z"
-    }
-  ],
-  "lists": [
-    {
-      "id": "lbxjay1xvvbvodlaxh",
-      "mainBoardId": "lbxjatnc6t5zj0v0o2k",
-      "title": "done33",
-      "createdOn": "2022-12-21T10:50:58.917Z"
-    }
-  ],
-  "tasks": [
-    {
-      "id": "lbxjb0bvqul7di4oawh",
-      "listId": "lbxjay1xvvbvodlaxh",
-      "title": "123123",
-      "createdOn": "2022-12-21T10:51:01.867Z"
-    }
-  ]
+  "mainBoards": [],
+  "lists": [],
+  "tasks": []
 }
