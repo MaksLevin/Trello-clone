@@ -28,18 +28,28 @@
   <button class="button-primary" mat-button (click)="cancelListEdit()">cancel</button>
 </mat-card-actions>
 
-<ng-container *ngIf="tasks$ | async as tasks">
-  <div cdkDropList id="{{ listId }}" [cdkDropListData]="tasks" (cdkDropListDropped)="drop($event)">
-    <mat-card-content *ngFor="let task of tasks; let index = index" class="list-content" cdkDrag>
+<div
+  class="tasks-wrapper"
+  cdkDropList
+  id="{{ listId }}"
+  [cdkDropListData]="(tasks$ | async) || []"
+  [cdkDropListConnectedTo]="listsId"
+  (cdkDropListDropped)="drop($event)"
+>
+  <ng-container *ngIf="tasks$ | async as tasks">
+    <ng-container *ngFor="let task of tasks; let index = index">
       <app-task
+        cdkDrag
+        class="list-content"
+        [cdkDragData]="task"
         [listId]="listId"
         [taskId]="task.id"
         [taskTitle]="task.title"
         (deleteTask)="deleteTask($event)"
       ></app-task>
-    </mat-card-content>
-  </div>
-</ng-container>
+    </ng-container>
+  </ng-container>
+</div>
 
 <mat-card-content class="task-form" [formGroup]="taskForm">
   <mat-form-field class="task-field">

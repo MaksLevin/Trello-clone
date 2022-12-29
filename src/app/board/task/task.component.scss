@@ -1,17 +1,2 @@
 @import "mixins";
 @import "variables";
-
-.task-wrapper {
-  padding: 20px 10px;
-  border-bottom: solid 1px $color-basic;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  box-sizing: border-box;
-  cursor: move;
-  font-size: 14px;
-}
-
-.task-wrapper:last-child {
-  border: none;
-}

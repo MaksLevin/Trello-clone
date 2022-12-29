@@ -40,6 +40,10 @@ export class ListService {
     return result;
   }
 
+  async updateTaskListId(taskId: string, newListId: string): Promise<void> {
+    this.httpService.updateDocumentField('Tasks', taskId, 'listId', newListId);
+  }
+
   async deleteList(listId: string, taskId: string): Promise<void> {
     const tasks = await firstValueFrom(this.tasks$);
     const newTasks = tasks[listId].filter((task) => task.id !== taskId);

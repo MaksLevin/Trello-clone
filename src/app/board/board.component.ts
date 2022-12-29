@@ -22,8 +22,10 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   routeSubscription: Subscription;
 
-  lists$!: Observable<List[]>;
+  userLists$!: Observable<List[]>;
   tasks$!: Observable<Task[]>;
+
+  listsId!: string[];
 
   listForm!: FormGroup;
   titleError: { isRequired: string } = listTitleValidationErrors;
@@ -47,6 +49,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       typeDialog: DialogModalComponent,
       message: deleteMessage,
     });
+
     if (await firstValueFrom(result)) {
       this.boardService.deleteList(listId);
     }
@@ -60,6 +63,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     if (!id) {
       return Promise.resolve();
     }
+
     return this.boardService.updateListTitle(id, title);
   }
 
@@ -76,12 +80,16 @@ export class BoardComponent implements OnInit, OnDestroy {
     await this.boardService.createNewList(list);
 
     this.listForm.reset();
+
+    this.listsId = this.boardService.listsId;
   }
 
-  getLists(): void {
-    this.boardService.getLists(this.mainBoardId);
+  async getLists(): Promise<void> {
+    await this.boardService.getLists(this.mainBoardId);
 
-    this.lists$ = this.boardService.lists;
+    this.userLists$ = this.boardService.lists$;
+
+    this.listsId = this.boardService.listsId;
   }
 
   ngOnInit(): void {

@@ -1,51 +1,5 @@
 {
-  "mainBoards": [
-    {
-      "id": "lbup37uwzivpogk8bb",
-      "userUid": "RUkO3g84hkMUeI3tgwIdqbsKenb2",
-      "title": "max1",
-      "description": "",
-      "createdOn": "2022-12-19T11:09:37.544Z"
-    }
-  ],
-  "lists": [
-    {
-      "id": "lbup3dffi7i3276k5zl",
-      "mainBoardId": "lbup37uwzivpogk8bb",
-      "title": "to do",
-      "createdOn": "2022-12-19T11:09:44.763Z"
-    },
-    {
-      "id": "lbup3pd7trb83pqq7c",
-      "mainBoardId": "lbup37uwzivpogk8bb",
-      "title": "done",
-      "createdOn": "2022-12-19T11:10:00.235Z"
-    }
-  ],
-  "tasks": [
-    {
-      "id": "lbup3qucmeri8ay794",
-      "listId": "lbup3dffi7i3276k5zl",
-      "title": "1111",
-      "createdOn": "2022-12-19T11:10:02.148Z"
-    },
-    {
-      "id": "lbuq0i9tnrdf4iu837",
-      "listId": "lbup3pd7trb83pqq7c",
-      "title": "222",
-      "createdOn": "2022-12-19T11:35:30.689Z"
-    },
-    {
-      "id": "lbusbcp5any0blxszo",
-      "listId": "lbup3dffi7i3276k5zl",
-      "title": "2222",
-      "createdOn": "2022-12-19T12:39:55.913Z"
-    },
-    {
-      "id": "lbutp8kfgnkmzgm073",
-      "listId": "lbup3pd7trb83pqq7c",
-      "title": "333",
-      "createdOn": "2022-12-19T13:18:43.359Z"
-    }
-  ]
+  "mainBoards": [],
+  "lists": [],
+  "tasks": []
 }

@@ -23,10 +23,12 @@ import { DialogModalComponent } from '@app/shared';
 })
 export class ListComponent implements OnInit {
   @Input() listId!: string;
+  @Input() listsId!: string[];
   @Input() listTitle!: string;
   @Input() isTitleEditMode!: boolean;
 
   @Output() deleteList = new EventEmitter<string>();
+  @Output() getlistsId = new EventEmitter<string[]>();
   @Output() saveEditableListTitle = new EventEmitter<Partial<List>>();
   @Output() setTitleEditMode = new EventEmitter<string>();
 
@@ -36,8 +38,6 @@ export class ListComponent implements OnInit {
   taskForm!: FormGroup;
 
   tasks$!: Observable<Task[]>;
-
-  LIST_IDS!: string[];
 
   constructor(private listService: ListService, private dialog: DialogService) {}
 
@@ -92,15 +92,15 @@ export class ListComponent implements OnInit {
       typeDialog: DialogModalComponent,
       message: deleteMessage,
     });
+
     if (await firstValueFrom(result)) {
       this.listService.deleteList(listId as string, id as string);
     }
   }
 
-  drop(event: CdkDragDrop<Task[]>) {
+  drop(event: CdkDragDrop<Task[]>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      console.log(event.container.id);
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -108,10 +108,12 @@ export class ListComponent implements OnInit {
         event.previousIndex,
         event.currentIndex
       );
+
+      this.listService.updateTaskListId(event.item.data.id, event.container.id);
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getTasks(this.listId);
     this.initTaskForm();
   }

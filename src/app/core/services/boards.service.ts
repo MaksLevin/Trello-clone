@@ -10,15 +10,19 @@ import { List } from '@app/core/models';
 export class BoardsService {
   private sourceLists = new BehaviorSubject<List[]>([]);
 
-  lists = this.sourceLists.asObservable();
+  lists$ = this.sourceLists.asObservable();
+
+  listsId!: string[];
 
   constructor(private httpService: HttpService) {}
 
   async createNewList(list: List): Promise<void> {
-    const newLists = this.lists.pipe(map((array) => array.concat(list)));
+    const newLists = this.lists$.pipe(map((array) => array.concat(list)));
     const result = await firstValueFrom(newLists);
 
     this.sourceLists.next(result);
+
+    this.getListsId(result);
 
     this.httpService.setCollection('lists', list);
   }
@@ -28,10 +32,16 @@ export class BoardsService {
     const result = await firstValueFrom(lists as Observable<List[]>);
 
     this.sourceLists.next(result);
+
+    this.getListsId(result);
+  }
+
+  getListsId(lists: List[]): void {
+    this.listsId = lists.map((list) => list.id);
   }
 
   async updateListTitle(listId: string, titleValue: string | undefined): Promise<void> {
-    const updatedLists = this.lists.pipe(
+    const updatedLists = this.lists$.pipe(
       map((array) =>
         array.map(function (element) {
           if (element.id === listId) {
@@ -50,7 +60,7 @@ export class BoardsService {
   }
 
   async deleteList(listId: string): Promise<void> {
-    const newLists = this.lists.pipe(
+    const newLists = this.lists$.pipe(
       map((array) => array.filter((element) => element.id !== listId))
     );
     const result = await firstValueFrom(newLists);

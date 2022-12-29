@@ -25,6 +25,29 @@
   caret-color: $color-basic;
 }
 
+.tasks-wrapper {
+  width: 200px;
+  min-height: 50px;
+}
+
+.task-form {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 .list-content {
   margin-bottom: 0;
+  padding: 10px 10px;
+  border-bottom: solid 1px $color-basic;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: move;
+  font-size: 14px;
+}
+
+.list-content:last-child {
+  border: none;
 }

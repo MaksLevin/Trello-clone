@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Task } from '@app/core/models';
 
@@ -13,8 +13,6 @@ export class TaskComponent {
   @Input() taskTitle!: string;
 
   @Output() deleteTask = new EventEmitter<Partial<Task>>();
-
-  constructor() {}
 
   deleteTaskDumb(listId: string, id: string): void {
     this.deleteTask.emit({ listId, id });

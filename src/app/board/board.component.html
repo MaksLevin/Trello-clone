@@ -1,12 +1,13 @@
 <main class="board">
   <div class="board-wrapper">
     <div class="drag-wrapper">
-      <ng-container *ngIf="lists$ | async as lists">
+      <ng-container *ngIf="userLists$ | async as lists">
         <mat-card *ngFor="let list of lists; trackBy: trackById; let index = index" class="list">
           <app-list
             [listId]="list.id"
             [listTitle]="list.title"
             [isTitleEditMode]="currentTitleId === list.id"
+            [listsId]="listsId"
             (deleteList)="deleteList($event)"
             (saveEditableListTitle)="saveEditableListTitle($event)"
             (setTitleEditMode)="setTitleEditMode($event)"
