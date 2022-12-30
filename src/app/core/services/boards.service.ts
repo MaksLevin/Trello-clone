@@ -15,27 +15,25 @@ export class BoardsService {
   constructor(private httpService: HttpService) {}
 
   async createNewList(list: List): Promise<void> {
-    const result = this.lists.pipe(map((array) => array.concat(list)));
+    const newLists = this.lists.pipe(map((array) => array.concat(list)));
+    const result = await firstValueFrom(newLists);
 
-    this.sourceLists.next(await firstValueFrom(result));
+    this.sourceLists.next(result);
 
     this.httpService.setCollection('lists', list);
   }
 
   async getLists(mainBoardId: string): Promise<void> {
-    const result = this.httpService.getFromCollectionByProperty(
-      'lists',
-      'mainBoardId',
-      mainBoardId
-    );
+    const lists = this.httpService.getFromCollectionByProperty('lists', 'mainBoardId', mainBoardId);
+    const result = await firstValueFrom(lists as Observable<List[]>);
 
-    this.sourceLists.next(await firstValueFrom(result as Observable<List[]>));
+    this.sourceLists.next(result);
   }
 
   async updateListTitle(listId: string, titleValue: string | undefined): Promise<void> {
-    const result = this.lists.pipe(
+    const updatedLists = this.lists.pipe(
       map((array) =>
-        array.map(function (element) {
+        array.map((element) => {
           if (element.id === listId) {
             element.title = titleValue as string;
           }
@@ -44,17 +42,20 @@ export class BoardsService {
       )
     );
 
-    this.sourceLists.next(await firstValueFrom(result));
+    const result = await firstValueFrom(updatedLists);
+
+    this.sourceLists.next(result);
 
     this.httpService.updateDocumentField('lists', listId, 'title', titleValue);
   }
 
   async deleteList(listId: string): Promise<void> {
-    const result = this.lists.pipe(
+    const newLists = this.lists.pipe(
       map((array) => array.filter((element) => element.id !== listId))
     );
+    const result = await firstValueFrom(newLists);
 
-    this.sourceLists.next(await firstValueFrom(result));
+    this.sourceLists.next(result);
 
     this.httpService.deleteDocument('lists', listId);
   }

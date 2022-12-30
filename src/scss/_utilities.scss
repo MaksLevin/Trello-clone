@@ -1,4 +1,4 @@
-@each $value in 5, 10, 15, 20, 25 {
+@each $value in 0, 5, 10, 15, 20, 25 {
   .mt-#{$value} {
     margin-top: #{$value}px !important;
   }
@@ -18,5 +18,11 @@
   .my-#{$value} {
     margin-top: #{$value}px;
     margin-bottom: #{$value}px;
+  }
+  .pr-#{$value} {
+    padding-right: #{$value}px;
+  }
+  .pl-#{$value} {
+    padding-left: #{$value}px;
   }
 }

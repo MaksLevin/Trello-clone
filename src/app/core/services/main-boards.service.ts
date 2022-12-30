@@ -15,26 +15,29 @@ export class MainBoardsService {
   constructor(private httpService: HttpService) {}
 
   async createNewMainBoards(mainBoard: MainBoard): Promise<void> {
-    const result = this.mainBoards.pipe(map((array) => array.concat(mainBoard)));
+    const newMainBoards = this.mainBoards.pipe(map((array) => array.concat(mainBoard)));
+    const result = await firstValueFrom(newMainBoards);
 
-    this.sourceMainBoards.next(await firstValueFrom(result));
+    this.sourceMainBoards.next(result);
 
     await this.httpService.setCollection('mainBoards', mainBoard);
   }
 
   async getMainBoards(userAuthUid: string): Promise<void> {
-    const result = this.httpService.getFromCollectionByProperty(
+    const mainBoards = this.httpService.getFromCollectionByProperty(
       'mainBoards',
       'userUid',
       userAuthUid
     );
-    this.sourceMainBoards.next(await firstValueFrom(result as Observable<MainBoard[]>));
+    const result = await firstValueFrom(mainBoards as Observable<MainBoard[]>);
+
+    this.sourceMainBoards.next(result);
   }
 
   async updateMainBoardTitle(boardId: string, titleValue: string | undefined): Promise<void> {
-    const result = this.mainBoards.pipe(
+    const updatedMainBoards = this.mainBoards.pipe(
       map((array) =>
-        array.map(function (element) {
+        array.map((element) => {
           if (element.id === boardId) {
             element.title = titleValue as string;
           }
@@ -42,8 +45,9 @@ export class MainBoardsService {
         })
       )
     );
+    const result = await firstValueFrom(updatedMainBoards);
 
-    this.sourceMainBoards.next(await firstValueFrom(result));
+    this.sourceMainBoards.next(result);
 
     this.httpService.updateDocumentField('mainBoards', boardId, 'title', titleValue);
   }
@@ -52,9 +56,9 @@ export class MainBoardsService {
     boardId: string,
     descriptionValue: string | undefined
   ): Promise<void> {
-    const result = this.mainBoards.pipe(
+    const updatedMainBoards = this.mainBoards.pipe(
       map((array) =>
-        array.map(function (element) {
+        array.map((element) => {
           if (element.id === boardId) {
             element.description = descriptionValue as string;
           }
@@ -62,18 +66,20 @@ export class MainBoardsService {
         })
       )
     );
+    const result = await firstValueFrom(updatedMainBoards);
 
-    this.sourceMainBoards.next(await firstValueFrom(result));
+    this.sourceMainBoards.next(result);
 
     this.httpService.updateDocumentField('mainBoards', boardId, 'description', descriptionValue);
   }
 
   async deleteMainBoard(idBoard: string): Promise<void> {
-    const result = this.mainBoards.pipe(
+    const newMainBoards = this.mainBoards.pipe(
       map((array) => array.filter((element) => element.id !== idBoard))
     );
+    const result = await firstValueFrom(newMainBoards);
 
-    this.sourceMainBoards.next(await firstValueFrom(result));
+    this.sourceMainBoards.next(result);
 
     this.httpService.deleteDocument('mainBoards', idBoard);
   }

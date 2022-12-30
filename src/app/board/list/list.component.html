@@ -19,17 +19,34 @@
   </mat-form-field>
 </ng-template>
 
-<mat-card-content class="list-content">
-  <p></p>
-</mat-card-content>
-
-<mat-card-actions class="list-actions">
-  <button
-    class="button-primary"
-    mat-button
-    [ngStyle]="{ display: isTitleEditMode ? 'block' : 'none' }"
-    (click)="cancelListEdit()"
-  >
-    cancel
-  </button>
+<mat-card-actions
+  class="list-actions"
+  [ngStyle]="{
+    display: isTitleEditMode ? 'block' : 'none'
+  }"
+>
+  <button class="button-primary" mat-button (click)="cancelListEdit()">cancel</button>
 </mat-card-actions>
+
+<ng-container *ngIf="tasks$ | async as tasks">
+  <mat-card-content *ngFor="let task of tasks; let index = index" class="mb-0">
+    <app-task
+      [listId]="listId"
+      [taskId]="task.id"
+      [taskTitle]="task.title"
+      (deleteTask)="deleteTask($event)"
+    ></app-task>
+  </mat-card-content>
+</ng-container>
+
+<mat-card-content class="task-form" [formGroup]="taskForm">
+  <mat-form-field class="task-field">
+    <input
+      #inputTaskTitle
+      matInput
+      formControlName="taskTitle"
+      placeholder="Add new task"
+      (keyup.enter)="createNewTask(listId, inputTaskTitle.value)"
+    />
+  </mat-form-field>
+</mat-card-content>

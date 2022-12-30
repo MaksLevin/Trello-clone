@@ -14,6 +14,10 @@ export class HttpService {
     await firstValueFrom(this.http.post(`${databasePath}${collection}`, setElement));
   }
 
+  getCollection<T>(collection: string): Observable<T[]> {
+    return this.http.get<T[]>(`${databasePath}${collection}`);
+  }
+
   getFromCollectionByProperty<T>(
     collection: string,
     field: string,

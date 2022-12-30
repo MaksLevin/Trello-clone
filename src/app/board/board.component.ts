@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, Observable, Subscription } from 'rxjs';
 
 import { BoardsService, DialogService } from '@app/core/services';
-import { List } from '@app/core/models';
+import { List, Task } from '@app/core/models';
 import { deleteMessage, listTitleValidationErrors } from '@app/core/constants';
 import { DialogModalComponent } from '@app/shared';
 import { trackById } from '@app/core/utils';
@@ -23,6 +23,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   routeSubscription: Subscription;
 
   lists$!: Observable<List[]>;
+  tasks$!: Observable<Task[]>;
 
   listForm!: FormGroup;
   titleError: { isRequired: string } = listTitleValidationErrors;
@@ -42,11 +43,13 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   async deleteList(listId: string): Promise<void> {
-    const result = this.dialog.openConfirmationDialog({
+    const resultDialog = this.dialog.openConfirmationDialog({
       typeDialog: DialogModalComponent,
       message: deleteMessage,
     });
-    if (await firstValueFrom(result)) {
+    const result = await firstValueFrom(resultDialog);
+
+    if (result) {
       this.boardService.deleteList(listId);
     }
   }
@@ -59,6 +62,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     if (!id) {
       return Promise.resolve();
     }
+
     return this.boardService.updateListTitle(id, title);
   }
 

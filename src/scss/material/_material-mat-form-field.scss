@@ -4,9 +4,14 @@
 }
 
 .mat-form-field.list-field.mat-focused .mat-form-field-ripple,
-.mat-form-field.main-board-field.mat-focused .mat-form-field-ripple {
+.mat-form-field.main-board-field.mat-focused .mat-form-field-ripple,
+.mat-form-field.task-field.mat-focused .mat-form-field-ripple {
   height: 1px;
   background-color: $color-basic;
+}
+
+.mat-form-field.task-field.mat-focused .mat-form-field-label {
+  color: $color-basic;
 }
 
 .mat-form-field-appearance-legacy .mat-form-field-subscript-wrapper {
