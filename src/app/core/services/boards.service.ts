@@ -43,7 +43,7 @@ export class BoardsService {
   async updateListTitle(listId: string, titleValue: string | undefined): Promise<void> {
     const updatedLists = this.lists$.pipe(
       map((array) =>
-        array.map(function (element) {
+        array.map((element) => {
           if (element.id === listId) {
             element.title = titleValue as string;
           }

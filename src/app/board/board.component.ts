@@ -45,12 +45,13 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   async deleteList(listId: string): Promise<void> {
-    const result = this.dialog.openConfirmationDialog({
+    const resultDialog = this.dialog.openConfirmationDialog({
       typeDialog: DialogModalComponent,
       message: deleteMessage,
     });
+    const result = await firstValueFrom(resultDialog);
 
-    if (await firstValueFrom(result)) {
+    if (result) {
       this.boardService.deleteList(listId);
     }
   }
