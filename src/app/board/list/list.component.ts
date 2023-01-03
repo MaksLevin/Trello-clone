@@ -8,6 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { List, Task } from '@app/core/models';
@@ -22,21 +23,23 @@ import { DialogModalComponent } from '@app/shared';
 })
 export class ListComponent implements OnInit {
   @Input() listId!: string;
+  @Input() listsId!: string[];
   @Input() listTitle!: string;
   @Input() isTitleEditMode!: boolean;
 
   @Output() deleteList = new EventEmitter<string>();
+  @Output() getlistsId = new EventEmitter<string[]>();
   @Output() saveEditableListTitle = new EventEmitter<Partial<List>>();
   @Output() setTitleEditMode = new EventEmitter<string>();
 
   @ViewChild('inputTitle') inputTitle!: ElementRef<HTMLInputElement>;
   @ViewChild('inputTaskTitle') inputTaskTitle!: ElementRef<HTMLInputElement>;
 
-  taskForm!: FormGroup;
-
   tasks$!: Observable<Task[]>;
 
-  constructor(private listService: ListService, private dialog: DialogService) {}
+  taskForm!: FormGroup;
+
+  constructor(private listService: ListService, private dialogService: DialogService) {}
 
   toggleTitleEditMode(listId: string): void {
     this.setTitleEditMode.emit(listId);
@@ -48,7 +51,6 @@ export class ListComponent implements OnInit {
 
   sendEditableListTitle(id: string, title: string): void {
     this.setTitleEditMode.emit('');
-
     this.saveEditableListTitle.emit({ id, title });
   }
 
@@ -60,12 +62,28 @@ export class ListComponent implements OnInit {
     this.setTitleEditMode.emit('');
   }
 
+  drop(event: CdkDragDrop<Task[]>): void {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+
+      this.listService.updateTaskListId(event.item.data.id, event.container.id);
+    }
+  }
+
   async createNewTask(listId: string, title: string): Promise<void> {
     const pushId = this.listService.getPushId();
 
     if (!listId || !title) {
       return Promise.resolve();
     }
+
     const task: Task = {
       id: pushId,
       listId: listId,
@@ -80,12 +98,11 @@ export class ListComponent implements OnInit {
 
   async getTasks(listId: string): Promise<void> {
     await this.listService.fetchTasks();
-
     this.tasks$ = await this.listService.getTasks(listId);
   }
 
   async deleteTask({ listId, id }: Partial<Task>): Promise<void> {
-    const resultDialog = this.dialog.openConfirmationDialog({
+    const resultDialog = this.dialogService.openConfirmationDialog({
       typeDialog: DialogModalComponent,
       message: deleteMessage,
     });
@@ -96,7 +113,7 @@ export class ListComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getTasks(this.listId);
     this.initTaskForm();
   }

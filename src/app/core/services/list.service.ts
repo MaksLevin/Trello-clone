@@ -28,15 +28,18 @@ export class ListService {
 
   async fetchTasks(): Promise<void> {
     const tasks: Task[] = await firstValueFrom(this.httpService.getCollection('tasks'));
-
     const result = groupBy(tasks, 'listId');
 
     this.sourceTasks.next(result);
   }
 
   getTasks(listId: string): Observable<Task[]> {
-    const result = this.tasks$.pipe(map((dataObject) => dataObject[listId]));
+    const result = this.tasks$.pipe(map((objectTask) => objectTask[listId]));
     return result;
+  }
+
+  async updateTaskListId(taskId: string, newListId: string): Promise<void> {
+    this.httpService.updateDocumentField('Tasks', taskId, 'listId', newListId);
   }
 
   async deleteList(listId: string, taskId: string): Promise<void> {

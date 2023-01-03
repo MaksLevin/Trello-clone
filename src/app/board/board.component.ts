@@ -17,12 +17,12 @@ import { trackById } from '@app/core/utils';
 export class BoardComponent implements OnInit, OnDestroy {
   mainBoardId!: string;
   currentTitleId!: string;
+  listsId!: string[];
 
   trackById = trackById;
-
   routeSubscription: Subscription;
 
-  lists$!: Observable<List[]>;
+  userLists$!: Observable<List[]>;
   tasks$!: Observable<Task[]>;
 
   listForm!: FormGroup;
@@ -31,7 +31,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private boardService: BoardsService,
-    private dialog: DialogService
+    private dialogService: DialogService
   ) {
     this.routeSubscription = this.route.params.subscribe(
       (params) => (this.mainBoardId = params['id'])
@@ -42,18 +42,6 @@ export class BoardComponent implements OnInit, OnDestroy {
     return this.listForm.get(field)?.hasError('required');
   }
 
-  async deleteList(listId: string): Promise<void> {
-    const resultDialog = this.dialog.openConfirmationDialog({
-      typeDialog: DialogModalComponent,
-      message: deleteMessage,
-    });
-    const result = await firstValueFrom(resultDialog);
-
-    if (result) {
-      this.boardService.deleteList(listId);
-    }
-  }
-
   setTitleEditMode(boardId: string): string {
     return (this.currentTitleId = boardId);
   }
@@ -62,13 +50,18 @@ export class BoardComponent implements OnInit, OnDestroy {
     if (!id) {
       return Promise.resolve();
     }
-
     return this.boardService.updateListTitle(id, title);
+  }
+
+  async getLists(): Promise<void> {
+    await this.boardService.getLists(this.mainBoardId);
+
+    this.userLists$ = this.boardService.lists$;
+    this.listsId = this.boardService.listsId;
   }
 
   async createNewList(): Promise<void> {
     const pushId = this.boardService.getPushId();
-
     const list: List = {
       id: pushId,
       mainBoardId: this.mainBoardId,
@@ -79,17 +72,29 @@ export class BoardComponent implements OnInit, OnDestroy {
     await this.boardService.createNewList(list);
 
     this.listForm.reset();
+
+    this.listsId = this.boardService.listsId;
   }
 
-  getLists(): void {
-    this.boardService.getLists(this.mainBoardId);
+  async deleteList(listId: string): Promise<void> {
+    const resultDialog = this.dialogService.openConfirmationDialog({
+      typeDialog: DialogModalComponent,
+      message: deleteMessage,
+    });
+    const result = await firstValueFrom(resultDialog);
 
-    this.lists$ = this.boardService.lists;
+    if (result) {
+      this.boardService.deleteList(listId);
+    }
   }
 
   ngOnInit(): void {
     this.initMainBoardsForm();
     this.getLists();
+  }
+
+  ngOnDestroy(): void {
+    this.routeSubscription.unsubscribe();
   }
 
   private initMainBoardsForm(): void {
@@ -99,9 +104,5 @@ export class BoardComponent implements OnInit, OnDestroy {
       },
       { updateOn: 'blur' }
     );
-  }
-
-  ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
   }
 }

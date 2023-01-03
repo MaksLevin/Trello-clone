@@ -1,4 +1,4 @@
-@each $value in 0, 5, 10, 15, 20, 25 {
+@each $value in 0, 4, 5, 10, 15, 20, 25, 35 {
   .mt-#{$value} {
     margin-top: #{$value}px !important;
   }
@@ -8,21 +8,38 @@
   .ml-#{$value} {
     margin-left: #{$value}px;
   }
+  .ml-n#{$value} {
+    margin-left: -#{$value}px !important;
+  }
   .mr-#{$value} {
     margin-right: #{$value}px;
+  }
+  .m-#{$value} {
+    margin: #{$value}px;
   }
   .mx-#{$value} {
     margin-left: #{$value}px;
     margin-right: #{$value}px;
   }
   .my-#{$value} {
-    margin-top: #{$value}px;
-    margin-bottom: #{$value}px;
+    margin-top: #{$value}px !important;
+    margin-bottom: #{$value}px !important;
+  }
+  .p-#{$value} {
+    padding: #{$value}px;
   }
   .pr-#{$value} {
     padding-right: #{$value}px;
   }
   .pl-#{$value} {
     padding-left: #{$value}px;
+  }
+  .px-#{$value} {
+    padding-left: #{$value}px;
+    padding-right: #{$value}px;
+  }
+  .py-#{$value} {
+    padding-top: #{$value}px;
+    padding-bottom: #{$value}px;
   }
 }

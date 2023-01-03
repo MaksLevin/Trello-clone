@@ -5,7 +5,6 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 20px;
 }
 
 .drag-wrapper {
@@ -17,7 +16,6 @@
   display: flex;
   flex-direction: column;
   width: 200px;
-  margin: 20px 15px;
   color: $color-basic;
   background-color: $color-primary;
 }
@@ -27,7 +25,6 @@
   flex-direction: column;
   width: 200px;
   height: 300px;
-  margin: 20px 15px;
   background-color: $color-basic;
 
   &-actions {

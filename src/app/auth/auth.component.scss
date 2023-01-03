@@ -12,9 +12,6 @@
     display: flex;
     flex-direction: column;
     width: 540px;
-    padding: 35px;
-    margin-left: 15px;
-    margin-right: 15px;
     background-color: $color-basic;
     border-radius: 25px;
     box-shadow: 0 6px 17px rgb(0 0 0 / 25%);
@@ -43,14 +40,12 @@
   }
 
   &-up {
-    margin-left: -4px !important;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
 }
 
 .login-title {
-  margin-bottom: 20px;
   text-align: center;
 
   &-icon {
@@ -59,8 +54,6 @@
 }
 
 .login-sub-title {
-  margin-top: 20px;
-  margin-bottom: 20px;
   text-align: center;
 }
 

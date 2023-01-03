@@ -1,12 +1,16 @@
-<main class="board">
+<main class="board m-20">
   <div class="board-wrapper">
     <div class="drag-wrapper">
-      <ng-container *ngIf="lists$ | async as lists">
-        <mat-card *ngFor="let list of lists; trackBy: trackById; let index = index" class="list">
+      <ng-container *ngIf="userLists$ | async as lists">
+        <mat-card
+          *ngFor="let list of lists; trackBy: trackById; let index = index"
+          class="list my-20 mx-15"
+        >
           <app-list
             [listId]="list.id"
             [listTitle]="list.title"
             [isTitleEditMode]="currentTitleId === list.id"
+            [listsId]="listsId"
             (deleteList)="deleteList($event)"
             (saveEditableListTitle)="saveEditableListTitle($event)"
             (setTitleEditMode)="setTitleEditMode($event)"
@@ -14,9 +18,9 @@
         </mat-card>
       </ng-container>
 
-      <mat-card class="list-form" [formGroup]="listForm">
+      <mat-card class="list-form my-20 mx-15" [formGroup]="listForm">
         <mat-card-title>
-          <mat-form-field>
+          <mat-form-field class="list-title">
             <input matInput formControlName="title" placeholder="title" />
             <mat-error *ngIf="isRequired('title')">{{ titleError.isRequired }}</mat-error>
           </mat-form-field>
