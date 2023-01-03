@@ -1,10 +1,10 @@
-<main class="main-dashboard">
+<main class="main-dashboard m-20">
   <div class="main-dashboard-wrapper">
     <div class="drag-wrapper">
       <ng-container *ngIf="boards$ | async as boards">
         <mat-card
           *ngFor="let board of boards; trackBy: trackById; let index = index"
-          class="main-board"
+          class="main-board my-20 mx-15"
         >
           <app-main-boards
             [boardId]="board.id"
@@ -22,9 +22,9 @@
         </mat-card>
       </ng-container>
 
-      <mat-card class="main-board-form" [formGroup]="mainBoardsForm">
+      <mat-card class="main-board-form my-20 mx-15" [formGroup]="mainBoardsForm">
         <mat-card-title>
-          <mat-form-field>
+          <mat-form-field class="main-board-title">
             <input matInput formControlName="title" placeholder="title" />
             <mat-error *ngIf="isRequired('title')">{{ titleError.isRequired }}</mat-error>
           </mat-form-field>

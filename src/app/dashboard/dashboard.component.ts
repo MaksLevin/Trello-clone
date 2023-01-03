@@ -17,21 +17,20 @@ import { trackById } from '@app/core/utils';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  trackById = trackById;
+  currentTitleId!: string;
+  currentDescriptionId!: string;
 
+  trackById = trackById;
   boards$!: Observable<MainBoard[]>;
 
   mainBoardsForm!: FormGroup;
   titleError: { isRequired: string } = boardTitleValidationErrors;
 
-  currentTitleId!: string;
-  currentDescriptionId!: string;
-
   constructor(
     private store: Store,
     private router: Router,
     private mainBoardsService: MainBoardsService,
-    private dialog: DialogService
+    private dialogService: DialogService
   ) {}
 
   isRequired(field: string): boolean | undefined {
@@ -61,7 +60,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async deleteBoard(boardId: string): Promise<void> {
-    const resultDialog = this.dialog.openConfirmationDialog({
+    const resultDialog = this.dialogService.openConfirmationDialog({
       typeDialog: DialogModalComponent,
       message: deleteMessage,
     });

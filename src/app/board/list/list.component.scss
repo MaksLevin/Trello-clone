@@ -37,15 +37,13 @@
 }
 
 .list-content {
-  margin-bottom: 0;
-  padding: 10px 10px;
+  color: $color-basic;
   border-bottom: solid 1px $color-basic;
   display: flex;
   flex-direction: row;
   align-items: center;
   box-sizing: border-box;
   cursor: move;
-  font-size: 14px;
 }
 
 .list-content:last-child {

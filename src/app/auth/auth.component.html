@@ -1,7 +1,7 @@
 <section class="login">
-  <div class="login-wrapper">
+  <div class="login-wrapper p-35 mx-15">
     <!-- Title -->
-    <h1 class="login-title mat-headline">
+    <h1 class="login-title mat-headline mb-20">
       My Trello <mat-icon class="login-title-icon">favorite</mat-icon>
     </h1>
     <!-- /Title -->
@@ -14,7 +14,7 @@
         >
 
         <mat-chip
-          class="menu-tab menu-tab-up"
+          class="menu-tab menu-tab-up ml-n4"
           [class.active]="!isLogin"
           (click)="changeToRegistration()"
           >Sign up</mat-chip
@@ -26,8 +26,8 @@
     <!-- Form -->
     <form class="form-wrapper" [formGroup]="loginForm">
       <!-- Subtitle -->
-      <h3 *ngIf="isLogin" class="login-sub-title mat-subheading-1">Sign in</h3>
-      <h3 *ngIf="!isLogin" class="login-sub-title mat-subheading-1">Sign up</h3>
+      <h3 *ngIf="isLogin" class="login-sub-title mat-subheading-1 my-20">Sign in</h3>
+      <h3 *ngIf="!isLogin" class="login-sub-title mat-subheading-1 my-20">Sign up</h3>
       <!-- /Subtitle -->
 
       <!-- Email field-->

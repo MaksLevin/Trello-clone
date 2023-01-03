@@ -35,11 +35,11 @@ export class ListComponent implements OnInit {
   @ViewChild('inputTitle') inputTitle!: ElementRef<HTMLInputElement>;
   @ViewChild('inputTaskTitle') inputTaskTitle!: ElementRef<HTMLInputElement>;
 
-  taskForm!: FormGroup;
-
   tasks$!: Observable<Task[]>;
 
-  constructor(private listService: ListService, private dialog: DialogService) {}
+  taskForm!: FormGroup;
+
+  constructor(private listService: ListService, private dialogService: DialogService) {}
 
   toggleTitleEditMode(listId: string): void {
     this.setTitleEditMode.emit(listId);
@@ -51,7 +51,6 @@ export class ListComponent implements OnInit {
 
   sendEditableListTitle(id: string, title: string): void {
     this.setTitleEditMode.emit('');
-
     this.saveEditableListTitle.emit({ id, title });
   }
 
@@ -61,42 +60,6 @@ export class ListComponent implements OnInit {
 
   cancelListEdit(): void {
     this.setTitleEditMode.emit('');
-  }
-
-  async createNewTask(listId: string, title: string): Promise<void> {
-    const pushId = this.listService.getPushId();
-
-    if (!listId || !title) {
-      return Promise.resolve();
-    }
-    const task: Task = {
-      id: pushId,
-      listId: listId,
-      title: title,
-      createdOn: new Date(),
-    };
-
-    await this.listService.createNewTask(listId, task);
-
-    this.taskForm.reset();
-  }
-
-  async getTasks(listId: string): Promise<void> {
-    await this.listService.fetchTasks();
-
-    this.tasks$ = await this.listService.getTasks(listId);
-  }
-
-  async deleteTask({ listId, id }: Partial<Task>): Promise<void> {
-    const resultDialog = this.dialog.openConfirmationDialog({
-      typeDialog: DialogModalComponent,
-      message: deleteMessage,
-    });
-    const result = await firstValueFrom(resultDialog);
-
-    if (result) {
-      this.listService.deleteList(listId as string, id as string);
-    }
   }
 
   drop(event: CdkDragDrop<Task[]>): void {
@@ -111,6 +74,42 @@ export class ListComponent implements OnInit {
       );
 
       this.listService.updateTaskListId(event.item.data.id, event.container.id);
+    }
+  }
+
+  async createNewTask(listId: string, title: string): Promise<void> {
+    const pushId = this.listService.getPushId();
+
+    if (!listId || !title) {
+      return Promise.resolve();
+    }
+
+    const task: Task = {
+      id: pushId,
+      listId: listId,
+      title: title,
+      createdOn: new Date(),
+    };
+
+    await this.listService.createNewTask(listId, task);
+
+    this.taskForm.reset();
+  }
+
+  async getTasks(listId: string): Promise<void> {
+    await this.listService.fetchTasks();
+    this.tasks$ = await this.listService.getTasks(listId);
+  }
+
+  async deleteTask({ listId, id }: Partial<Task>): Promise<void> {
+    const resultDialog = this.dialogService.openConfirmationDialog({
+      typeDialog: DialogModalComponent,
+      message: deleteMessage,
+    });
+    const result = await firstValueFrom(resultDialog);
+
+    if (result) {
+      this.listService.deleteList(listId as string, id as string);
     }
   }
 

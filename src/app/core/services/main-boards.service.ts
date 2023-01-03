@@ -36,12 +36,12 @@ export class MainBoardsService {
 
   async updateMainBoardTitle(boardId: string, titleValue: string | undefined): Promise<void> {
     const updatedMainBoards = this.mainBoards.pipe(
-      map((array) =>
-        array.map((element) => {
-          if (element.id === boardId) {
-            element.title = titleValue as string;
+      map((mainBoards) =>
+        mainBoards.map((mainBoard) => {
+          if (mainBoard.id === boardId) {
+            mainBoard.title = titleValue as string;
           }
-          return element;
+          return mainBoard;
         })
       )
     );
@@ -57,12 +57,12 @@ export class MainBoardsService {
     descriptionValue: string | undefined
   ): Promise<void> {
     const updatedMainBoards = this.mainBoards.pipe(
-      map((array) =>
-        array.map((element) => {
-          if (element.id === boardId) {
-            element.description = descriptionValue as string;
+      map((mainBoards) =>
+        mainBoards.map((mainBoard) => {
+          if (mainBoard.id === boardId) {
+            mainBoard.description = descriptionValue as string;
           }
-          return element;
+          return mainBoard;
         })
       )
     );
@@ -75,7 +75,7 @@ export class MainBoardsService {
 
   async deleteMainBoard(idBoard: string): Promise<void> {
     const newMainBoards = this.mainBoards.pipe(
-      map((array) => array.filter((element) => element.id !== idBoard))
+      map((mainBoards) => mainBoards.filter((mainBoard) => mainBoard.id !== idBoard))
     );
     const result = await firstValueFrom(newMainBoards);
 

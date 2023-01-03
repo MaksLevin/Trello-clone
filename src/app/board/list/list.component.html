@@ -40,7 +40,7 @@
     <ng-container *ngFor="let task of tasks; let index = index">
       <app-task
         cdkDrag
-        class="list-content"
+        class="list-content mat-body-1 mb-0 px-10 py-10"
         [cdkDragData]="task"
         [listId]="listId"
         [taskId]="task.id"

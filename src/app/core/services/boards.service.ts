@@ -17,7 +17,7 @@ export class BoardsService {
   constructor(private httpService: HttpService) {}
 
   async createNewList(list: List): Promise<void> {
-    const newLists = this.lists$.pipe(map((array) => array.concat(list)));
+    const newLists = this.lists$.pipe(map((lists) => lists.concat(list)));
     const result = await firstValueFrom(newLists);
 
     this.sourceLists.next(result);
@@ -42,16 +42,15 @@ export class BoardsService {
 
   async updateListTitle(listId: string, titleValue: string | undefined): Promise<void> {
     const updatedLists = this.lists$.pipe(
-      map((array) =>
-        array.map((element) => {
-          if (element.id === listId) {
-            element.title = titleValue as string;
+      map((lists) =>
+        lists.map((list) => {
+          if (list.id === listId) {
+            list.title = titleValue as string;
           }
-          return element;
+          return list;
         })
       )
     );
-
     const result = await firstValueFrom(updatedLists);
 
     this.sourceLists.next(result);
@@ -60,9 +59,7 @@ export class BoardsService {
   }
 
   async deleteList(listId: string): Promise<void> {
-    const newLists = this.lists$.pipe(
-      map((array) => array.filter((element) => element.id !== listId))
-    );
+    const newLists = this.lists$.pipe(map((lists) => lists.filter((list) => list.id !== listId)));
     const result = await firstValueFrom(newLists);
 
     this.sourceLists.next(result);
