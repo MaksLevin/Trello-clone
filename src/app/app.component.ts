@@ -5,7 +5,7 @@ import { combineLatest, Observable, takeWhile, tap } from 'rxjs';
 
 import * as authActions from '@app/store/user-auth/user-auth.action';
 import * as authSelectors from '@app/store/user-auth/user-auth.selector';
-import { User, UserAuthState } from '@app/core/models';
+import { AppStateStore, User, UserAuthState } from '@app/core/models';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +15,7 @@ import { User, UserAuthState } from '@app/core/models';
 export class AppComponent implements OnInit {
   title = 'Trello-clone';
 
-  constructor(private store: Store<UserAuthState>, private auth: AngularFireAuth) {}
+  constructor(private store: Store<AppStateStore>, private auth: AngularFireAuth) {}
 
   addUserInStore(): Observable<User | {}> {
     return combineLatest([

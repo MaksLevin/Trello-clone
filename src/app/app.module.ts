@@ -45,7 +45,6 @@ import { HeaderModule } from '@app/header/header.module';
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   exports: [SharedModule],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
