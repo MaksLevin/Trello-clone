@@ -4,7 +4,10 @@
   </h1>
   <ng-container *ngIf="user$ | async as user">
     <div class="user">
-      <img class="user-image" src="{{ user.profilePhoto }}" alt="user photo" />
+      <label for="inputAvatar">
+        <img class="user-image" src="{{ user.profilePhoto }}" alt="user photo" />
+      </label>
+      <input hidden type="file" id="inputAvatar"  (change)="getUploadImage($event)" >
 
       <button mat-button class="user-name mat-body-1" [matMenuTriggerFor]="userMenu">
         {{ user.username }}
