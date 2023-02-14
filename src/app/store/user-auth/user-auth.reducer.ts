@@ -28,6 +28,21 @@ export const userAuthReducer = createReducer(
       error,
     })
   ),
+  on(authAction.updateProfilePhoto, (): UserAuthState => initialState),
+  on(
+    authAction.updateProfilePhotoSuccess,
+    (state, { user }): UserAuthState => ({
+      ...state,
+      user,
+    })
+  ),
+  on(
+    authAction.updateProfilePhotoError,
+    (state, { error }): UserAuthState => ({
+      ...state,
+      error,
+    })
+  ),
   on(
     authAction.logoutAuthUser,
     (state): UserAuthState => ({

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { exhaustMap, filter, map, switchMap, take } from 'rxjs/operators';
+import { exhaustMap, map, switchMap, take } from 'rxjs/operators';
 import { from } from 'rxjs';
 
 import * as authActions from './user-auth.action';
@@ -22,6 +21,25 @@ export class UserAuthEffects {
               });
             }
             return authActions.getAuthUserSuccess({ user });
+          })
+        );
+      })
+    );
+  });
+
+  updateProfilePhoto$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(authActions.updateProfilePhoto),
+      switchMap(() => {
+        return this.authService.getAuthUser().pipe(
+          take(1),
+          map((user) => {
+            if (!user) {
+              return authActions.updateProfilePhotoError({
+                error: 'Failed to update profile photo',
+              });
+            }
+            return authActions.updateProfilePhotoSuccess({ user });
           })
         );
       })

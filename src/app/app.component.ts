@@ -5,7 +5,7 @@ import { combineLatest, Observable, takeWhile, tap } from 'rxjs';
 
 import * as authActions from '@app/store/user-auth/user-auth.action';
 import * as authSelectors from '@app/store/user-auth/user-auth.selector';
-import { AppStateStore, User, UserAuthState } from '@app/core/models';
+import { AppStateStore, User } from '@app/core/models';
 
 @Component({
   selector: 'app-root',

@@ -5,5 +5,6 @@ export * from './fire-auth-errors.service';
 export * from './upload-image.service';
 export * from './boards.service';
 export * from './list.service';
+export * from './snack-bar.service';
 export * from './dialog.service';
 export * from './http.service';

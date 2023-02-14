@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 import { AuthService, UploadImageService } from '@app/core/services';
 import { User } from '@app/core/models';
@@ -27,6 +27,9 @@ export class HeaderComponent {
   }
 
   async getUploadImage(evt: any): Promise<void> {
-    await this.uploadImageService.onImageLoad(evt)
+    if(this.user$) {
+      const user = await firstValueFrom(this.user$)
+      await this.uploadImageService.onImageLoad(evt, user.id)
+    }
   }
 }
