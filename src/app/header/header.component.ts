@@ -5,8 +5,7 @@ import { firstValueFrom, Observable } from 'rxjs';
 
 import { AuthService, UploadImageService } from '@app/core/services';
 import { User } from '@app/core/models';
-import { userAuthSelector } from '@app/store/user-auth';
-import * as authActions from '@app/store/user-auth/user-auth.action';
+import { userAuthSelector, userAuthAction } from '@app/store/user-auth';
 
 @Component({
   selector: 'app-header',
@@ -32,12 +31,12 @@ export class HeaderComponent {
     this.router.navigate(['/login']);
   }
 
-  async getUploadImage(evt: Event): Promise<void> {
+  async getUploadImage(event: Event): Promise<void> {
     if (this.user$) {
       const user = await firstValueFrom(this.user$);
       this.store.dispatch(
-        authActions.updateProfilePhoto({
-          profilePhoto: this.uploadImageService.onImageLoad(evt, user.id) as string,
+        userAuthAction.updateProfilePhoto({
+          profilePhoto: this.uploadImageService.onImageLoad(event, user.id) as string,
         })
       );
     }

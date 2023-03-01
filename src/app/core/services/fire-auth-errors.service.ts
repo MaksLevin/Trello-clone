@@ -9,14 +9,11 @@ import { SnackBarService } from '@app/core/services';
 export class FireAuthErrorService {
   constructor(private snackBarService: SnackBarService) {}
 
-  showFireAuthErrors(e: any): void {
-    const index = fireAuthErrors.findIndex((x) => x.code === e.code);
-
-    if (index !== -1) {
-      const err = fireAuthErrors[index];
-      this.snackBarService.openSnackBar(err.message, 'close');
-    } else {
-      this.snackBarService.openSnackBar(fireAuthErrors[0].message, 'close');
-    }
+  showFireAuthErrors(error: any): void {
+    const index = fireAuthErrors.findIndex((x) => x.code === error.code);
+    const currentError = fireAuthErrors[index];
+    index !== -1
+      ? this.snackBarService.openSnackBar(currentError.message, 'close')
+      : this.snackBarService.openSnackBar(fireAuthErrors[0].message, 'close');
   }
 }
