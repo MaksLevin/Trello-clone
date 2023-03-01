@@ -1,26 +1,19 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { fireAuthErrors } from '@app/core/constants';
+import { SnackBarService } from '@app/core/services';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FireAuthErrorService {
-  constructor(private _snackBar: MatSnackBar) {}
+  constructor(private snackBarService: SnackBarService) {}
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action);
-  }
-
-  showFireAuthErrors(e: any): void {
-    const index = fireAuthErrors.findIndex((x) => x.code === e.code);
-
-    if (index !== -1) {
-      const err = fireAuthErrors[index];
-      this.openSnackBar(err.message, 'close');
-    } else {
-      this.openSnackBar(fireAuthErrors[0].message, 'close');
-    }
+  showFireAuthErrors(error: any): void {
+    const index = fireAuthErrors.findIndex((x) => x.code === error.code);
+    const currentError = fireAuthErrors[index];
+    index !== -1
+      ? this.snackBarService.openSnackBar(currentError.message, 'close')
+      : this.snackBarService.openSnackBar(fireAuthErrors[0].message, 'close');
   }
 }
