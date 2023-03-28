@@ -19,17 +19,19 @@ import { userAuthSelector } from '@app/store/user-auth';
 export class AuthGuard implements CanActivate {
   constructor(private router: Router, private store: Store) {}
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.store.select(userAuthSelector.selectGetUserAuthId).pipe(
       take(1),
-      map((user) => !!user),
       tap((loggedIn) => {
         if (!loggedIn) {
           this.router.navigate(['/login']);
         }
+      }),
+      map((user) => {
+        if (!!user) {
+          return true;
+        }
+        return false;
       })
     );
   }
