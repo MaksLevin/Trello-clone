@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { UserAuthState } from '@app/core/models';
-import { userAuthAction } from '@app/store/user-auth';
+import * as authActions from './user-auth.action';
 import { User } from '@app/core/models';
 
 export const initialState: UserAuthState = {
@@ -13,41 +13,41 @@ export const USER_AUTH_FEATURE_NAME: string = 'user-auth';
 
 export const userAuthReducer = createReducer(
   initialState,
-  on(userAuthAction.getAuthUser, (): UserAuthState => initialState),
+  on(authActions.getAuthUser, (): UserAuthState => initialState),
   on(
-    userAuthAction.getAuthUserSuccess,
+    authActions.getAuthUserSuccess,
     (state, { user }): UserAuthState => ({
       ...state,
       user,
     })
   ),
   on(
-    userAuthAction.getAuthUserError,
+    authActions.getAuthUserError,
     (state, { error }): UserAuthState => ({
       ...state,
       error,
     })
   ),
-  on(userAuthAction.updateProfilePhoto, (): UserAuthState => initialState),
+  on(authActions.updateProfilePhoto, (): UserAuthState => initialState),
   on(
-    userAuthAction.updateProfilePhotoSuccess,
+    authActions.updateProfilePhotoSuccess,
     (state, { user }): UserAuthState => ({
       ...state,
       user,
     })
   ),
   on(
-    userAuthAction.updateProfilePhotoError,
+    authActions.updateProfilePhotoError,
     (state, { error }): UserAuthState => ({
       ...state,
       error,
     })
   ),
   on(
-    userAuthAction.logoutAuthUser,
+    authActions.logoutAuthUser,
     (state): UserAuthState => ({
       ...state,
     })
   ),
-  on(userAuthAction.logoutAuthUserSuccess, (): UserAuthState => initialState)
+  on(authActions.logoutAuthUserSuccess, (): UserAuthState => initialState)
 );
