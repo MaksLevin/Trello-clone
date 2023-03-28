@@ -23,9 +23,9 @@ export class LoginGuard implements CanActivate {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.auth.user.pipe(
       take(1),
-      map((user) => !user),
+      map((user) => !!user),
       tap((loggedIn) => {
-        if (!loggedIn) {
+        if (loggedIn) {
           this.router.navigate(['/dashboard']);
         }
       })

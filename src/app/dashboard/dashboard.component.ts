@@ -26,6 +26,8 @@ export class DashboardComponent implements OnInit {
   mainBoardsForm!: FormGroup;
   titleError: { isRequired: string } = boardTitleValidationErrors;
 
+  userId$ = this.store.select(userAuthSelector.selectGetUserAuthId);
+
   constructor(
     private store: Store,
     private router: Router,
@@ -76,9 +78,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async createNewBoard(): Promise<void> {
-    const userId: string = await firstValueFrom(
-      this.store.select(userAuthSelector.selectGetUserAuthId)
-    );
+    const userId: string = await firstValueFrom(this.userId$);
     const pushId = this.mainBoardsService.getPushId();
 
     const mainBoard: MainBoard = {
@@ -95,9 +95,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async getBoards(): Promise<void> {
-    const userId: string = await firstValueFrom(
-      this.store.select(userAuthSelector.selectGetUserAuthId)
-    );
+    const userId: string = await firstValueFrom(this.userId$);
 
     this.mainBoardsService.getMainBoards(userId);
 
