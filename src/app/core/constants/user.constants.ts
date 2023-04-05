@@ -1,1 +1,1 @@
-export const imgUrl: string = 'assets/images/anonymous1.svg';
+export const imgUrl: string = 'assets/images/anonymous.svg';
