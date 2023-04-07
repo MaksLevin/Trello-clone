@@ -1,6 +1,3 @@
-@import "mixins";
-@import "variables";
-
 .button-primary {
   @include button($color-basic, $color-primary);
 }

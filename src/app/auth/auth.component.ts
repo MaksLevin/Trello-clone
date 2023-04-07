@@ -11,6 +11,7 @@ import {
   usernameValidationErrors,
   passwordValidationErrors,
 } from '@app/core/constants';
+import { customRequiredValidator } from '@app/shared/validator';
 
 @Component({
   selector: 'app-auth',
@@ -114,7 +115,7 @@ export class AuthComponent implements OnInit {
   private initializeForm(): void {
     this.loginForm = new FormGroup({
       email: new FormControl('', [
-        Validators.required,
+        customRequiredValidator(),
         Validators.pattern(validationPatterns.emailPattern),
       ]),
       password: new FormControl('', [
