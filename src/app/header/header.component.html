@@ -7,13 +7,16 @@
       <label for="inputAvatar">
         <img class="user-image" src="{{ user.profilePhoto }}" alt="user photo" />
       </label>
-      <input hidden type="file" id="inputAvatar"  (change)="getUploadImage($event)" >
+      <input hidden type="file" id="inputAvatar" (change)="getUploadImage($event)" />
 
       <button mat-button class="user-name mat-body-1" [matMenuTriggerFor]="userMenu">
         {{ user.username }}
       </button>
 
       <mat-menu #userMenu="matMenu">
+        <button mat-menu-item class="button-basic mat-body-2" (click)="switchToStatistics()">
+          Statistics
+        </button>
         <button mat-menu-item class="button-basic mat-body-2" (click)="logout()">Logout</button>
       </mat-menu>
     </div>

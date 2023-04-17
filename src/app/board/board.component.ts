@@ -2,12 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { BoardsService, DialogService } from '@app/core/services';
 import { List, Task } from '@app/core/models';
 import { deleteMessage, listTitleValidationErrors } from '@app/core/constants';
 import { DialogModalComponent } from '@app/shared';
 import { trackById } from '@app/core/utils';
+import { userAuthSelector } from '@app/store/user-auth';
 
 @Component({
   selector: 'app-board',
@@ -28,10 +30,13 @@ export class BoardComponent implements OnInit, OnDestroy {
   listForm!: FormGroup;
   titleError: { isRequired: string } = listTitleValidationErrors;
 
+  userId$ = this.store.select(userAuthSelector.selectGetUserAuthId);
+
   constructor(
     private route: ActivatedRoute,
     private boardService: BoardsService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private store: Store
   ) {
     this.routeSubscription = this.route.params.subscribe(
       (params) => (this.mainBoardId = params['id'])
@@ -65,6 +70,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     const list: List = {
       id: pushId,
       mainBoardId: this.mainBoardId,
+      userUid: await firstValueFrom(this.userId$),
       title: this.listForm.get('title')!.value,
       createdOn: new Date(),
     };

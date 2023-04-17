@@ -10,11 +10,13 @@ import {
 import { firstValueFrom, Observable } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
 
 import { List, Task } from '@app/core/models';
 import { DialogService, ListService } from '@app/core/services';
 import { deleteMessage } from '@app/core/constants';
 import { DialogModalComponent } from '@app/shared';
+import { userAuthSelector } from '@app/store/user-auth';
 
 @Component({
   selector: 'app-list',
@@ -39,7 +41,13 @@ export class ListComponent implements OnInit {
 
   taskForm!: FormGroup;
 
-  constructor(private listService: ListService, private dialogService: DialogService) {}
+  userId$ = this.store.select(userAuthSelector.selectGetUserAuthId);
+
+  constructor(
+    private listService: ListService,
+    private dialogService: DialogService,
+    private store: Store
+  ) {}
 
   toggleTitleEditMode(listId: string): void {
     this.setTitleEditMode.emit(listId);
@@ -87,6 +95,7 @@ export class ListComponent implements OnInit {
     const task: Task = {
       id: pushId,
       listId: listId,
+      userUid: await firstValueFrom(this.userId$),
       title: title,
       createdOn: new Date(),
     };
