@@ -15,7 +15,6 @@ export class StatisticsComponent implements OnInit {
   userId$ = this.store.select(userAuthSelector.selectGetUserAuthId);
 
   mainBoards!: MainBoard[];
-
   mainBoardsByDate: StatisticsData[] = [];
 
   constructor(private store: Store, private statisticsService: StatisticsService) {}
@@ -25,25 +24,26 @@ export class StatisticsComponent implements OnInit {
 
     this.mainBoards = await this.statisticsService.getData('mainBoards', userId);
 
-    this.modifyingData(this.mainBoards);
+    this.getModifiedData(this.mainBoards);
   }
 
-  reducingData = (acc: any, data: MainBoard) => {
-    const dateString = new Date(data.createdOn).toLocaleDateString();
+  getModifiedData(data: MainBoard[]): void {
+    const dataByDate = data.reduce((acc: any, data: MainBoard) => {
+      const dateString = new Date(data.createdOn).toLocaleDateString();
 
-    if (!Object.hasOwn(acc, dateString)) {
-      acc[dateString] = [];
-    }
-    acc[dateString].push(data.id);
+      if (!Object.hasOwn(acc, dateString)) {
+        acc[dateString] = [];
+      }
 
-    return acc;
-  };
+      acc[dateString].push(data.id);
 
-  modifyingData = (data: MainBoard[]): void => {
-    const array = data.reduce(this.reducingData, {});
-    const keys = Object.keys(array);
-    keys.map((key) => this.mainBoardsByDate.push({ date: key, ids: array[key] }));
-  };
+      return acc;
+    }, {});
+
+    Object.keys(dataByDate).map((key) =>
+      this.mainBoardsByDate.push({ date: key, dataIds: dataByDate[key] })
+    );
+  }
 
   ngOnInit(): void {
     this.getData();
