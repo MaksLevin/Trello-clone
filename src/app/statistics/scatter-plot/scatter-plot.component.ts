@@ -53,8 +53,8 @@ export class ScatterPlotComponent implements OnChanges {
       .data(data)
       .enter()
       .append('circle')
-      .attr('cx', (item: StatisticsData) => x(item.ids.length))
-      .attr('cy', (item: StatisticsData) => y(item.ids.length))
+      .attr('cx', (item: StatisticsData) => x(item.dataIds.length))
+      .attr('cy', (item: StatisticsData) => y(item.dataIds.length))
       .attr('r', 7)
       .style('opacity', 0.5)
       .style('fill', '#69b3a2');
@@ -66,7 +66,7 @@ export class ScatterPlotComponent implements OnChanges {
       .enter()
       .append('text')
       .text((item: StatisticsData) => item.date)
-      .attr('x', (item: StatisticsData) => x(item.ids.length))
-      .attr('y', (item: StatisticsData) => y(item.ids.length));
+      .attr('x', (item: StatisticsData) => x(item.dataIds.length))
+      .attr('y', (item: StatisticsData) => y(item.dataIds.length));
   }
 }
