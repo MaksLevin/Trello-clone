@@ -20,10 +20,11 @@ export class BarComponent implements OnChanges {
   }
 
   private svg: any;
+  private colors: any;
+  //chart sizes
   private margin = 50;
   private width = 750 - this.margin * 2;
   private height = 400 - this.margin * 2;
-  private colors: any;
 
   private createSvg(): void {
     this.svg = d3
@@ -70,9 +71,9 @@ export class BarComponent implements OnChanges {
       .enter()
       .append('rect')
       .attr('x', (item: StatisticsData) => x(item.date))
-      .attr('y', (item: StatisticsData) => y(item.ids.length))
+      .attr('y', (item: StatisticsData) => y(item.dataIds.length))
       .attr('width', x.bandwidth())
-      .attr('height', (item: StatisticsData) => this.height - y(item.ids.length))
+      .attr('height', (item: StatisticsData) => this.height - y(item.dataIds.length))
       .attr('fill', this.colors);
   }
 }

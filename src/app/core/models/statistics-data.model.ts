@@ -1,4 +1,4 @@
 export interface StatisticsData {
   date: string;
-  ids: string[];
+  dataIds: string[];
 }
