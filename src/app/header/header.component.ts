@@ -26,6 +26,10 @@ export class HeaderComponent {
     this.router.navigate(['/dashboard']);
   }
 
+  switchToStatistics(): void {
+    this.router.navigate(['/statistics']);
+  }
+
   async logout(): Promise<void> {
     await this.auth.signOut();
     this.router.navigate(['/login']);
