@@ -40,13 +40,13 @@ export class PieComponent implements OnChanges {
   private createColors(): void {
     this.colors = d3
       .scaleOrdinal()
-      .domain(this.mainBoardsByDate.map((data: StatisticsData) => data.ids.length.toString()))
+      .domain(this.mainBoardsByDate.map((data: StatisticsData) => data.dataIds.length.toString()))
       .range(['#c7d3ec', '#a5b8db', '#879cc4', '#677795', '#5a6782']);
   }
 
   private drawChart(data: StatisticsData[]): void {
     // Compute the position of each group on the pie:
-    const pie = d3.pie<any>().value((data: StatisticsData) => data.ids.length);
+    const pie = d3.pie<any>().value((data: StatisticsData) => data.dataIds.length);
 
     // Build the pie chart
     this.svg
