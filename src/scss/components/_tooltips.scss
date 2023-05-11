@@ -1,0 +1,12 @@
+.tooltip-bar,
+.tooltip-scatter,
+.tooltip-pie {
+  z-index: 999;
+  display: block;
+  margin: 0;
+  padding: 10px;
+  text-align: left;
+  background-color: $color-neutral;
+  border: 1px solid $color-font-primary;
+  border-radius: 5px;
+}
