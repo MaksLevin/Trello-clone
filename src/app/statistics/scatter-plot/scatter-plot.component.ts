@@ -26,7 +26,7 @@ export class ScatterPlotComponent implements OnChanges {
 
   private createSvg(): void {
     this.svg = d3
-      .select('figure#scatter')
+      .select('#scatter')
       .append('svg')
       .attr('width', this.width + this.margin * 2)
       .attr('height', this.height + this.margin * 2)
@@ -46,9 +46,17 @@ export class ScatterPlotComponent implements OnChanges {
     const y = d3.scaleLinear().domain([0, 20]).range([this.height, 0]);
     this.svg.append('g').call(d3.axisLeft(y));
 
+    ///Add tolltips
+    const tooltip = d3
+      .select('#scatter')
+      .append('div')
+      .attr('class', 'tooltip-scatter')
+      .style('position', 'absolute')
+      .style('opacity', 0);
+
     // Add dots
-    const dots = this.svg.append('g');
-    dots
+    this.svg
+      .append('g')
       .selectAll('dot')
       .data(data)
       .enter()
@@ -57,16 +65,14 @@ export class ScatterPlotComponent implements OnChanges {
       .attr('cy', (item: StatisticsData) => y(item.dataIds.length))
       .attr('r', 7)
       .style('opacity', 0.5)
-      .style('fill', '#69b3a2');
-
-    // Add labels
-    dots
-      .selectAll('text')
-      .data(data)
-      .enter()
-      .append('text')
-      .text((item: StatisticsData) => item.date)
-      .attr('x', (item: StatisticsData) => x(item.dataIds.length))
-      .attr('y', (item: StatisticsData) => y(item.dataIds.length));
+      .style('fill', '#69b3a2')
+      .on('mouseover', (event: any, item: StatisticsData) => {
+        tooltip.transition().duration(200).style('opacity', 0.9);
+        tooltip
+          .html(`Date: ${item.date}</span>`)
+          .style('left', `${event.pageX}px`)
+          .style('top', `${event.pageY + 25}px`);
+      })
+      .on('mouseout', () => tooltip.transition().duration(500).style('opacity', 0));
   }
 }

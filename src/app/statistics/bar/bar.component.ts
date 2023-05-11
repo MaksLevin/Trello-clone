@@ -28,7 +28,7 @@ export class BarComponent implements OnChanges {
 
   private createSvg(): void {
     this.svg = d3
-      .select('figure#bar')
+      .select('#bar')
       .append('svg')
       .attr('width', this.width + this.margin * 2)
       .attr('height', this.height + this.margin * 2)
@@ -58,6 +58,14 @@ export class BarComponent implements OnChanges {
       .call(d3.axisBottom(x))
       .selectAll('text');
 
+    //create tooltips
+    const tooltip = d3
+      .select('#bar')
+      .append('div')
+      .attr('class', 'tooltip-bar')
+      .style('position', 'absolute')
+      .style('opacity', 0);
+
     // Create the Y-axis band scale
     const y = d3.scaleLinear().domain([0, 20]).range([this.height, 0]);
 
@@ -74,6 +82,14 @@ export class BarComponent implements OnChanges {
       .attr('y', (item: StatisticsData) => y(item.dataIds.length))
       .attr('width', x.bandwidth())
       .attr('height', (item: StatisticsData) => this.height - y(item.dataIds.length))
-      .attr('fill', this.colors);
+      .attr('fill', this.colors)
+      .on('mouseover', (event: any, item: StatisticsData) => {
+        tooltip.transition().duration(200).style('opacity', 0.9);
+        tooltip
+          .html(`Count: <span>${item.dataIds.length}</span>`)
+          .style('left', `${event.pageX}px`)
+          .style('top', `${event.pageY - 28}px`);
+      })
+      .on('mouseout', () => tooltip.transition().duration(500).style('opacity', 0));
   }
 }

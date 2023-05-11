@@ -48,6 +48,14 @@ export class PieComponent implements OnChanges {
     // Compute the position of each group on the pie:
     const pie = d3.pie<any>().value((data: StatisticsData) => data.dataIds.length);
 
+    //create tooltips
+    const tooltip = d3
+      .select('#pie')
+      .append('div')
+      .attr('class', 'tooltip-pie')
+      .style('position', 'absolute')
+      .style('opacity', 0);
+
     // Build the pie chart
     this.svg
       .selectAll('pieces')
@@ -57,7 +65,15 @@ export class PieComponent implements OnChanges {
       .attr('d', d3.arc().innerRadius(0).outerRadius(this.radius))
       .attr('fill', (i: number) => this.colors(i))
       .attr('stroke', '#121926')
-      .style('stroke-width', '1px');
+      .style('stroke-width', '1px')
+      .on('mouseover', (event: any, item: any) => {
+        tooltip.transition().duration(200).style('opacity', 0.9);
+        tooltip
+          .html(`Count: <span>${item.data.dataIds.length}</span>`)
+          .style('left', `${event.pageX}px`)
+          .style('top', `${event.pageY - 28}px`);
+      })
+      .on('mouseout', () => tooltip.transition().duration(500).style('opacity', 0));
 
     // Add labels
     const labelLocation = d3.arc().innerRadius(100).outerRadius(this.radius);
