@@ -30,6 +30,10 @@ export class HeaderComponent {
     this.router.navigate(['/statistics']);
   }
 
+  switchToWordCloud(): void {
+    this.router.navigate(['/word-cloud']);
+  }
+
   async logout(): Promise<void> {
     await this.auth.signOut();
     this.router.navigate(['/login']);

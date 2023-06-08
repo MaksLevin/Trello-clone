@@ -22,6 +22,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'word-cloud',
+    loadChildren: () => import('./word-cloud/word-cloud.module').then((mod) => mod.WordCloudModule),
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'board/:id',
     loadChildren: () => import('./board/board.module').then((mod) => mod.BoardModule),
     canActivate: [AuthGuard],
