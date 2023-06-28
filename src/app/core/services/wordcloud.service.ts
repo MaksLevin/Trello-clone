@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 import { HttpService } from './http.service';
-import { MainBoard, WordCloudData } from '../models';
+import { MainBoard, WordCloudData } from '@app/core/models';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +15,8 @@ export class WordCloudService {
 
     const mainBoards = (await firstValueFrom(data)) as MainBoard[];
 
-    const wordCloudData = mainBoards.map((board: MainBoard) => {
+    return mainBoards.map((board: MainBoard) => {
       return { text: board.title, value: 10 + Math.random() * 90, fill: '0' };
     });
-
-    return wordCloudData;
   }
 }

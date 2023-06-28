@@ -5,6 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { StatisticsService } from '@app/core/services/statistics.service';
 import { userAuthSelector } from '@app/store/user-auth';
 import { MainBoard, StatisticsData } from '@app/core/models';
+import { collectionsPaths } from '@app/core/constants';
 
 @Component({
   selector: 'app-statistics',
@@ -22,7 +23,7 @@ export class StatisticsComponent implements OnInit {
   async getData(): Promise<void> {
     const userId = await firstValueFrom(this.userId$);
 
-    this.mainBoards = await this.statisticsService.getData('mainBoards', userId);
+    this.mainBoards = await this.statisticsService.getData(collectionsPaths.mainBoards, userId);
 
     this.getModifiedData(this.mainBoards);
   }

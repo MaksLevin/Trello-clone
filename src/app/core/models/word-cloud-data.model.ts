@@ -3,22 +3,16 @@ export interface WordCloudData {
   value: number;
 }
 
-export interface WordCloudCommonOptions {
+export interface WordCloudOptions {
   autoFill: boolean;
-  rotate: boolean;
-  fillScheme: number;
-  animations: boolean;
-}
-
-export interface WordCloudAdvancedOptions {
   rotate: any;
-  fillMapper: any;
+  fillScheme?: number;
   animations: boolean;
-  autoFill: boolean;
-  width: number;
-  height: number;
-  padding: number;
-  font: string;
+  fillMapper?: any;
+  width?: number;
+  height?: number;
+  padding?: number;
+  font?: string;
 }
 
 export interface WordCloudSchemas {

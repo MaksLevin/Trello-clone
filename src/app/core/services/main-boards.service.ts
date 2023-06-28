@@ -3,6 +3,7 @@ import { HttpService } from '@app/core/services';
 import { BehaviorSubject, firstValueFrom, map, Observable } from 'rxjs';
 
 import { MainBoard } from '@app/core/models';
+import { collectionsPaths } from '@app/core/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -20,12 +21,12 @@ export class MainBoardsService {
 
     this.sourceMainBoards$.next(result);
 
-    await this.httpService.setCollection('mainBoards', mainBoard);
+    await this.httpService.setCollection(collectionsPaths.mainBoards, mainBoard);
   }
 
   async getMainBoards(userAuthUid: string): Promise<void> {
     const mainBoards = this.httpService.getFromCollectionByProperty(
-      'mainBoards',
+      collectionsPaths.mainBoards,
       'userUid',
       userAuthUid
     );
@@ -49,7 +50,7 @@ export class MainBoardsService {
 
     this.sourceMainBoards$.next(result);
 
-    this.httpService.updateDocumentField('mainBoards', boardId, 'title', titleValue);
+    this.httpService.updateDocumentField(collectionsPaths.mainBoards, boardId, 'title', titleValue);
   }
 
   async updateMainBoardDescription(
@@ -70,7 +71,12 @@ export class MainBoardsService {
 
     this.sourceMainBoards$.next(result);
 
-    this.httpService.updateDocumentField('mainBoards', boardId, 'description', descriptionValue);
+    this.httpService.updateDocumentField(
+      collectionsPaths.mainBoards,
+      boardId,
+      'description',
+      descriptionValue
+    );
   }
 
   async deleteMainBoard(idBoard: string): Promise<void> {
@@ -81,7 +87,7 @@ export class MainBoardsService {
 
     this.sourceMainBoards$.next(result);
 
-    this.httpService.deleteDocument('mainBoards', idBoard);
+    this.httpService.deleteDocument(collectionsPaths.mainBoards, idBoard);
   }
 
   getPushId(): string {

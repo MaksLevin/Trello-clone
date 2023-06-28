@@ -99,6 +99,43 @@
       "createdOn": "2023-06-08T17:05:15.936Z"
     }
   ],
-  "lists": [],
-  "tasks": []
+  "lists": [
+    {
+      "id": "ljflhtscpng5mra71mf",
+      "mainBoardId": "lgga2hg43jmzmfqxryq",
+      "userUid": "RUkO3g84hkMUeI3tgwIdqbsKenb2",
+      "title": "1",
+      "createdOn": "2023-06-28T10:50:06.732Z"
+    },
+    {
+      "id": "ljflig91ux9wmird96s",
+      "mainBoardId": "lgga2ftcqyppd7e4w97",
+      "userUid": "RUkO3g84hkMUeI3tgwIdqbsKenb2",
+      "title": "12323",
+      "createdOn": "2023-06-28T10:50:35.846Z"
+    },
+    {
+      "id": "ljflirprfm8ipftq3oh",
+      "mainBoardId": "lgga2ftcqyppd7e4w97",
+      "userUid": "RUkO3g84hkMUeI3tgwIdqbsKenb2",
+      "title": "123",
+      "createdOn": "2023-06-28T10:50:50.703Z"
+    },
+    {
+      "id": "ljfljbcyiz8q4knbot",
+      "mainBoardId": "lgga2ftcqyppd7e4w97",
+      "userUid": "RUkO3g84hkMUeI3tgwIdqbsKenb2",
+      "title": "123",
+      "createdOn": "2023-06-28T10:51:16.162Z"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "ljfljd4rj9wl6weh0li",
+      "listId": "ljfljbcyiz8q4knbot",
+      "userUid": "RUkO3g84hkMUeI3tgwIdqbsKenb2",
+      "title": "123213",
+      "createdOn": "2023-06-28T10:51:18.460Z"
+    }
+  ]
 }

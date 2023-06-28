@@ -7,33 +7,36 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
     path: 'login',
-    loadChildren: () => import('./auth/auth.module').then((mod) => mod.AuthModule),
+    loadChildren: () => import('./auth/auth.module').then((module) => module.AuthModule),
     canActivate: [LoginGuard],
   },
   {
     path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then((mod) => mod.DashboardModule),
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((module) => module.DashboardModule),
     canActivate: [AuthGuard],
   },
   {
     path: 'statistics',
     loadChildren: () =>
-      import('./statistics/statistics.module').then((mod) => mod.StatisticsModule),
+      import('./statistics/statistics.module').then((module) => module.StatisticsModule),
     canActivate: [AuthGuard],
   },
   {
     path: 'word-cloud',
-    loadChildren: () => import('./word-cloud/word-cloud.module').then((mod) => mod.WordCloudModule),
+    loadChildren: () =>
+      import('./word-cloud/word-cloud.module').then((module) => module.WordCloudModule),
     canActivate: [AuthGuard],
   },
   {
     path: 'board/:id',
-    loadChildren: () => import('./board/board.module').then((mod) => mod.BoardModule),
+    loadChildren: () => import('./board/board.module').then((module) => module.BoardModule),
     canActivate: [AuthGuard],
   },
   {
     path: '404',
-    loadChildren: () => import('./not-found/not-found.module').then((mod) => mod.NotFoundModule),
+    loadChildren: () =>
+      import('./not-found/not-found.module').then((module) => module.NotFoundModule),
   },
   { path: '**', redirectTo: '/404' },
 ];

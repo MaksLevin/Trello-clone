@@ -14,12 +14,8 @@ import {
 
 import { WordCloudService } from '@app/core/services/wordcloud.service';
 import { userAuthSelector } from '@app/store/user-auth';
-import {
-  WordCloudData,
-  WordCloudAdvancedOptions,
-  WordCloudCommonOptions,
-  WordCloudSchemas,
-} from '@app/core/models';
+import { WordCloudData, WordCloudOptions, WordCloudSchemas } from '@app/core/models';
+import { collectionsPaths } from '@app/core/constants';
 
 @Component({
   selector: 'app-word-cloud',
@@ -31,7 +27,7 @@ export class WordCloudComponent implements OnInit {
 
   wordCloudData!: WordCloudData[];
 
-  public wordCloudCommonOptions: WordCloudCommonOptions = {
+  public wordCloudCommonOptions: WordCloudOptions = {
     autoFill: true,
     rotate: true,
     fillScheme: 0,
@@ -56,11 +52,11 @@ export class WordCloudComponent implements OnInit {
     return this.fillFx(index.toString());
   };
 
-  public fillFx: any = scaleOrdinal(this.schemas[this.wordCloudCommonOptions.fillScheme].schema);
+  public fillFx: any = scaleOrdinal(this.schemas[this.wordCloudCommonOptions.fillScheme!].schema);
   public animations: boolean = this.wordCloudCommonOptions.animations;
   public autoFill: boolean = this.wordCloudCommonOptions.autoFill;
 
-  public wordCloudAdvancedOptions: WordCloudAdvancedOptions = {
+  public wordCloudAdvancedOptions: WordCloudOptions = {
     rotate: this.rotate,
     fillMapper: this.fillMapper,
     animations: this.wordCloudCommonOptions.animations,
@@ -76,7 +72,7 @@ export class WordCloudComponent implements OnInit {
   async getData(): Promise<void> {
     const userId = await firstValueFrom(this.userId$);
 
-    this.wordCloudData = await this.wordCloudService.getData('mainBoards', userId);
+    this.wordCloudData = await this.wordCloudService.getData(collectionsPaths.mainBoards, userId);
   }
 
   ngOnInit(): void {
