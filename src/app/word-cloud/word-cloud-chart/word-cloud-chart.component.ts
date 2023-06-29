@@ -22,17 +22,17 @@ export class WordCloudChartComponent implements OnChanges {
   @Input() data: d3Cloud.Word[] = [];
   @Input() fontSizeMapper?: (datum: d3Cloud.Word, index: number) => number = defaultFontSizeMapper;
   @Input() fontWeight: string | number = 'normal';
-  @Input() wordCloudAdvancedOptions!: WordCloudOptions;
+  @Input() wordCloudOptions!: WordCloudOptions;
 
   renderCloud(): void {
     select(this.wordCloud?.nativeElement!).selectAll('*').remove();
     const layout = d3Cloud()
-      .size([this.wordCloudAdvancedOptions.width!, this.wordCloudAdvancedOptions.height!])
-      .font(this.wordCloudAdvancedOptions.font as any)
+      .size([this.wordCloudOptions.width!, this.wordCloudOptions.height!])
+      .font(this.wordCloudOptions.font as any)
       .fontWeight(this.fontWeight)
       .words(this.data)
-      .padding(this.wordCloudAdvancedOptions.padding as any)
-      .rotate(this.wordCloudAdvancedOptions.rotate as any)
+      .padding(this.wordCloudOptions.padding as any)
+      .rotate(this.wordCloudOptions.rotate as any)
       .fontSize(this.fontSizeMapper!)
       .on('end', (words: any) => {
         this.renderText(words, layout);
@@ -51,12 +51,11 @@ export class WordCloudChartComponent implements OnChanges {
       .data(words)
       .enter()
       .append('text')
-      .style('font-family', this.wordCloudAdvancedOptions.font as any)
+      .style('font-family', this.wordCloudOptions.font as any)
       .style('font-weight', this.fontWeight)
       .style('fill', (word: any, i) => {
-        if (this.wordCloudAdvancedOptions.autoFill) {
-          if (this.wordCloudAdvancedOptions.fillMapper)
-            return this.wordCloudAdvancedOptions.fillMapper(word, i);
+        if (this.wordCloudOptions.autoFill) {
+          if (this.wordCloudOptions.fillMapper) return this.wordCloudOptions.fillMapper(word, i);
           else return fill(i.toString());
         } else {
           return null;
@@ -65,7 +64,7 @@ export class WordCloudChartComponent implements OnChanges {
       .attr('text-anchor', 'middle')
       .text((d: any) => d.text);
 
-    if (!this.wordCloudAdvancedOptions.animations) {
+    if (!this.wordCloudOptions.animations) {
       texts
         .attr('transform', (d: any) => `translate(${[d.x, d.y]})rotate(${d.rotate})`)
         .style('font-size', (d: any) => `${d.size}px`)

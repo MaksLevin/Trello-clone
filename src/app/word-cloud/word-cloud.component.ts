@@ -27,21 +27,6 @@ export class WordCloudComponent implements OnInit {
 
   wordCloudData!: WordCloudData[];
 
-  public wordCloudCommonOptions: WordCloudOptions = {
-    autoFill: true,
-    rotate: true,
-    fillScheme: 0,
-    animations: true,
-  };
-
-  public schemas: WordCloudSchemas[] = [
-    { id: 0, name: 'Category10', schema: schemeCategory10 },
-    { id: 1, name: 'Blues', schema: schemeBlues[9] },
-    { id: 2, name: 'Greens', schema: schemeGreens[9] },
-    { id: 3, name: 'Pastel1', schema: schemePastel1 },
-    { id: 4, name: 'Pastel2', schema: schemePastel2 },
-  ];
-
   public rotateScale = scaleLinear().range([-90, 90]).domain([0, 1]);
 
   public rotate: any = () => {
@@ -52,20 +37,27 @@ export class WordCloudComponent implements OnInit {
     return this.fillFx(index.toString());
   };
 
-  public fillFx: any = scaleOrdinal(this.schemas[this.wordCloudCommonOptions.fillScheme!].schema);
-  public animations: boolean = this.wordCloudCommonOptions.animations;
-  public autoFill: boolean = this.wordCloudCommonOptions.autoFill;
+  public schemas: WordCloudSchemas[] = [
+    { id: 0, name: 'Category10', schema: schemeCategory10 },
+    { id: 1, name: 'Blues', schema: schemeBlues[9] },
+    { id: 2, name: 'Greens', schema: schemeGreens[9] },
+    { id: 3, name: 'Pastel1', schema: schemePastel1 },
+    { id: 4, name: 'Pastel2', schema: schemePastel2 },
+  ];
 
-  public wordCloudAdvancedOptions: WordCloudOptions = {
+  public wordCloudOptions: WordCloudOptions = {
     rotate: this.rotate,
     fillMapper: this.fillMapper,
-    animations: this.wordCloudCommonOptions.animations,
-    autoFill: this.wordCloudCommonOptions.autoFill,
+    fillScheme: 0,
+    animations: true,
+    autoFill: true,
     width: 1100,
     height: 350,
     padding: 5,
     font: 'Arial',
   };
+
+  public fillFx: any = scaleOrdinal(this.schemas[this.wordCloudOptions.fillScheme!].schema);
 
   constructor(private store: Store, private wordCloudService: WordCloudService) {}
 
