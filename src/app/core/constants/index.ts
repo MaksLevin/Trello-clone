@@ -6,4 +6,5 @@ export * from './board-form-errors.constants';
 export * from './list-form-errors.constants';
 export * from './confirmation-dialog.constants';
 export * from './file-types.constants';
+export * from './collections-paths.constants';
 export * from './database.constants';

@@ -31,7 +31,7 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/scss"]
             },
-            "allowedCommonJsDependencies": ["lodash"],
+            "allowedCommonJsDependencies": ["lodash", "d3"],
             "scripts": []
           },
           "configurations": {

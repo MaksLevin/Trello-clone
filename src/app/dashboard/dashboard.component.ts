@@ -99,7 +99,7 @@ export class DashboardComponent implements OnInit {
 
     this.mainBoardsService.getMainBoards(userId);
 
-    this.boards$ = this.mainBoardsService.mainBoards;
+    this.boards$ = this.mainBoardsService.mainBoards$;
   }
 
   ngOnInit(): void {

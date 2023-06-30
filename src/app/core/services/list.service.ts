@@ -4,6 +4,7 @@ import { groupBy } from 'lodash';
 
 import { HttpService } from '@app/core/services';
 import { Task } from '@app/core/models';
+import { collectionsPaths } from '@app/core/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -23,11 +24,13 @@ export class ListService {
 
     this.sourceTasks.next(tasks);
 
-    this.httpService.setCollection('tasks', task);
+    this.httpService.setCollection(collectionsPaths.tasks, task);
   }
 
   async fetchTasks(): Promise<void> {
-    const tasks: Task[] = await firstValueFrom(this.httpService.getCollection('tasks'));
+    const tasks: Task[] = await firstValueFrom(
+      this.httpService.getCollection(collectionsPaths.tasks)
+    );
     const result = groupBy(tasks, 'listId');
 
     this.sourceTasks.next(result);
@@ -39,7 +42,7 @@ export class ListService {
   }
 
   async updateTaskListId(taskId: string, newListId: string): Promise<void> {
-    this.httpService.updateDocumentField('Tasks', taskId, 'listId', newListId);
+    this.httpService.updateDocumentField(collectionsPaths.tasks, taskId, 'listId', newListId);
   }
 
   async deleteList(listId: string, taskId: string): Promise<void> {
@@ -50,7 +53,7 @@ export class ListService {
 
     this.sourceTasks.next(tasks);
 
-    this.httpService.deleteDocument('tasks', taskId);
+    this.httpService.deleteDocument(collectionsPaths.tasks, taskId);
   }
 
   getPushId(): string {

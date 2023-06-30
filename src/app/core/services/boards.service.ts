@@ -3,6 +3,7 @@ import { BehaviorSubject, firstValueFrom, map, Observable } from 'rxjs';
 
 import { HttpService } from '@app/core/services';
 import { List } from '@app/core/models';
+import { collectionsPaths } from '../constants';
 
 @Injectable({
   providedIn: 'root',
@@ -24,11 +25,15 @@ export class BoardsService {
 
     this.getListsId(result);
 
-    this.httpService.setCollection('lists', list);
+    this.httpService.setCollection(collectionsPaths.lists, list);
   }
 
   async getLists(mainBoardId: string): Promise<void> {
-    const lists = this.httpService.getFromCollectionByProperty('lists', 'mainBoardId', mainBoardId);
+    const lists = this.httpService.getFromCollectionByProperty(
+      collectionsPaths.lists,
+      'mainBoardId',
+      mainBoardId
+    );
     const result = await firstValueFrom(lists as Observable<List[]>);
 
     this.sourceLists.next(result);
@@ -55,7 +60,7 @@ export class BoardsService {
 
     this.sourceLists.next(result);
 
-    this.httpService.updateDocumentField('lists', listId, 'title', titleValue);
+    this.httpService.updateDocumentField(collectionsPaths.lists, listId, 'title', titleValue);
   }
 
   async deleteList(listId: string): Promise<void> {
@@ -64,7 +69,7 @@ export class BoardsService {
 
     this.sourceLists.next(result);
 
-    this.httpService.deleteDocument('lists', listId);
+    this.httpService.deleteDocument(collectionsPaths.lists, listId);
   }
 
   getPushId(): string {
